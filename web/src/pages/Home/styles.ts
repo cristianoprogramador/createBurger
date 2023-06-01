@@ -17,6 +17,7 @@ export const CustomizeContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 2rem;
+  margin-top: 1.2rem;
 `;
 
 export const CustomizeHamburger = styled.div`
@@ -25,6 +26,7 @@ export const CustomizeHamburger = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  cursor: pointer;
   width: 300px;
   height: 300px;
   padding: 1rem;

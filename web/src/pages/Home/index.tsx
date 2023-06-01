@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Container,
-  CustomizeCombo,
   CustomizeContainer,
   CustomizeHamburger,
   CustomizeText,
@@ -10,11 +9,8 @@ import { Header } from "../../components/Header";
 import Lottie from "lottie-react";
 import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
 import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
-import comboAnimation from "../../assets/lottieAnimations/combo.json";
 
 export function Home() {
-  const [count, setCount] = useState(0);
-
   return (
     <Container>
       <Header />
