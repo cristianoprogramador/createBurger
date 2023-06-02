@@ -58,7 +58,9 @@ export function Header() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            cursor: "pointer",
           }}
+          onClick={() => navigate("/profile")}
         >
           <ProfilePicture
             src={userProfile}

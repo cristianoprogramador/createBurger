@@ -1,18 +1,10 @@
 import styled from "styled-components";
-import {
-  blinkAnimation,
-  rotateAnimation,
-  scaleAnimation,
-} from "../../styles/animations";
+import { blinkAnimation, scaleAnimation } from "../../styles/animations";
 
 export const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-
-  @media (max-width: 1080px) {
-    min-height: 1400px;
-  }
 `;
 
 export const CustomizeContainer = styled.div`
@@ -70,6 +62,7 @@ export const ProductList = styled.div`
   grid-gap: 20px;
   margin-left: 1rem;
   margin-right: 1rem;
+  padding-bottom: 100px;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);

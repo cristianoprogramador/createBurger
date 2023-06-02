@@ -40,8 +40,6 @@ export function Home() {
     fetchProducts();
   }, []);
 
-  // console.log("Vindo da API", productsData);
-
   return (
     <Container>
       <Header />
@@ -85,7 +83,8 @@ export function Home() {
             </ProductItem>
           ))}
       </ProductList>
-      <div style={{ paddingTop: 100 }}></div>
+      {/* <div style={{ paddingTop: 100 }}></div> */}
+
       <Footer />
     </Container>
   );
