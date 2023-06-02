@@ -1,6 +1,11 @@
 import express from "express";
 import multer from "multer";
-import { createProductController } from "./controllers/productsController";
+import {
+  createProductController,
+  deleteProductByIdController,
+  getAllProductsController,
+  updateProductByIdController,
+} from "./controllers/productsController";
 
 export const router = express.Router();
 
@@ -16,3 +21,9 @@ const storage = multer.diskStorage({
 const uploadPhoto = multer({ storage: storage });
 
 router.post("/products", createProductController);
+
+router.get("/products", getAllProductsController);
+
+router.delete("/products/:id", deleteProductByIdController);
+
+router.put("/products/:id", updateProductByIdController);

@@ -1,4 +1,9 @@
 import styled from "styled-components";
+import {
+  blinkAnimation,
+  rotateAnimation,
+  scaleAnimation,
+} from "../../styles/animations";
 
 export const Container = styled.div`
   height: 100vh;
@@ -44,4 +49,77 @@ export const CustomizeText = styled.div`
   border-radius: 1rem;
 
   background: ${(props) => props.theme.colors["orange-700"]};
+`;
+
+export const TitleContainer = styled.div`
+  font-family: ${(props) => props.theme.fonts["title"]};
+  font-size: ${(props) => props.theme.textSizes["title-title-xl"]};
+  text-align: center;
+  margin: 5rem 0 2rem 1rem;
+`;
+
+export const ProductList = styled.div`
+  display: grid;
+  grid-gap: 20px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+
+  @media (min-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+`;
+
+export const ProductItem = styled.div`
+  background: ${(props) => props.theme.colors["yellow-300"]};
+  padding: 20px;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &:hover {
+    animation: ${blinkAnimation} 0.6s linear normal;
+  }
+`;
+
+export const ProductImage = styled.img`
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 5px;
+
+  &:hover {
+    animation: ${scaleAnimation} 0.6s linear normal;
+  }
+`;
+
+export const ProductInfo = styled.div`
+  flex-grow: 1; /* Adicione esta linha para que o elemento ocupe todo o espaço disponível */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Alinhe o conteúdo na parte inferior */
+  text-align: center;
+`;
+
+export const ProductName = styled.h3`
+  margin-top: 10px;
+  font-family: ${(props) => props.theme.textSizes["text-regular-m"]};
+`;
+
+export const ProductPrice = styled.h2`
+  margin-top: 10px;
+  font-family: ${(props) => props.theme.fonts["regular"]};
 `;

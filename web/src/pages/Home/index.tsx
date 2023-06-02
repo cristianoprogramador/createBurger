@@ -1,16 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   CustomizeContainer,
   CustomizeHamburger,
   CustomizeText,
+  ProductImage,
+  ProductInfo,
+  ProductItem,
+  ProductList,
+  ProductName,
+  ProductPrice,
+  TitleContainer,
 } from "./styles";
 import { Header } from "../../components/Header";
 import Lottie from "lottie-react";
 import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
 import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
+import { api } from "../../utils/api";
+import { ProductsProps } from "../../types/Products";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
+  const [productsData, setProductsData] = useState<ProductsProps[]>([]);
+  const navigate = useNavigate();
+
+  async function fetchProducts() {
+    try {
+      const { data } = await api.get("/products");
+      setProductsData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // console.log("Vindo da API", productsData);
+
   return (
     <Container>
       <Header />
@@ -30,6 +58,27 @@ export function Home() {
           </CustomizeText>
         </CustomizeHamburger>
       </CustomizeContainer>
+
+      <TitleContainer>Cardápio</TitleContainer>
+      <ProductList>
+        {productsData
+          .sort((a, b) => b.type.localeCompare(a.type))
+          .map((product, index) => (
+            <ProductItem key={product.id}>
+              <ProductImage src={product.image} alt="" />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>
+                  R$
+                  {Number(product.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </ProductPrice>
+              </ProductInfo>
+            </ProductItem>
+          ))}
+      </ProductList>
     </Container>
   );
 }
