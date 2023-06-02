@@ -21,8 +21,7 @@ export const CustomizeContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 1.2rem;
+  gap: 5rem;
 `;
 
 export const CustomizeHamburger = styled.div`
@@ -47,6 +46,7 @@ export const CustomizeText = styled.div`
   text-align: center;
   padding: 1rem;
   border-radius: 1rem;
+  font-family: ${(props) => props.theme.fonts["title"]};
 
   background: ${(props) => props.theme.colors["orange-700"]};
 `;
@@ -55,7 +55,14 @@ export const TitleContainer = styled.div`
   font-family: ${(props) => props.theme.fonts["title"]};
   font-size: ${(props) => props.theme.textSizes["title-title-xl"]};
   text-align: center;
-  margin: 5rem 0 2rem 1rem;
+  margin: 1rem 0 2rem 0;
+`;
+
+export const MenuContainer = styled.div`
+  font-family: ${(props) => props.theme.fonts["title"]};
+  font-size: ${(props) => props.theme.textSizes["title-title-xl"]};
+  text-align: center;
+  margin: 3rem 0 2rem 0;
 `;
 
 export const ProductList = styled.div`
@@ -63,10 +70,6 @@ export const ProductList = styled.div`
   grid-gap: 20px;
   margin-left: 1rem;
   margin-right: 1rem;
-
-  @media (min-width: 576px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
@@ -89,6 +92,7 @@ export const ProductItem = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-bottom: 1rem;
 
   &:hover {
     animation: ${blinkAnimation} 0.6s linear normal;
@@ -122,4 +126,16 @@ export const ProductName = styled.h3`
 export const ProductPrice = styled.h2`
   margin-top: 10px;
   font-family: ${(props) => props.theme.fonts["regular"]};
+`;
+
+export const ProductDescription = styled.h3`
+  margin-top: 10px;
+  font-family: ${(props) => props.theme.fonts["title"]};
+  background: ${(props) => props.theme.colors["yellow-500"]};
+  padding: 10px;
+  border-radius: 10px;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;

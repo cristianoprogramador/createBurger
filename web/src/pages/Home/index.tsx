@@ -4,6 +4,8 @@ import {
   CustomizeContainer,
   CustomizeHamburger,
   CustomizeText,
+  MenuContainer,
+  ProductDescription,
   ProductImage,
   ProductInfo,
   ProductItem,
@@ -19,6 +21,7 @@ import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
 import { api } from "../../utils/api";
 import { ProductsProps } from "../../types/Products";
 import { useNavigate } from "react-router-dom";
+import { Footer } from "../../components/Footer";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
@@ -42,6 +45,8 @@ export function Home() {
   return (
     <Container>
       <Header />
+      <TitleContainer>Personalize seu Burger</TitleContainer>
+
       <CustomizeContainer>
         <CustomizeHamburger>
           <Lottie animationData={hamburgerAnimation} loop={true} />
@@ -59,7 +64,7 @@ export function Home() {
         </CustomizeHamburger>
       </CustomizeContainer>
 
-      <TitleContainer>Cardápio</TitleContainer>
+      <MenuContainer>Cardápio</MenuContainer>
       <ProductList>
         {productsData
           .sort((a, b) => b.type.localeCompare(a.type))
@@ -76,9 +81,12 @@ export function Home() {
                   })}
                 </ProductPrice>
               </ProductInfo>
+              <ProductDescription>{product.description}</ProductDescription>
             </ProductItem>
           ))}
       </ProductList>
+      <div style={{ paddingTop: 100 }}></div>
+      <Footer />
     </Container>
   );
 }
