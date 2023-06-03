@@ -19,13 +19,16 @@ import Lottie from "lottie-react";
 import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
 import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
 import { api } from "../../utils/api";
-import { ProductsProps } from "../../types/Products";
+import { ProductProp, ProductsProps } from "../../types/Products";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "../../components/Footer";
+import { ModalFood } from "../../components/ModalFood";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
-  const navigate = useNavigate();
+  const [selectedProduct, setSelectedProduct] = useState<ProductsProps | null>(
+    null
+  );
 
   async function fetchProducts() {
     try {
@@ -34,6 +37,15 @@ export function Home() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function handleOpenModal(product: ProductProp) {
+    console.log("cade");
+    setSelectedProduct(product);
+  }
+
+  function handleCloseModal() {
+    setSelectedProduct(null);
   }
 
   useEffect(() => {
@@ -67,7 +79,11 @@ export function Home() {
         {productsData
           .sort((a, b) => b.type.localeCompare(a.type))
           .map((product, index) => (
-            <ProductItem key={product.id}>
+            <ProductItem
+              key={product.id}
+              onClick={() => handleOpenModal(product)}
+            >
+              {/* <ModalFood data={product} /> */}
               <ProductImage src={product.image} alt="" />
               <ProductInfo>
                 <ProductName>{product.name}</ProductName>
@@ -83,7 +99,10 @@ export function Home() {
             </ProductItem>
           ))}
       </ProductList>
-      {/* <div style={{ paddingTop: 100 }}></div> */}
+
+      {selectedProduct && (
+        <ModalFood data={selectedProduct} closeModal={handleCloseModal} />
+      )}
 
       <Footer />
     </Container>

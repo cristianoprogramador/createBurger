@@ -86,6 +86,7 @@ export const ProductItem = styled.div`
   align-items: center;
   text-align: center;
   margin-bottom: 1rem;
+  cursor: pointer;
 
   &:hover {
     animation: ${blinkAnimation} 0.6s linear normal;
