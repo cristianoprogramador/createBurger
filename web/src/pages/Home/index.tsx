@@ -77,7 +77,51 @@ export function Home() {
       <MenuContainer>Cardápio</MenuContainer>
       <ProductList>
         {productsData
-          .sort((a, b) => b.type.localeCompare(a.type))
+          .filter((product) => product.type === "food")
+          .map((product, index) => (
+            <ProductItem
+              key={product.id}
+              onClick={() => handleOpenModal(product)}
+            >
+              {/* <ModalFood data={product} /> */}
+              <ProductImage src={product.image} alt="" />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>
+                  R$
+                  {Number(product.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </ProductPrice>
+              </ProductInfo>
+              <ProductDescription>{product.description}</ProductDescription>
+            </ProductItem>
+          ))}
+        {productsData
+          .filter((product) => product.type === "fries")
+          .map((product, index) => (
+            <ProductItem
+              key={product.id}
+              onClick={() => handleOpenModal(product)}
+            >
+              {/* <ModalFood data={product} /> */}
+              <ProductImage src={product.image} alt="" />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>
+                  R$
+                  {Number(product.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </ProductPrice>
+              </ProductInfo>
+              <ProductDescription>{product.description}</ProductDescription>
+            </ProductItem>
+          ))}
+        {productsData
+          .filter((product) => product.type === "desert")
           .map((product, index) => (
             <ProductItem
               key={product.id}

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Modal from "react-modal";
-import { ButtonInside, Buttons, Panel } from "./styles";
+import { ButtonInside, Panel } from "./styles";
 
 const customStyles = {
   content: {
@@ -43,17 +43,15 @@ export function ModalFood({ data, closeModal }: ModalFoodProps) {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <>
-        <Panel>
-          <img src={data.image} alt={data.name} />
+      <Panel>
+        <div>
           <h2>{data.name}</h2>
-          <p>{data.description}</p>
-          <span>R$ {data.value}</span>
-        </Panel>
-        <Buttons>
-          <ButtonInside onClick={closeModal}>Fechar</ButtonInside>
-        </Buttons>
-      </>
+        </div>
+        <img src={data.image} alt={data.name} />
+        <p>{data.description}</p>
+        <span>R$ {data.value}</span>
+        <ButtonInside onClick={closeModal}>Fechar</ButtonInside>
+      </Panel>
     </Modal>
   );
 }
