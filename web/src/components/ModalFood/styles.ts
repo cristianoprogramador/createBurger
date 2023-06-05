@@ -165,7 +165,7 @@ export const FooterContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-radius: 10px;
-  bottom: 0;
+  bottom: -10px;
   width: 100%;
   color: white;
   background: ${(props) => props.theme.colors["orange-700"]};
@@ -184,8 +184,19 @@ export const IconContainerTotal = styled.div`
 
 export const ContainerTotal = styled.div`
   display: flex;
-  /* flex: 1; */
-  gap: 20px;
+
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  @media (min-width: 768px) {
+    font-size: ${(props) => props.theme.textSizes["title-title-m"]};
+  }
+`;
+
+export const AddButton = styled.div`
+  display: flex;
+  gap: 10px;
 
   flex-direction: row;
   justify-content: space-evenly;

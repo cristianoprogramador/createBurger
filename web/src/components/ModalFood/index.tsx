@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import {
+  AddButton,
   ContainerTotal,
   DescriptionAddContainer,
   DescriptionContainer,
@@ -64,23 +65,15 @@ export function ModalFood({
     []
   );
 
-  const [orderItems, setOrderItems] = useState([]);
-  const [selectedIngredient, setSelectedIngredient] = useState<string[]>([]);
-
-  const [selectedIngredients, setSelectedIngredients] = useState<{
-    [key: string]: { name: string; quantity: number };
-  }>({});
-
   const [selectedBread, setSelectedBread] = useState<{
     name: string;
     quantity: number;
-  } | null>(null);
-  const [selectedMeats, setSelectedMeats] = useState<{
-    [key: string]: { name: string; quantity: number };
-  }>({});
+    price: number;
+  }>({ name: "", quantity: 0, price: 0 });
 
-  console.log(selectedBread);
-  console.log(selectedMeats);
+  const [selectedMeats, setSelectedMeats] = useState<{
+    [key: string]: { name: string; quantity: number; price: number };
+  }>({});
 
   async function fetchProducts() {
     try {
@@ -91,6 +84,41 @@ export function ModalFood({
       console.error(error);
     }
   }
+
+  const total2 = Object.values(selectedMeats).reduce(
+    (accumulator, currentValue) =>
+      accumulator + Number(currentValue.quantity) * Number(currentValue.price),
+    0
+  );
+
+  const grandTotal = selectedBread.price + total2;
+  console.log(grandTotal);
+
+  function mergeObjects(
+    selectedBread: { name: string; quantity: number; price: number },
+    selectedMeats: {
+      [key: string]: { name: string; quantity: number; price: number };
+    }
+  ) {
+    const merged: {
+      [key: string]: { name: string; quantity: number; price: number };
+    } = {};
+
+    if (selectedBread.name) {
+      merged[selectedBread.name] = { ...selectedBread };
+    }
+
+    Object.entries(selectedMeats).forEach(([key, value]) => {
+      merged[key] = { ...value };
+    });
+
+    return merged;
+  }
+
+  const mergedObj = mergeObjects(selectedBread, selectedMeats);
+
+  console.log(mergedObj);
+  console.log(JSON.stringify(mergedObj));
 
   useEffect(() => {
     fetchProducts();
@@ -129,13 +157,6 @@ export function ModalFood({
               você é o CHEF! Use a imaginação e crie um combo fantastico e
               delicioso!
             </p>
-            <span style={{ marginTop: "10px", marginBottom: "10px" }}>
-              A partir de R$
-              {Number(5.49).toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </span>
           </>
         ) : (
           <>
@@ -182,11 +203,12 @@ export function ModalFood({
                         selectedBread &&
                         selectedBread.name === ingredient.name
                       ) {
-                        setSelectedBread(null);
+                        setSelectedBread({ name: "", quantity: 0, price: 0 });
                       } else {
                         setSelectedBread({
                           name: ingredient.name,
                           quantity: 1,
+                          price: Number(ingredient.value),
                         });
                       }
                     }}
@@ -227,6 +249,7 @@ export function ModalFood({
                           [ingredient.name]: {
                             name: ingredient.name,
                             quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
                           },
                         };
                       });
@@ -237,7 +260,7 @@ export function ModalFood({
                   <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
                   <AiOutlineMinusCircle
                     onClick={() => {
-                      setSelectedMeats((prevMeats) => {
+                      setSelectedMeats((prevMeats: any) => {
                         const currentQuantity =
                           prevMeats[ingredient.name]?.quantity || 0;
                         if (currentQuantity > 1) {
@@ -283,9 +306,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -310,9 +374,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -337,9 +442,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -364,9 +510,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -391,9 +578,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -418,9 +646,50 @@ export function ModalFood({
                     </div>
                   </FirstInsidePart>
                 </FirstPart>
-                <DescriptionContainer>
-                  <input type="checkbox" />
-                </DescriptionContainer>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                            price: Number(ingredient.value),
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats: any) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
               </IngredientsContainer>
             ))}
         </div>
@@ -432,8 +701,17 @@ export function ModalFood({
             <AiOutlineArrowUp size={25} style={{ cursor: "pointer" }} />
           </IconContainerTotal>
           <ContainerTotal>
-            <div>Total:</div>
-            <div>R$: 35,22</div>
+            <AddButton>
+              <div>Total:</div>
+              <div>
+                R$:
+                {Number(grandTotal).toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </div>
+            </AddButton>
+            {selectedBread.price > 0 && <div>Confirmar</div>}
           </ContainerTotal>
         </FooterContainer>
       </Panel>
