@@ -8,9 +8,16 @@ import {
 
 export async function createIngredientsController(req: Request, res: Response) {
   try {
-    const { name, description, image, value } = req.body;
-    const product = await createIngredient(name, description, image, value);
-    res.status(201).json(product);
+    const { name, description, image, value, type, is_chef } = req.body;
+    const data = await createIngredient(
+      name,
+      description,
+      image,
+      value,
+      type,
+      is_chef
+    );
+    res.status(201).json(data);
   } catch (error) {
     res.status(500).json({ error: "Erro ao cadastrar o ingrediente" });
   }
@@ -18,8 +25,8 @@ export async function createIngredientsController(req: Request, res: Response) {
 
 export async function getAllIngredientsController(req: Request, res: Response) {
   try {
-    const products = await getAllIngredientsService();
-    res.status(200).json(products);
+    const data = await getAllIngredientsService();
+    res.status(200).json(data);
   } catch (error) {
     console.error("Erro ao recuperar os ingredientes:", error);
     res.status(500).json({ error: "Erro ao recuperar os ingredientes" });
@@ -46,7 +53,7 @@ export async function updateIngredientByIdController(
   res: Response
 ) {
   const { id } = req.params;
-  const { name, description, image, value } = req.body;
+  const { name, description, image, value, type, is_chef } = req.body;
 
   try {
     await updateIngredientByIdService(Number(id), {
@@ -54,6 +61,8 @@ export async function updateIngredientByIdController(
       description,
       image,
       value,
+      type,
+      is_chef,
     });
     res.status(200).json({ message: "Ingrediente atualizado com sucesso" });
   } catch (error) {

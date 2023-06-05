@@ -5,18 +5,20 @@ export async function createIngredient(
   name: string,
   description: string,
   image: string,
-  value: number
+  value: number,
+  type: string,
+  is_chef: boolean
 ) {
   let connection: PoolConnection | undefined;
   try {
     connection = await pool.getConnection();
 
     const [result] = await connection.execute<RowDataPacket[]>(
-      "INSERT INTO ingredients (name, description, image, value) VALUES (?, ?, ?, ?)",
-      [name, description, image, value]
+      "INSERT INTO ingredients (name, description, image, value, type, is_chef) VALUES (?, ?, ?, ?, ?, ?)",
+      [name, description, image, value, type, is_chef]
     );
     const productId = (result as RowDataPacket).insertId;
-    return { id: productId, name, description, image, value };
+    return { id: productId, name, description, image, value, type, is_chef };
   } catch (error) {
     console.error(error);
     throw error;
@@ -44,13 +46,13 @@ export async function getAllIngredientsService() {
   }
 }
 
-export async function deleteIngredientByIdService(productId: number) {
+export async function deleteIngredientByIdService(ingredientId: number) {
   let connection: PoolConnection | undefined;
 
   try {
     connection = await pool.getConnection();
     await connection.execute("DELETE FROM ingredients WHERE id = ?", [
-      productId,
+      ingredientId,
     ]);
   } catch (error) {
     throw new Error("Erro ao excluir o produto");
@@ -62,12 +64,14 @@ export async function deleteIngredientByIdService(productId: number) {
 }
 
 export async function updateIngredientByIdService(
-  productId: number,
-  updatedProduct: {
+  ingredientId: number,
+  updatedIngredient: {
     name: string;
     description: string;
     image: string;
     value: number;
+    type: string;
+    is_chef: boolean;
   }
 ) {
   let connection: PoolConnection | undefined;
@@ -75,13 +79,15 @@ export async function updateIngredientByIdService(
   try {
     connection = await pool.getConnection();
     await connection.execute(
-      "UPDATE ingredients SET name = ?, description = ?, image = ?, value = ? WHERE id = ?",
+      "UPDATE ingredients SET name = ?, description = ?, image = ?, value = ?, type = ?, is_chef = ? WHERE id = ?",
       [
-        updatedProduct.name,
-        updatedProduct.description,
-        updatedProduct.image,
-        updatedProduct.value,
-        productId,
+        updatedIngredient.name,
+        updatedIngredient.description,
+        updatedIngredient.image,
+        updatedIngredient.value,
+        updatedIngredient.type,
+        updatedIngredient.is_chef,
+        ingredientId,
       ]
     );
   } catch (error) {

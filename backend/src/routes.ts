@@ -6,6 +6,12 @@ import {
   getAllProductsController,
   updateProductByIdController,
 } from "./controllers/productsController";
+import {
+  createIngredientsController,
+  deleteIngredientByIdController,
+  getAllIngredientsController,
+  updateIngredientByIdController,
+} from "./controllers/ingredientsController";
 
 export const router = express.Router();
 
@@ -20,6 +26,8 @@ const storage = multer.diskStorage({
 });
 const uploadPhoto = multer({ storage: storage });
 
+// Rotas para Produtos
+
 router.post("/products", createProductController);
 
 router.get("/products", getAllProductsController);
@@ -27,3 +35,13 @@ router.get("/products", getAllProductsController);
 router.delete("/products/:id", deleteProductByIdController);
 
 router.put("/products/:id", updateProductByIdController);
+
+// Rotas para Ingredientes e Adicionais fora do Menu
+
+router.post("/ingredients", createIngredientsController);
+
+router.get("/ingredients", getAllIngredientsController);
+
+router.delete("/ingredients/:id", deleteIngredientByIdController);
+
+router.put("/ingredients/:id", updateIngredientByIdController);

@@ -10,12 +10,6 @@ export const Panel = styled.main`
 
   color: black;
 
-  div {
-    border-radius: 20px;
-
-    background-color: ${(props) => props.theme.colors["orange-300"]};
-  }
-
   h2 {
     padding: 1rem;
     border-radius: 50%;
@@ -33,29 +27,93 @@ export const Panel = styled.main`
   }
 
   p {
-    width: 70%;
     text-align: center;
     font-family: ${(props) => props.theme.fonts["title"]};
   }
 `;
 
-export const ButtonInside = styled.button`
+export const HeaderContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  height: 60px;
-  width: 120px;
-  background-color: ${(props) => props.theme.colors["orange-500"]};
-  border-radius: 10px;
-  margin-top: 1rem;
-  padding: 1rem;
+  flex: 1;
+  flex-direction: row;
+`;
+
+export const IconContainer = styled.div`
+  position: absolute;
+  display: flex;
+  flex: 1;
+  left: 0;
+  padding-left: 20px;
   cursor: pointer;
-  transition: 0.3s;
-  color: white;
-  border: 0;
 
   :hover {
-    background-color: ${(props) => props.theme.colors["orange-700"]};
+    color: red;
+    transition: color 0.2s ease;
+  }
+
+  @media (max-width: 768px) {
+    padding-left: 6px;
+    padding-top: 6px;
+    top: 0;
+    color: ${(props) => props.theme.colors["orange-700"]};
+  }
+`;
+
+export const Title = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+
+  border-radius: 20px;
+
+  background-color: ${(props) => props.theme.colors["orange-300"]};
+`;
+
+export const IngredientsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px gray solid;
+  padding: 10px 0;
+`;
+
+export const DescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+`;
+
+export const FirstPart = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+`;
+
+export const ImageIngredient = styled.img`
+  max-width: 80px;
+  height: 80px;
+  object-fit: contain;
+`;
+
+export const FirstInsidePart = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+
+  p {
+    width: 100%;
+  }
+
+  div {
+    font-family: ${(props) => props.theme.fonts["regular"]};
+    font-size: ${(props) => props.theme.textSizes["text-bold-s"]};
   }
 `;

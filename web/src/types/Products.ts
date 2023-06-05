@@ -8,6 +8,17 @@ export interface ProductsProps {
 }
 [];
 
+export interface IngredientsProps {
+  id: string;
+  name: string;
+  value: string;
+  type: string;
+  description: string;
+  image: string;
+  is_chef: boolean;
+}
+[];
+
 export interface ProductProp {
   id: string;
   name: string;

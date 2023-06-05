@@ -1,6 +1,19 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { ButtonInside, Panel } from "./styles";
+import {
+  DescriptionContainer,
+  FirstInsidePart,
+  FirstPart,
+  HeaderContainer,
+  IconContainer,
+  ImageIngredient,
+  IngredientsContainer,
+  Panel,
+  Title,
+} from "./styles";
+import { CgCloseR } from "react-icons/cg";
+import { IngredientsProps } from "../../types/Products";
+import { api } from "../../utils/api";
 
 const customStyles = {
   content: {
@@ -31,8 +44,22 @@ interface ModalFoodProps {
 
 export function ModalFood({ data, closeModal }: ModalFoodProps) {
   console.log(data);
+  const [ingredientsData, setIngredientsData] = useState<IngredientsProps[]>(
+    []
+  );
+
+  async function fetchProducts() {
+    try {
+      const { data } = await api.get("/ingredients");
+      setIngredientsData(data);
+      console.log("ingredient", data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
-    window.scrollTo(0, 0);
+    fetchProducts();
   }, []);
 
   return (
@@ -44,13 +71,49 @@ export function ModalFood({ data, closeModal }: ModalFoodProps) {
       contentLabel="Example Modal"
     >
       <Panel>
-        <div>
-          <h2>{data.name}</h2>
-        </div>
+        <HeaderContainer>
+          <IconContainer onClick={closeModal}>
+            <CgCloseR size={30} />
+          </IconContainer>
+
+          <Title>
+            <h2>{data.name}</h2>
+          </Title>
+        </HeaderContainer>
         <img src={data.image} alt={data.name} />
         <p>{data.description}</p>
-        <span>R$ {data.value}</span>
-        <ButtonInside onClick={closeModal}>Fechar</ButtonInside>
+        <span style={{ marginTop: "10px", marginBottom: "10px" }}>
+          R$
+          {Number(data.value).toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </span>
+        <div>
+          {ingredientsData
+            // .filter((product) => product.type === "food")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
       </Panel>
     </Modal>
   );
