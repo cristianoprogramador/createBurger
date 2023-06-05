@@ -1,19 +1,27 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import {
+  ContainerTotal,
+  DescriptionAddContainer,
   DescriptionContainer,
   FirstInsidePart,
   FirstPart,
+  FooterContainer,
   HeaderContainer,
   IconContainer,
+  IconContainerTotal,
   ImageIngredient,
+  IngredientTopic,
   IngredientsContainer,
   Panel,
   Title,
 } from "./styles";
 import { CgCloseR } from "react-icons/cg";
-import { IngredientsProps } from "../../types/Products";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { IngredientsProps, ProductsProps } from "../../types/Products";
 import { api } from "../../utils/api";
+import chef from "../../assets/images/chef.png";
 
 const customStyles = {
   content: {
@@ -26,12 +34,12 @@ const customStyles = {
     borderRadius: 10,
     zIndex: 9999,
     overflow: "auto",
-    maxHeight: "calc(100vh - 250px)",
+    maxHeight: "calc(100vh - 160px)",
   },
 };
 
 interface ModalFoodProps {
-  data: {
+  data?: {
     id: string;
     name: string;
     value: string;
@@ -40,19 +48,45 @@ interface ModalFoodProps {
     image: string;
   };
   closeModal: () => void;
+  allProducts: ProductsProps[];
+  isBurger?: boolean;
+  type?: string;
 }
 
-export function ModalFood({ data, closeModal }: ModalFoodProps) {
-  console.log(data);
+export function ModalFood({
+  data,
+  closeModal,
+  allProducts,
+  isBurger,
+  type,
+}: ModalFoodProps) {
   const [ingredientsData, setIngredientsData] = useState<IngredientsProps[]>(
     []
   );
+
+  const [orderItems, setOrderItems] = useState([]);
+  const [selectedIngredient, setSelectedIngredient] = useState<string[]>([]);
+
+  const [selectedIngredients, setSelectedIngredients] = useState<{
+    [key: string]: { name: string; quantity: number };
+  }>({});
+
+  const [selectedBread, setSelectedBread] = useState<{
+    name: string;
+    quantity: number;
+  } | null>(null);
+  const [selectedMeats, setSelectedMeats] = useState<{
+    [key: string]: { name: string; quantity: number };
+  }>({});
+
+  console.log(selectedBread);
+  console.log(selectedMeats);
 
   async function fetchProducts() {
     try {
       const { data } = await api.get("/ingredients");
       setIngredientsData(data);
-      console.log("ingredient", data);
+      // console.log("ingredient", data);
     } catch (error) {
       console.error(error);
     }
@@ -76,22 +110,163 @@ export function ModalFood({ data, closeModal }: ModalFoodProps) {
             <CgCloseR size={30} />
           </IconContainer>
 
-          <Title>
-            <h2>{data.name}</h2>
-          </Title>
+          {isBurger ? (
+            <Title>
+              <h2>Seja seu próprio Chef!</h2>
+            </Title>
+          ) : (
+            <Title>
+              <h2>{data?.name}</h2>
+            </Title>
+          )}
         </HeaderContainer>
-        <img src={data.image} alt={data.name} />
-        <p>{data.description}</p>
-        <span style={{ marginTop: "10px", marginBottom: "10px" }}>
-          R$
-          {Number(data.value).toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </span>
-        <div>
+
+        {isBurger ? (
+          <>
+            <img src={chef} alt="Imagem Personalizada de um Chef" />
+            <p style={{ marginTop: 10, maxWidth: 400 }}>
+              Escolha os itens de acordo com a sua fome e a sua vontade, aqui
+              você é o CHEF! Use a imaginação e crie um combo fantastico e
+              delicioso!
+            </p>
+            <span style={{ marginTop: "10px", marginBottom: "10px" }}>
+              A partir de R$
+              {Number(5.49).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </span>
+          </>
+        ) : (
+          <>
+            <img src={data?.image} alt={data?.name} />
+            <p>{data?.description}</p>
+            <span style={{ marginTop: "10px", marginBottom: "10px" }}>
+              R$
+              {Number(data?.value).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </span>
+          </>
+        )}
+
+        <IngredientTopic>Pão</IngredientTopic>
+        <div style={{ width: "100%" }}>
           {ingredientsData
-            // .filter((product) => product.type === "food")
+            .filter((product) => product.type === "bread")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input
+                    type="checkbox"
+                    checked={
+                      selectedBread && selectedBread.name === ingredient.name
+                    }
+                    onChange={() => {
+                      if (
+                        selectedBread &&
+                        selectedBread.name === ingredient.name
+                      ) {
+                        setSelectedBread(null);
+                      } else {
+                        setSelectedBread({
+                          name: ingredient.name,
+                          quantity: 1,
+                        });
+                      }
+                    }}
+                  />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Carne</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {ingredientsData
+            .filter((product) => product.type === "meat")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionAddContainer>
+                  <AiOutlinePlusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        return {
+                          ...prevMeats,
+                          [ingredient.name]: {
+                            name: ingredient.name,
+                            quantity: currentQuantity + 1,
+                          },
+                        };
+                      });
+                    }}
+                  >
+                    +
+                  </AiOutlinePlusCircle>
+                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
+                  <AiOutlineMinusCircle
+                    onClick={() => {
+                      setSelectedMeats((prevMeats) => {
+                        const currentQuantity =
+                          prevMeats[ingredient.name]?.quantity || 0;
+                        if (currentQuantity > 1) {
+                          return {
+                            ...prevMeats,
+                            [ingredient.name]: {
+                              name: ingredient.name,
+                              quantity: currentQuantity - 1,
+                            },
+                          };
+                        } else {
+                          const updatedMeats = { ...prevMeats };
+                          delete updatedMeats[ingredient.name];
+                          return updatedMeats;
+                        }
+                      });
+                    }}
+                  >
+                    -
+                  </AiOutlineMinusCircle>
+                </DescriptionAddContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Molho</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {ingredientsData
+            .filter((product) => product.type === "sauce")
             .map((ingredient, index) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
@@ -114,6 +289,153 @@ export function ModalFood({ data, closeModal }: ModalFoodProps) {
               </IngredientsContainer>
             ))}
         </div>
+
+        <IngredientTopic>Salada</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {ingredientsData
+            .filter((product) => product.type === "salad")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Recheio</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {ingredientsData
+            .filter((product) => product.type === "cheese")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Adicionais</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {ingredientsData
+            .filter((product) => product.type === "additions")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Batata Frita</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {allProducts
+            .filter((product) => product.type === "fries")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <IngredientTopic>Bebida</IngredientTopic>
+        <div style={{ width: "100%" }}>
+          {allProducts
+            .filter((product) => product.type === "drink")
+            .map((ingredient, index) => (
+              <IngredientsContainer key={ingredient.id}>
+                <FirstPart>
+                  <ImageIngredient src={ingredient.image} alt="" />
+                  <FirstInsidePart>
+                    <p>{ingredient.name}</p>
+                    <div>{ingredient.description}</div>
+                    <div style={{ color: "darkred" }}>
+                      + R$
+                      {Number(ingredient.value).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                  </FirstInsidePart>
+                </FirstPart>
+                <DescriptionContainer>
+                  <input type="checkbox" />
+                </DescriptionContainer>
+              </IngredientsContainer>
+            ))}
+        </div>
+
+        <FooterContainer>
+          <IconContainerTotal>
+            <AiOutlineArrowDown size={25} style={{ cursor: "pointer" }} />
+            1
+            <AiOutlineArrowUp size={25} style={{ cursor: "pointer" }} />
+          </IconContainerTotal>
+          <ContainerTotal>
+            <div>Total:</div>
+            <div>R$: 35,22</div>
+          </ContainerTotal>
+        </FooterContainer>
       </Panel>
     </Modal>
   );

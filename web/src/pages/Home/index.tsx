@@ -26,6 +26,7 @@ import { ModalFood } from "../../components/ModalFood";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
+  const [personalize, setPersonalize] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<ProductsProps | null>(
     null
   );
@@ -40,12 +41,19 @@ export function Home() {
   }
 
   function handleOpenModal(product: ProductProp) {
-    console.log("cade");
     setSelectedProduct(product);
+  }
+
+  function handleOpenModalPersonalize(item: string) {
+    setPersonalize(item);
   }
 
   function handleCloseModal() {
     setSelectedProduct(null);
+  }
+
+  function handleCloseModalPersonalize() {
+    setPersonalize("");
   }
 
   useEffect(() => {
@@ -59,7 +67,11 @@ export function Home() {
 
       <CustomizeContainer>
         <CustomizeHamburger>
-          <Lottie animationData={hamburgerAnimation} loop={true} />
+          <Lottie
+            animationData={hamburgerAnimation}
+            loop={true}
+            onClick={() => handleOpenModalPersonalize("burger")}
+          />
           <CustomizeText>
             Monte o melhor Burger para você, aqui você é o chef! <br />
             Use a imaginação e crie um burger fantástico e delicioso.
@@ -83,7 +95,6 @@ export function Home() {
               key={product.id}
               onClick={() => handleOpenModal(product)}
             >
-              {/* <ModalFood data={product} /> */}
               <ProductImage src={product.image} alt="" />
               <ProductInfo>
                 <ProductName>{product.name}</ProductName>
@@ -105,7 +116,6 @@ export function Home() {
               key={product.id}
               onClick={() => handleOpenModal(product)}
             >
-              {/* <ModalFood data={product} /> */}
               <ProductImage src={product.image} alt="" />
               <ProductInfo>
                 <ProductName>{product.name}</ProductName>
@@ -127,7 +137,6 @@ export function Home() {
               key={product.id}
               onClick={() => handleOpenModal(product)}
             >
-              {/* <ModalFood data={product} /> */}
               <ProductImage src={product.image} alt="" />
               <ProductInfo>
                 <ProductName>{product.name}</ProductName>
@@ -145,7 +154,20 @@ export function Home() {
       </ProductList>
 
       {selectedProduct && (
-        <ModalFood data={selectedProduct} closeModal={handleCloseModal} />
+        <ModalFood
+          data={selectedProduct}
+          closeModal={handleCloseModal}
+          allProducts={productsData}
+        />
+      )}
+
+      {personalize.length > 0 && (
+        <ModalFood
+          type={personalize}
+          closeModal={handleCloseModalPersonalize}
+          allProducts={productsData}
+          isBurger={true}
+        />
       )}
 
       <Footer />

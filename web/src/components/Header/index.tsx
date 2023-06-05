@@ -14,32 +14,9 @@ import {
 import logo from "../../assets/images/hamburger.svg";
 import userProfile from "../../assets/images/userProfile.png";
 import { SearchBar } from "../SearchBar";
-import { BsPin } from "react-icons/bs";
 
 export function Header() {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-
-  const openInNewTab = (url: string) => {
-    window.open(url, "_blank", "noreferrer");
-  };
-
-  function GetOut() {
-    navigate("/");
-  }
-
-  function handleWorkingInProgress() {
-    alert("Em fase de construção...");
-  }
-
-  const handleMouseEnter = () => {
-    setIsHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHover(false);
-  };
 
   return (
     <Container>
@@ -65,9 +42,6 @@ export function Header() {
           <ProfilePicture
             src={userProfile}
             alt=""
-            style={{
-              opacity: isHover ? 1 : 0.8,
-            }}
           />
           <h5>Realizar Login</h5>
         </ProfileContainer>
