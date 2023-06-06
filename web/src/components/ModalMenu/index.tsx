@@ -22,7 +22,7 @@ import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { IngredientsProps, ProductsProps } from "../../types/Products";
 import { api } from "../../utils/api";
-import chef from "../../assets/images/chef.png";
+import chef from "../../assets/images/chefburger.png";
 import { Context } from "../../contexts/Context";
 
 const customStyles = {
@@ -36,7 +36,7 @@ const customStyles = {
     borderRadius: 10,
     zIndex: 9999,
     overflow: "auto",
-    maxHeight: "calc(100vh - 160px)",
+    maxHeight: "calc(100vh - 180px)",
   },
 };
 
@@ -55,7 +55,7 @@ interface ModalFoodProps {
   type?: string;
 }
 
-export function ModalFood({
+export function ModalMenu({
   data,
   closeModal,
   allProducts,
@@ -88,11 +88,11 @@ export function ModalFood({
     }
   }
 
-  console.log(count);
+  console.log(type);
 
   async function fetchProducts() {
     try {
-      const { data } = await api.get("/ingredients");
+      const { data } = await api.get(`/ingredients/${type}`);
       setIngredientsData(data);
       // console.log("ingredient", data);
     } catch (error) {
@@ -241,278 +241,6 @@ export function ModalFood({
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "meat")
-            .map((ingredient, index) => (
-              <IngredientsContainer key={ingredient.id}>
-                <FirstPart>
-                  <ImageIngredient src={ingredient.image} alt="" />
-                  <FirstInsidePart>
-                    <p>{ingredient.name}</p>
-                    <div>{ingredient.description}</div>
-                    <div style={{ color: "darkred" }}>
-                      + R$
-                      {Number(ingredient.value).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </div>
-                  </FirstInsidePart>
-                </FirstPart>
-                <DescriptionAddContainer>
-                  <AiOutlinePlusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        return {
-                          ...prevMeats,
-                          [ingredient.name]: {
-                            name: ingredient.name,
-                            quantity: currentQuantity + 1,
-                            price: Number(ingredient.value),
-                          },
-                        };
-                      });
-                    }}
-                  >
-                    +
-                  </AiOutlinePlusCircle>
-                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
-                  <AiOutlineMinusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats: any) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        if (currentQuantity > 1) {
-                          return {
-                            ...prevMeats,
-                            [ingredient.name]: {
-                              name: ingredient.name,
-                              quantity: currentQuantity - 1,
-                            },
-                          };
-                        } else {
-                          const updatedMeats = { ...prevMeats };
-                          delete updatedMeats[ingredient.name];
-                          return updatedMeats;
-                        }
-                      });
-                    }}
-                  >
-                    -
-                  </AiOutlineMinusCircle>
-                </DescriptionAddContainer>
-              </IngredientsContainer>
-            ))}
-        </div>
-
-        <IngredientTopic>Molho</IngredientTopic>
-        <div style={{ width: "100%" }}>
-          {ingredientsData
-            .filter((product) => product.type === "sauce")
-            .map((ingredient, index) => (
-              <IngredientsContainer key={ingredient.id}>
-                <FirstPart>
-                  <ImageIngredient src={ingredient.image} alt="" />
-                  <FirstInsidePart>
-                    <p>{ingredient.name}</p>
-                    <div>{ingredient.description}</div>
-                    <div style={{ color: "darkred" }}>
-                      + R$
-                      {Number(ingredient.value).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </div>
-                  </FirstInsidePart>
-                </FirstPart>
-                <DescriptionAddContainer>
-                  <AiOutlinePlusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        return {
-                          ...prevMeats,
-                          [ingredient.name]: {
-                            name: ingredient.name,
-                            quantity: currentQuantity + 1,
-                            price: Number(ingredient.value),
-                          },
-                        };
-                      });
-                    }}
-                  >
-                    +
-                  </AiOutlinePlusCircle>
-                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
-                  <AiOutlineMinusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats: any) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        if (currentQuantity > 1) {
-                          return {
-                            ...prevMeats,
-                            [ingredient.name]: {
-                              name: ingredient.name,
-                              quantity: currentQuantity - 1,
-                            },
-                          };
-                        } else {
-                          const updatedMeats = { ...prevMeats };
-                          delete updatedMeats[ingredient.name];
-                          return updatedMeats;
-                        }
-                      });
-                    }}
-                  >
-                    -
-                  </AiOutlineMinusCircle>
-                </DescriptionAddContainer>
-              </IngredientsContainer>
-            ))}
-        </div>
-
-        <IngredientTopic>Salada</IngredientTopic>
-        <div style={{ width: "100%" }}>
-          {ingredientsData
-            .filter((product) => product.type === "salad")
-            .map((ingredient, index) => (
-              <IngredientsContainer key={ingredient.id}>
-                <FirstPart>
-                  <ImageIngredient src={ingredient.image} alt="" />
-                  <FirstInsidePart>
-                    <p>{ingredient.name}</p>
-                    <div>{ingredient.description}</div>
-                    <div style={{ color: "darkred" }}>
-                      + R$
-                      {Number(ingredient.value).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </div>
-                  </FirstInsidePart>
-                </FirstPart>
-                <DescriptionAddContainer>
-                  <AiOutlinePlusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        return {
-                          ...prevMeats,
-                          [ingredient.name]: {
-                            name: ingredient.name,
-                            quantity: currentQuantity + 1,
-                            price: Number(ingredient.value),
-                          },
-                        };
-                      });
-                    }}
-                  >
-                    +
-                  </AiOutlinePlusCircle>
-                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
-                  <AiOutlineMinusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats: any) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        if (currentQuantity > 1) {
-                          return {
-                            ...prevMeats,
-                            [ingredient.name]: {
-                              name: ingredient.name,
-                              quantity: currentQuantity - 1,
-                            },
-                          };
-                        } else {
-                          const updatedMeats = { ...prevMeats };
-                          delete updatedMeats[ingredient.name];
-                          return updatedMeats;
-                        }
-                      });
-                    }}
-                  >
-                    -
-                  </AiOutlineMinusCircle>
-                </DescriptionAddContainer>
-              </IngredientsContainer>
-            ))}
-        </div>
-
-        <IngredientTopic>Recheio</IngredientTopic>
-        <div style={{ width: "100%" }}>
-          {ingredientsData
-            .filter((product) => product.type === "cheese")
-            .map((ingredient, index) => (
-              <IngredientsContainer key={ingredient.id}>
-                <FirstPart>
-                  <ImageIngredient src={ingredient.image} alt="" />
-                  <FirstInsidePart>
-                    <p>{ingredient.name}</p>
-                    <div>{ingredient.description}</div>
-                    <div style={{ color: "darkred" }}>
-                      + R$
-                      {Number(ingredient.value).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </div>
-                  </FirstInsidePart>
-                </FirstPart>
-                <DescriptionAddContainer>
-                  <AiOutlinePlusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        return {
-                          ...prevMeats,
-                          [ingredient.name]: {
-                            name: ingredient.name,
-                            quantity: currentQuantity + 1,
-                            price: Number(ingredient.value),
-                          },
-                        };
-                      });
-                    }}
-                  >
-                    +
-                  </AiOutlinePlusCircle>
-                  <span>{selectedMeats[ingredient.name]?.quantity || 0}</span>
-                  <AiOutlineMinusCircle
-                    onClick={() => {
-                      setSelectedMeats((prevMeats: any) => {
-                        const currentQuantity =
-                          prevMeats[ingredient.name]?.quantity || 0;
-                        if (currentQuantity > 1) {
-                          return {
-                            ...prevMeats,
-                            [ingredient.name]: {
-                              name: ingredient.name,
-                              quantity: currentQuantity - 1,
-                            },
-                          };
-                        } else {
-                          const updatedMeats = { ...prevMeats };
-                          delete updatedMeats[ingredient.name];
-                          return updatedMeats;
-                        }
-                      });
-                    }}
-                  >
-                    -
-                  </AiOutlineMinusCircle>
-                </DescriptionAddContainer>
-              </IngredientsContainer>
-            ))}
-        </div>
-
-        <IngredientTopic>Adicionais</IngredientTopic>
-        <div style={{ width: "100%" }}>
-          {ingredientsData
-            .filter((product) => product.type === "additions")
             .map((ingredient, index) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createIngredient,
   deleteIngredientByIdService,
+  getAllIngredientsByTypeService,
   getAllIngredientsService,
   updateIngredientByIdService,
 } from "../services/ingredientsService";
@@ -26,6 +27,21 @@ export async function createIngredientsController(req: Request, res: Response) {
 export async function getAllIngredientsController(req: Request, res: Response) {
   try {
     const data = await getAllIngredientsService();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Erro ao recuperar os ingredientes:", error);
+    res.status(500).json({ error: "Erro ao recuperar os ingredientes" });
+  }
+}
+
+export async function getAllIngredientsByTypeController(
+  req: Request,
+  res: Response
+) {
+  const { type } = req.params;
+
+  try {
+    const data = await getAllIngredientsByTypeService(type);
     res.status(200).json(data);
   } catch (error) {
     console.error("Erro ao recuperar os ingredientes:", error);

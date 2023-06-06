@@ -54,7 +54,7 @@ export const RightSide = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 
   font-family: ${(props) => props.theme.fonts["regular"]};
 
@@ -103,4 +103,54 @@ export const AddressDiv = styled.div`
   align-items: center;
 
   text-decoration: underline;
+`;
+
+export const CartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  gap: 5px;
+  height: 45px;
+  border-top-left-radius: 15%;
+  border-top-right-radius: 15%;
+`;
+
+export const CartIcon = styled.div`
+  font-size: 18px;
+  display: flex;
+  flex: 1;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  span {
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+    top: 0;
+    font-size: 14px;
+  }
+`;
+
+export const CartQuantity = styled.div`
+  font-size: 16px;
+  display: flex;
+  flex: 1;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+export const CartPrice = styled.div`
+  display: flex;
+  flex: 1;
+  text-align: center;
+  align-items: center;
+
+  justify-content: center;
 `;

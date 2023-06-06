@@ -46,6 +46,26 @@ export async function getAllIngredientsService() {
   }
 }
 
+export async function getAllIngredientsByTypeService(type: string) {
+  let connection: PoolConnection | undefined;
+
+  try {
+    connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "SELECT * FROM ingredients WHERE is_chef = ?",
+      [type]
+    );
+    return rows;
+  } catch (error) {
+    throw new Error("Erro ao recuperar os produtos");
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}
+
 export async function deleteIngredientByIdService(ingredientId: number) {
   let connection: PoolConnection | undefined;
 

@@ -10,6 +10,7 @@ import {
   createIngredientsController,
   deleteIngredientByIdController,
   getAllIngredientsController,
+  getAllIngredientsByTypeController,
   updateIngredientByIdController,
 } from "./controllers/ingredientsController";
 
@@ -41,6 +42,8 @@ router.put("/products/:id", updateProductByIdController);
 router.post("/ingredients", createIngredientsController);
 
 router.get("/ingredients", getAllIngredientsController);
+
+router.get("/ingredients/:type", getAllIngredientsByTypeController);
 
 router.delete("/ingredients/:id", deleteIngredientByIdController);
 

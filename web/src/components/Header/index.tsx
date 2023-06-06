@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AddressContainer,
   AddressDiv,
+  CartContainer,
+  CartIcon,
+  CartPrice,
+  CartQuantity,
   Container,
   ImageLogo,
   LeftSide,
@@ -14,9 +18,29 @@ import {
 import logo from "../../assets/images/hamburger.svg";
 import userProfile from "../../assets/images/userProfile.png";
 import { SearchBar } from "../SearchBar";
+import { Context } from "../../contexts/Context";
+import { BsCart4 } from "react-icons/bs";
 
 export function Header() {
   const navigate = useNavigate();
+  const { orders } = useContext(Context);
+
+  const sumOrderPrice = (order: any) => {
+    const items = Object.values(order.items); // Array com todos os itens do pedido
+    const totalPrice = items.reduce(
+      (sum: any, item: any) => sum + item.quantity * item.price,
+      0
+    );
+    return totalPrice;
+  };
+
+  // Percorre o array de pedidos e soma o preço de cada um
+  const totalPrices = orders.map((order) => sumOrderPrice(order));
+
+  const totalPrice = totalPrices.reduce(
+    (accumulator: any, currentValue: any) => accumulator + currentValue,
+    0
+  );
 
   return (
     <Container>
@@ -39,17 +63,23 @@ export function Header() {
           }}
           onClick={() => navigate("/profile")}
         >
-          <ProfilePicture
-            src={userProfile}
-            alt=""
-          />
+          <ProfilePicture src={userProfile} alt="" />
           <h5>Realizar Login</h5>
         </ProfileContainer>
         <AddressContainer>
-          <h5>Entregar em</h5>
-          <AddressDiv>
-            <h5>Piaui, 457</h5>
-          </AddressDiv>
+          <CartContainer>
+            <CartIcon>
+              <BsCart4 size={25} />
+              <span>{orders.length}</span>
+            </CartIcon>
+            <h5>
+              R$:
+              {Number(totalPrice).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </h5>
+          </CartContainer>
         </AddressContainer>
       </RightSide>
     </Container>

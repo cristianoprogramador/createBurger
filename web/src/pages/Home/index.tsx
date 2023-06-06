@@ -20,9 +20,10 @@ import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
 import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
 import { api } from "../../utils/api";
 import { ProductProp, ProductsProps } from "../../types/Products";
-import { useNavigate } from "react-router-dom";
 import { Footer } from "../../components/Footer";
-import { ModalFood } from "../../components/ModalFood";
+import { ModalBurger } from "../../components/ModalBurger";
+import { ModalFries } from "../../components/ModalFries";
+import { ModalMenu } from "../../components/ModalMenu";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
@@ -41,7 +42,9 @@ export function Home() {
   }
 
   function handleOpenModal(product: ProductProp) {
+    console.log(product);
     setSelectedProduct(product);
+    setPersonalize(product.type);
   }
 
   function handleOpenModalPersonalize(item: string) {
@@ -50,11 +53,19 @@ export function Home() {
 
   function handleCloseModal() {
     setSelectedProduct(null);
+    setPersonalize("");
   }
 
   function handleCloseModalPersonalize() {
     setPersonalize("");
   }
+
+  const BurgerChef = productsData.filter(
+    (product) => product.type === "chefBurger"
+  );
+  const FriesChef = productsData.filter(
+    (product) => product.type === "chefFries"
+  );
 
   useEffect(() => {
     fetchProducts();
@@ -66,18 +77,14 @@ export function Home() {
       <TitleContainer>Personalize seu Burger</TitleContainer>
 
       <CustomizeContainer>
-        <CustomizeHamburger>
-          <Lottie
-            animationData={hamburgerAnimation}
-            loop={true}
-            onClick={() => handleOpenModalPersonalize("burger")}
-          />
+        <CustomizeHamburger onClick={() => handleOpenModal(BurgerChef[0])}>
+          <Lottie animationData={hamburgerAnimation} loop={true} />
           <CustomizeText>
             Monte o melhor Burger para você, aqui você é o chef! <br />
             Use a imaginação e crie um burger fantástico e delicioso.
           </CustomizeText>
         </CustomizeHamburger>
-        <CustomizeHamburger>
+        <CustomizeHamburger onClick={() => handleOpenModal(FriesChef[0])}>
           <Lottie animationData={friesAnimation} loop={true} />
           <CustomizeText>
             Monte a melhor Batata Frita para você, aqui você é o chef! <br />
@@ -154,15 +161,25 @@ export function Home() {
       </ProductList>
 
       {selectedProduct && (
-        <ModalFood
+        <ModalMenu
           data={selectedProduct}
           closeModal={handleCloseModal}
           allProducts={productsData}
+          type={selectedProduct.type}
         />
       )}
 
-      {personalize.length > 0 && (
-        <ModalFood
+      {personalize === "burger" && (
+        <ModalBurger
+          type={personalize}
+          closeModal={handleCloseModalPersonalize}
+          allProducts={productsData}
+          isBurger={true}
+        />
+      )}
+
+      {personalize === "fries" && (
+        <ModalFries
           type={personalize}
           closeModal={handleCloseModalPersonalize}
           allProducts={productsData}
