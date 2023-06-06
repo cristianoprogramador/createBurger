@@ -67,7 +67,7 @@ export function Header() {
           <h5>Realizar Login</h5>
         </ProfileContainer>
         <AddressContainer>
-          <CartContainer>
+          <CartContainer onClick={() => navigate("/cart")}>
             <CartIcon>
               <BsCart4 size={25} />
               <span>{orders.length}</span>

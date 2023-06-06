@@ -15,9 +15,15 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../contexts/Context";
 
-export function Footer() {
+interface RepeatProps {
+  no_repeat?: boolean;
+}
+
+export function Footer({ no_repeat }: RepeatProps) {
   const navigate = useNavigate();
   const { orders } = useContext(Context);
+
+  console.log(no_repeat);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items); // Array com todos os itens do pedido
@@ -36,31 +42,32 @@ export function Footer() {
     0
   );
 
-  console.log(totalPrices);
-  console.log(totalPrice);
-
   return (
     <Container>
-      <CartContainer>
-        <CartIcon>
-          <BsCart4 size={25} />
-          <span>{orders.length}</span>
-        </CartIcon>
-        {orders.length > 0 ? (
-          <CartQuantity>Finalizar Pedido</CartQuantity>
-        ) : (
-          <CartQuantity>Sacola Vazia</CartQuantity>
-        )}
-        <CartPrice>
-          R$:
-          {Number(totalPrice).toLocaleString("pt-BR", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </CartPrice>
-      </CartContainer>
+      {!no_repeat && (
+        <CartContainer>
+          <CartIcon>
+            <BsCart4 size={25} />
+            <span>{orders.length}</span>
+          </CartIcon>
+          {orders.length > 0 ? (
+            <CartQuantity onClick={() => navigate("/cart")}>
+              Finalizar Pedido
+            </CartQuantity>
+          ) : (
+            <CartQuantity>Sacola Vazia</CartQuantity>
+          )}
+          <CartPrice>
+            R$:
+            {Number(totalPrice).toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </CartPrice>
+        </CartContainer>
+      )}
       <FooterContainer>
-        <IconContainer>
+        <IconContainer onClick={() => navigate("/")}>
           <BiFoodMenu size={25} />
           <span>Cardápio</span>
         </IconContainer>

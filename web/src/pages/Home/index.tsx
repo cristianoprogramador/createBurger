@@ -21,8 +21,6 @@ import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
 import { api } from "../../utils/api";
 import { ProductProp, ProductsProps } from "../../types/Products";
 import { Footer } from "../../components/Footer";
-import { ModalBurger } from "../../components/ModalBurger";
-import { ModalFries } from "../../components/ModalFries";
 import { ModalMenu } from "../../components/ModalMenu";
 
 export function Home() {
@@ -47,16 +45,8 @@ export function Home() {
     setPersonalize(product.type);
   }
 
-  function handleOpenModalPersonalize(item: string) {
-    setPersonalize(item);
-  }
-
   function handleCloseModal() {
     setSelectedProduct(null);
-    setPersonalize("");
-  }
-
-  function handleCloseModalPersonalize() {
     setPersonalize("");
   }
 
@@ -164,26 +154,7 @@ export function Home() {
         <ModalMenu
           data={selectedProduct}
           closeModal={handleCloseModal}
-          allProducts={productsData}
           type={selectedProduct.type}
-        />
-      )}
-
-      {personalize === "burger" && (
-        <ModalBurger
-          type={personalize}
-          closeModal={handleCloseModalPersonalize}
-          allProducts={productsData}
-          isBurger={true}
-        />
-      )}
-
-      {personalize === "fries" && (
-        <ModalFries
-          type={personalize}
-          closeModal={handleCloseModalPersonalize}
-          allProducts={productsData}
-          isBurger={true}
         />
       )}
 

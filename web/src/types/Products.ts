@@ -15,7 +15,7 @@ export interface IngredientsProps {
   type: string;
   description: string;
   image: string;
-  is_chef: boolean;
+  is_chef: string;
 }
 [];
 

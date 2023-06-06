@@ -54,7 +54,7 @@ export const MenuContainer = styled.div`
   font-family: ${(props) => props.theme.fonts["title"]};
   font-size: ${(props) => props.theme.textSizes["title-title-xl"]};
   text-align: center;
-  margin: 3rem 0 2rem 0;
+  margin: 5rem 0 2rem 0;
 `;
 
 export const ProductList = styled.div`

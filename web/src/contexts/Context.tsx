@@ -17,6 +17,7 @@ interface Order {
       price: number;
     };
   };
+  image: string;
 }
 
 interface ContextProps {
@@ -24,7 +25,8 @@ interface ContextProps {
   addOrder: (
     name: string,
     items: { [itemName: string]: Item },
-    count: number
+    count: number,
+    image: string
   ) => void;
 }
 
@@ -43,13 +45,15 @@ export function ContextProvider({ children }: ContextProviderProps) {
   const addOrder = (
     name: string,
     items: { [itemName: string]: Item },
-    count: number
+    count: number,
+    image: string
   ) => {
     for (let i = 0; i < count; i++) {
       const order: Order = {
         id: `order_${orders.length + 1}`,
         name,
         items,
+        image,
       };
       setOrders((prevOrders) => [...prevOrders, order]);
     }

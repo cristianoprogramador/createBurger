@@ -28,6 +28,7 @@ export const Panel = styled.main`
   p {
     text-align: center;
     font-family: ${(props) => props.theme.fonts["title"]};
+    max-width: 450px;
   }
 `;
 
@@ -115,6 +116,7 @@ export const DescriptionAddContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-left: 10px;
+  gap: 10px;
 `;
 
 export const FirstPart = styled.div`
