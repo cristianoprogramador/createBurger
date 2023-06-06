@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { ReactNode, createContext, useState } from "react";
 
+type Item = {
+  name: string;
+  quantity: number;
+  price: number;
+};
+
 interface Order {
   id: string;
   name: string;
@@ -15,7 +21,11 @@ interface Order {
 
 interface ContextProps {
   orders: Order[];
-  addOrder: (order: Order) => void;
+  addOrder: (
+    name: string,
+    items: { [itemName: string]: Item },
+    count: number
+  ) => void;
 }
 
 export const Context = createContext<ContextProps>({
@@ -30,9 +40,22 @@ interface ContextProviderProps {
 export function ContextProvider({ children }: ContextProviderProps) {
   const [orders, setOrders] = useState<Order[]>([]);
 
-  const addOrder = (order: Order) => {
-    setOrders((prevOrders) => [...prevOrders, order]);
+  const addOrder = (
+    name: string,
+    items: { [itemName: string]: Item },
+    count: number
+  ) => {
+    for (let i = 0; i < count; i++) {
+      const order: Order = {
+        id: `order_${orders.length + 1}`,
+        name,
+        items,
+      };
+      setOrders((prevOrders) => [...prevOrders, order]);
+    }
   };
+
+  console.log("Tem order?", orders);
 
   return (
     <Context.Provider value={{ orders, addOrder }}>{children}</Context.Provider>

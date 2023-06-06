@@ -190,7 +190,7 @@ export const ContainerTotal = styled.div`
   align-items: center;
 
   @media (min-width: 768px) {
-    font-size: ${(props) => props.theme.textSizes["title-title-m"]};
+    font-size: ${(props) => props.theme.textSizes["title-title-s"]};
   }
 `;
 
@@ -203,6 +203,6 @@ export const AddButton = styled.div`
   align-items: center;
 
   @media (min-width: 768px) {
-    font-size: ${(props) => props.theme.textSizes["title-title-m"]};
+    font-size: ${(props) => props.theme.textSizes["title-title-s"]};
   }
 `;

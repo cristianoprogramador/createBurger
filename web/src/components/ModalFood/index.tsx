@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Modal from "react-modal";
 import {
   AddButton,
@@ -23,6 +23,7 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { IngredientsProps, ProductsProps } from "../../types/Products";
 import { api } from "../../utils/api";
 import chef from "../../assets/images/chef.png";
+import { Context } from "../../contexts/Context";
 
 const customStyles = {
   content: {
@@ -75,6 +76,20 @@ export function ModalFood({
     [key: string]: { name: string; quantity: number; price: number };
   }>({});
 
+  const [count, setCount] = useState(1);
+
+  function addCount() {
+    setCount(count + 1);
+  }
+
+  function minusCount() {
+    if (count > 1) {
+      setCount(count - 1);
+    }
+  }
+
+  console.log(count);
+
   async function fetchProducts() {
     try {
       const { data } = await api.get("/ingredients");
@@ -91,8 +106,8 @@ export function ModalFood({
     0
   );
 
-  const grandTotal = selectedBread.price + total2;
-  console.log(grandTotal);
+  const grandTotal = (selectedBread.price + total2) * count;
+  // console.log(grandTotal);
 
   function mergeObjects(
     selectedBread: { name: string; quantity: number; price: number },
@@ -117,8 +132,12 @@ export function ModalFood({
 
   const mergedObj = mergeObjects(selectedBread, selectedMeats);
 
-  console.log(mergedObj);
-  console.log(JSON.stringify(mergedObj));
+  const { addOrder } = useContext(Context);
+
+  function AddToContext() {
+    addOrder("Montando o Burger", mergedObj, count);
+    closeModal();
+  }
 
   useEffect(() => {
     fetchProducts();
@@ -696,9 +715,17 @@ export function ModalFood({
 
         <FooterContainer>
           <IconContainerTotal>
-            <AiOutlineArrowDown size={25} style={{ cursor: "pointer" }} />
-            1
-            <AiOutlineArrowUp size={25} style={{ cursor: "pointer" }} />
+            <AiOutlineArrowDown
+              size={25}
+              style={{ cursor: "pointer" }}
+              onClick={minusCount}
+            />
+            {count}
+            <AiOutlineArrowUp
+              size={25}
+              style={{ cursor: "pointer" }}
+              onClick={addCount}
+            />
           </IconContainerTotal>
           <ContainerTotal>
             <AddButton>
@@ -711,7 +738,9 @@ export function ModalFood({
                 })}
               </div>
             </AddButton>
-            {selectedBread.price > 0 && <div>Confirmar</div>}
+            {selectedBread.price > 0 && (
+              <div onClick={AddToContext}>Confirmar</div>
+            )}
           </ContainerTotal>
         </FooterContainer>
       </Panel>
