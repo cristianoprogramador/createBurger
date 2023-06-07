@@ -23,7 +23,7 @@ export function Footer({ no_repeat }: RepeatProps) {
   const navigate = useNavigate();
   const { orders } = useContext(Context);
 
-  console.log(no_repeat);
+  // console.log(no_repeat);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items); // Array com todos os itens do pedido
@@ -45,15 +45,13 @@ export function Footer({ no_repeat }: RepeatProps) {
   return (
     <Container>
       {!no_repeat && (
-        <CartContainer>
+        <CartContainer onClick={() => navigate("/cart")}>
           <CartIcon>
             <BsCart4 size={25} />
             <span>{orders.length}</span>
           </CartIcon>
           {orders.length > 0 ? (
-            <CartQuantity onClick={() => navigate("/cart")}>
-              Finalizar Pedido
-            </CartQuantity>
+            <CartQuantity>Finalizar Pedido</CartQuantity>
           ) : (
             <CartQuantity>Sacola Vazia</CartQuantity>
           )}
@@ -75,7 +73,10 @@ export function Footer({ no_repeat }: RepeatProps) {
           <MdOutlineHistory size={25} />
           <span>Pedidos</span>
         </IconContainer>
-        <IconContainer onClick={() => navigate("/profile")}>
+        <IconContainer
+          // onClick={() => navigate("/profile")}
+          onClick={() => navigate("/login")}
+        >
           <CgProfile size={25} />
           <span>Perfil</span>
         </IconContainer>

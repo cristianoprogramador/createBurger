@@ -55,7 +55,9 @@ export function Cart() {
                 <OrderItem key={item.name}>
                   <OrderInfoNameQuantity>
                     <div>{item.name}</div>
-                    <div>Quantidade: {item.quantity}</div>
+                    <div style={{ minWidth: 112 }}>
+                      Quantidade: {item.quantity}
+                    </div>
                   </OrderInfoNameQuantity>
                   Preço: R$:
                   {Number(item.price).toLocaleString("pt-BR", {

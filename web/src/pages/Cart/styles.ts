@@ -71,7 +71,7 @@ export const OrderTotal = styled.h3`
   text-align: center;
 `;
 
-export const OrderItem = styled.p`
+export const OrderItem = styled.div`
   margin: 5px 0;
   font-size: 14px;
   padding: 10px;
