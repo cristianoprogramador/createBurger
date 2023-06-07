@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface CustomRequest extends Request {
   userId?: { email: string };
@@ -11,14 +11,13 @@ export function authMiddleware(
   next: NextFunction
 ) {
   const token = req.headers.authorization?.split(" ")[1];
-  // console.log("OPA CHEGOU ALGO", token);
 
   if (!token) {
     return res.status(401).json({ error: "Não autorizado" });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
     if (typeof decoded === "object" && decoded.email) {
       req.userId = { email: decoded.email };
       next();

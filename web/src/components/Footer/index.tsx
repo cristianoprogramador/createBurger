@@ -21,7 +21,7 @@ interface RepeatProps {
 
 export function Footer({ no_repeat }: RepeatProps) {
   const navigate = useNavigate();
-  const { orders } = useContext(Context);
+  const { orders, user } = useContext(Context);
 
   // console.log(no_repeat);
 
@@ -73,13 +73,17 @@ export function Footer({ no_repeat }: RepeatProps) {
           <MdOutlineHistory size={25} />
           <span>Pedidos</span>
         </IconContainer>
-        <IconContainer
-          // onClick={() => navigate("/profile")}
-          onClick={() => navigate("/login")}
-        >
-          <CgProfile size={25} />
-          <span>Perfil</span>
-        </IconContainer>
+        {user ? (
+          <IconContainer onClick={() => navigate("/profile")}>
+            <CgProfile size={25} />
+            <span>{user.name}</span>
+          </IconContainer>
+        ) : (
+          <IconContainer onClick={() => navigate("/login")}>
+            <CgProfile size={25} />
+            <span>Perfil</span>
+          </IconContainer>
+        )}
       </FooterContainer>
     </Container>
   );

@@ -25,6 +25,10 @@ export const FormContainer = styled.form`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    width: 400px;
+  }
 `;
 
 export const ProfileImage = styled.img`
@@ -49,10 +53,7 @@ export const GroupInput = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  flex-direction: column;
 `;
 
 export const Input = styled.input`

@@ -13,6 +13,8 @@ import {
   getAllIngredientsByTypeController,
   updateIngredientByIdController,
 } from "./controllers/ingredientsController";
+import UserController from "./controllers/userController";
+import { authMiddleware } from "./middleware/auth";
 
 export const router = express.Router();
 
@@ -48,3 +50,9 @@ router.get("/ingredients/:type", getAllIngredientsByTypeController);
 router.delete("/ingredients/:id", deleteIngredientByIdController);
 
 router.put("/ingredients/:id", updateIngredientByIdController);
+
+// Rotas para Criação e Login de Usuario
+
+router.post("/user", UserController.createUser);
+
+router.post("/user/login", UserController.loginUser);

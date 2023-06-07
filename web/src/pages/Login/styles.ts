@@ -12,11 +12,9 @@ export const ProfileContainer = styled.div`
   flex: 1;
   justify-content: center;
   align-items: center;
+  align-content: center;
   padding-bottom: 120px;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  flex-direction: column;
 `;
 
 export const FormContainer = styled.form`
@@ -44,6 +42,16 @@ export const InputContainer = styled.div`
   flex: 1;
   flex-direction: column;
   gap: 5px;
+  position: relative;
+`;
+
+export const EyeIcon = styled.div`
+  position: absolute;
+  top: 50%;
+  bottom: 40%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 `;
 
 export const GroupInput = styled.div`
@@ -88,6 +96,7 @@ export const Button = styled.button`
 
 export const ButtonSignUp = styled.button`
   padding: 10px 20px;
+  margin-top: 10px;
   background-color: ${(props) => props.theme.colors["red-500"]};
   color: white;
   border: 1px solid #ccc;

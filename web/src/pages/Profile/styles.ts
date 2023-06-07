@@ -86,3 +86,23 @@ export const Button = styled.button`
     background-color: ${(props) => props.theme.colors["yellow-700"]};
   }
 `;
+
+export const ButtonLogout = styled.button`
+  padding: 10px 20px;
+  background-color: ${(props) => props.theme.colors["red-500"]};
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  width: 150px;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors["red-700"]};
+  }
+`;

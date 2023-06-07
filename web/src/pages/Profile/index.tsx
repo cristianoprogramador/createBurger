@@ -3,6 +3,7 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import {
   Button,
+  ButtonLogout,
   Container,
   FormContainer,
   GroupInput,
@@ -12,8 +13,9 @@ import {
   ProfileImage,
 } from "./styles";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { Context } from "../../contexts/Context";
 
 const userProfile = {
   name: "Cristiano Pereira da Silva",
@@ -28,6 +30,7 @@ const userProfile = {
 
 export function Profile() {
   const navigate = useNavigate();
+  const { logout } = useContext(Context);
   const {
     register,
     handleSubmit,
@@ -157,6 +160,7 @@ export function Profile() {
               </InputContainer>
             </GroupInput>
             <Button type="submit">Salvar</Button>
+            <ButtonLogout onClick={logout}>Sair da Conta</ButtonLogout>
           </FormContainer>
         </div>
       </ProfileContainer>
