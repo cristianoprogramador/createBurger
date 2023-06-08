@@ -23,10 +23,22 @@ class UserController {
         // Aqui você pode gerar e retornar o token JWT para autenticação
         res.status(200).json({ user });
       } else {
-        res.status(401).json({ error: "Invalid email or password" });
+        res.status(401).json({ error: "Email ou senha inválida" });
       }
     } catch (error) {
       res.status(500).json(error.message);
+    }
+  }
+
+  static async updateUser(req: Request, res: Response) {
+    const { id } = req.params;
+    const userData = req.body;
+
+    try {
+      const updatedUser = await UserService.updateUser(id, userData);
+      res.json(updatedUser);
+    } catch (error) {
+      res.status(500).json({ error: "Error updating user" });
     }
   }
 }

@@ -17,7 +17,7 @@ class UserService {
     try {
       const existingUser = await UserModel.findByEmail(email);
       if (existingUser) {
-        throw new Error("Email already registered");
+        throw new Error("Email já utilizado!");
       }
       const userId = await UserModel.create(name, email, password);
       return userId;
@@ -40,13 +40,31 @@ class UserService {
           const { password, ...filteredUser } = user;
           return filteredUser;
         } else {
-          throw new Error("Invalid email or password");
+          throw new Error("Email ou senha inválida");
         }
       } else {
-        throw new Error("Invalid email or password");
+        throw new Error("Email ou senha inválida");
       }
     } catch (error) {
       throw new Error(error.message);
+    }
+  }
+
+  static async updateUser(
+    id: string,
+    userData: Partial<User>
+  ): Promise<User | null> {
+    try {
+      const user = await UserModel.findByID(id);
+
+      if (user) {
+        const updatedUser = await UserModel.updateByID(id, userData);
+        return updatedUser;
+      }
+
+      return null;
+    } catch (error) {
+      throw new Error("Error updating user");
     }
   }
 }

@@ -23,7 +23,7 @@ import { BsCart4 } from "react-icons/bs";
 
 export function Header() {
   const navigate = useNavigate();
-  const { orders } = useContext(Context);
+  const { orders, user } = useContext(Context);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items); // Array com todos os itens do pedido
@@ -54,18 +54,33 @@ export function Header() {
       <SearchBar />
 
       <RightSide>
-        <ProfileContainer
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/profile")}
-        >
-          <ProfilePicture src={userProfile} alt="" />
-          <h5>Realizar Login</h5>
-        </ProfileContainer>
+        {user ? (
+          <ProfileContainer
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/profile")}
+          >
+            <ProfilePicture src={userProfile} alt="" />
+            <h5>{user.name}</h5>
+          </ProfileContainer>
+        ) : (
+          <ProfileContainer
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/login")}
+          >
+            <ProfilePicture src={userProfile} alt="" />
+            <h5>Realizar Login</h5>
+          </ProfileContainer>
+        )}
         <AddressContainer>
           <CartContainer onClick={() => navigate("/cart")}>
             <CartIcon>

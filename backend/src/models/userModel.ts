@@ -25,7 +25,7 @@ class UserModel {
 
       return result.insertId || 0; // Retorna o ID do usuário inserido ou 0 se não estiver disponível
     } catch (error) {
-      throw new Error("Error creating user");
+      throw new Error("Erro criando o usuario");
     }
   }
 
@@ -37,11 +37,18 @@ class UserModel {
       );
 
       if (rows.length > 0) {
-        const user: User = {
+        const user: any = {
           id: rows[0].id,
           name: rows[0].name,
           email: rows[0].email,
           password: rows[0].password,
+          image: rows[0].image,
+          cep: rows[0].cep,
+          rua: rows[0].rua,
+          numero: rows[0].numero,
+          bairro: rows[0].bairro,
+          cidade: rows[0].cidade,
+          uf: rows[0].uf,
         };
 
         return user; // Retorna o usuário encontrado
@@ -49,7 +56,51 @@ class UserModel {
 
       return null; // Retorna null se nenhum usuário for encontrado
     } catch (error) {
-      throw new Error("Error finding user by email");
+      throw new Error("Erro tentando encontrar usuario pelo email");
+    }
+  }
+
+  static async findByID(id: string): Promise<User | null> {
+    try {
+      const [rows] = await db.query<RowDataPacket[]>(
+        "SELECT * FROM users WHERE id = ?",
+        [id]
+      );
+
+      if (rows.length > 0) {
+        const user: any = {
+          id: rows[0].id,
+          name: rows[0].name,
+          email: rows[0].email,
+          password: rows[0].password,
+          cep: rows[0].cep,
+          rua: rows[0].rua,
+          numero: rows[0].numero,
+          bairro: rows[0].bairro,
+          cidade: rows[0].cidade,
+          uf: rows[0].uf,
+        };
+
+        return user;
+      }
+
+      return null;
+    } catch (error) {
+      throw new Error("Error finding user by ID");
+    }
+  }
+
+  static async updateByID(
+    id: string,
+    userData: Partial<User>
+  ): Promise<User | null> {
+    try {
+      await db.query("UPDATE users SET ? WHERE id = ?", [userData, id]);
+
+      const updatedUser = await this.findByID(id);
+      return updatedUser;
+    } catch (error) {
+      throw new Error("Error updating user");
     }
   }
 }

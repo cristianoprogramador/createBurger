@@ -6,7 +6,12 @@ interface User {
   id: number;
   name: string;
   email: string;
-  // Add any other relevant user properties here
+  cep: string;
+  rua: string;
+  numero: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
 }
 
 type Item = {

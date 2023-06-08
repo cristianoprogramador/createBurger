@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { blinkAnimation, scaleAnimation } from "../../styles/animations";
+import ReactInputMask from "react-input-mask";
 
 export const Container = styled.div`
   height: 100vh;
@@ -58,6 +59,16 @@ export const GroupInput = styled.div`
 `;
 
 export const Input = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: ${(props) => props.theme.colors["yellow-300"]};
+`;
+
+export const InputMask = styled(ReactInputMask)`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;

@@ -9,28 +9,18 @@ import {
   GroupInput,
   Input,
   InputContainer,
+  InputMask,
   ProfileContainer,
   ProfileImage,
 } from "./styles";
 import { useForm } from "react-hook-form";
 import { useState, useContext } from "react";
-import { BiSearchAlt2 } from "react-icons/bi";
+import ReactInputMask from "react-input-mask";
 import { Context } from "../../contexts/Context";
-
-const userProfile = {
-  name: "Cristiano Pereira da Silva",
-  email: "cristiano@gmail.com",
-  zipcode: "14051210",
-  address: "Aquidauana",
-  number: "983",
-  district: "Monte Alegre",
-  city: "Ribeirão Preto",
-  state: "SP",
-};
 
 export function Profile() {
   const navigate = useNavigate();
-  const { logout } = useContext(Context);
+  const { logout, user } = useContext(Context);
   const {
     register,
     handleSubmit,
@@ -75,6 +65,24 @@ export function Profile() {
     }
   };
 
+  function logoutHandle() {
+    logout();
+    navigate("/");
+  }
+
+  console.log(user);
+
+  const userProfile = {
+    name: user?.name || "",
+    email: user?.email || "",
+    zipcode: user?.cep || "",
+    address: user?.rua || "",
+    number: user?.numero || "",
+    district: user?.bairro || "",
+    city: user?.cidade || "",
+    state: user?.uf || "",
+  };
+
   return (
     <Container>
       <Header />
@@ -109,7 +117,9 @@ export function Profile() {
             <GroupInput>
               <InputContainer>
                 CEP
-                <Input
+                <InputMask
+                  mask="99999-999"
+                  maskPlaceholder=""
                   type="text"
                   defaultValue={userProfile.zipcode}
                   {...register("zipcode")}
@@ -125,7 +135,7 @@ export function Profile() {
                 />
               </InputContainer>
               <InputContainer>
-                Número do Local
+                Número
                 <Input
                   type="text"
                   defaultValue={userProfile.number}
@@ -160,7 +170,9 @@ export function Profile() {
               </InputContainer>
             </GroupInput>
             <Button type="submit">Salvar</Button>
-            <ButtonLogout onClick={logout}>Sair da Conta</ButtonLogout>
+            <ButtonLogout onClick={() => logoutHandle()}>
+              Sair da Conta
+            </ButtonLogout>
           </FormContainer>
         </div>
       </ProfileContainer>

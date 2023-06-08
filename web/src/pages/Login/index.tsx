@@ -22,7 +22,7 @@ import { api } from "../../utils/api";
 import { toast } from "react-toastify";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { Context } from "../../contexts/Context";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export function Login() {
   const navigate = useNavigate();
@@ -44,21 +44,18 @@ export function Login() {
         email: data.email,
         password: data.password,
       });
-      toast.success("Deu certo o login");
-      login(response.data.user);
       console.log(response);
+      toast.success("Você está logado!");
+      login(response.data.user);
+      navigate("/");
     } catch (error: any) {
-      console.log(error);
-      toast.error("ue deu ruim");
+      // console.log(error.response.data);
+      toast.error(error.response.data);
       setIsLoading(false);
     }
   };
 
   console.log("SERA Q VEIO", user);
-
-  if (user) {
-    return navigate("/"), null;
-  }
 
   return (
     <Container>
