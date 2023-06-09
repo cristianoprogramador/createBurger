@@ -5,16 +5,19 @@ import {
   CheckoutButton,
   Container,
   OrderContainer,
+  OrderContainerInfo,
   OrderImage,
   OrderInfo,
   OrderInfoNameQuantity,
   OrderItem,
   OrderName,
+  OrderSubTotal,
   OrderTotal,
   ProfileContainer,
 } from "./styles";
 import { Context } from "../../contexts/Context";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 export function Cart() {
   const navigate = useNavigate();
@@ -39,7 +42,11 @@ export function Cart() {
   console.log(orders);
 
   const handleCheckout = () => {
-    console.log("FINALIZADO");
+    if (orders.length > 0) {
+      navigate("/checkout");
+    } else {
+      toast.error("Carrinho Vazio");
+    }
   };
 
   return (
@@ -48,29 +55,38 @@ export function Cart() {
       <ProfileContainer>
         {orders.map((order) => (
           <OrderContainer key={order.id}>
-            <OrderImage src={order.image} alt={order.name} />
-            <OrderInfo>
-              <OrderName>{order.name}</OrderName>
-              {Object.values(order.items).map((item) => (
-                <OrderItem key={item.name}>
-                  <OrderInfoNameQuantity>
-                    <div>{item.name}</div>
-                    <div style={{ minWidth: 112 }}>
-                      Quantidade: {item.quantity}
-                    </div>
-                  </OrderInfoNameQuantity>
-                  Preço: R$:
-                  {Number(item.price).toLocaleString("pt-BR", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  })}
-                </OrderItem>
-              ))}
-            </OrderInfo>
+            <OrderContainerInfo>
+              <OrderImage src={order.image} alt={order.name} />
+              <OrderInfo>
+                <OrderName>{order.name}</OrderName>
+                {Object.values(order.items).map((item) => (
+                  <OrderItem key={item.name}>
+                    <OrderInfoNameQuantity>
+                      <div>{item.name}</div>
+                      <div style={{ minWidth: 112 }}>
+                        Quantidade: {item.quantity}
+                      </div>
+                    </OrderInfoNameQuantity>
+                    Preço: R$:
+                    {Number(item.price).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </OrderItem>
+                ))}
+              </OrderInfo>
+            </OrderContainerInfo>
+            <OrderSubTotal>
+              Subtotal: R$:
+              {Number(sumOrderPrice(order)).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </OrderSubTotal>
           </OrderContainer>
         ))}
         <OrderTotal>
-          Total: R$:
+          Total do Pedido: R$:
           {Number(totalPrice).toLocaleString("pt-BR", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

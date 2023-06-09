@@ -4,6 +4,7 @@ import { Profile } from "./pages/Profile";
 import { Cart } from "./pages/Cart";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
+import { Checkout } from "./pages/Checkout";
 
 export function Router() {
   return (
@@ -13,6 +14,7 @@ export function Router() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 }
