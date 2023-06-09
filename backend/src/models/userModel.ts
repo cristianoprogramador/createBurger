@@ -7,6 +7,12 @@ interface User {
   name: string;
   email: string;
   password: string;
+  cep?: string;
+  rua?: string;
+  numero?: string;
+  bairro?: string;
+  cidade?: string;
+  uf?: string;
 }
 
 class UserModel {
@@ -95,7 +101,30 @@ class UserModel {
     userData: Partial<User>
   ): Promise<User | null> {
     try {
-      await db.query("UPDATE users SET ? WHERE id = ?", [userData, id]);
+      const allowedFields = [
+        "name",
+        "email",
+        "password",
+        "cep",
+        "rua",
+        "numero",
+        "bairro",
+        "cidade",
+        "uf",
+      ];
+      const validFields: Partial<User> = {};
+
+      for (const field in userData) {
+        if (allowedFields.includes(field)) {
+          validFields[field] = userData[field];
+        }
+      }
+
+      if (Object.keys(validFields).length === 0) {
+        return null; // Retorna null se nenhum campo válido for fornecido
+      }
+
+      await db.query("UPDATE users SET ? WHERE id = ?", [validFields, id]);
 
       const updatedUser = await this.findByID(id);
       return updatedUser;

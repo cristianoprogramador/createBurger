@@ -15,7 +15,8 @@ import {
 } from "./styles";
 import Lottie from "lottie-react";
 import signup from "../../assets/lottieAnimations/signup.json";
-import { FcGoogle } from "react-icons/fc";
+import { api } from "../../utils/api";
+import { toast } from "react-toastify";
 
 export function SignUp() {
   const navigate = useNavigate();
@@ -26,8 +27,21 @@ export function SignUp() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    // console.log(data);
+    try {
+      const response = await api.post("/user", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
+      console.log(response);
+      toast.success("Usuario criado com sucesso!");
+      navigate("/login");
+    } catch (error: any) {
+      // console.log(error.response.data);
+      toast.error(error.response.data);
+    }
   };
 
   return (

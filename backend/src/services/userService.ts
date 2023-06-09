@@ -6,6 +6,12 @@ interface User {
   name: string;
   email: string;
   password?: string;
+  cep?: string;
+  rua?: string;
+  numero?: string;
+  bairro?: string;
+  cidade?: string;
+  uf?: string;
 }
 
 class UserService {
@@ -59,7 +65,9 @@ class UserService {
 
       if (user) {
         const updatedUser = await UserModel.updateByID(id, userData);
-        return updatedUser;
+
+        const { password, ...filteredUser } = updatedUser;
+        return filteredUser;
       }
 
       return null;

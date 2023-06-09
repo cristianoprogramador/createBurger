@@ -56,3 +56,5 @@ router.put("/ingredients/:id", updateIngredientByIdController);
 router.post("/user", UserController.createUser);
 
 router.post("/user/login", UserController.loginUser);
+
+router.put("/user/login/:id", UserController.updateUser);

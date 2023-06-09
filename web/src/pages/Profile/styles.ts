@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blinkAnimation, scaleAnimation } from "../../styles/animations";
+import { scaleAnimation } from "../../styles/animations";
 import ReactInputMask from "react-input-mask";
 
 export const Container = styled.div`

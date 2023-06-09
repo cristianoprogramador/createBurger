@@ -22,7 +22,7 @@ export const Panel = styled.main`
 
   img {
     width: auto;
-    max-height: 300px;
+    max-height: 280px;
   }
 
   p {

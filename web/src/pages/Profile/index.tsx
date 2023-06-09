@@ -15,12 +15,15 @@ import {
 } from "./styles";
 import { useForm } from "react-hook-form";
 import { useState, useContext } from "react";
-import ReactInputMask from "react-input-mask";
 import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
+import { toast } from "react-toastify";
+import Lottie from "lottie-react";
+import formAnimation from "../../assets/lottieAnimations/form.json";
 
 export function Profile() {
   const navigate = useNavigate();
-  const { logout, user } = useContext(Context);
+  const { logout, user, updateUser } = useContext(Context);
   const {
     register,
     handleSubmit,
@@ -29,18 +32,23 @@ export function Profile() {
   } = useForm();
 
   const [address, setAddress] = useState({
-    city: "",
-    district: "",
-    address: "",
-    state: "",
+    cidade: "",
+    bairro: "",
+    rua: "",
+    uf: "",
   });
 
-  const onSubmit = (data: any) => {
-    // Aqui você pode implementar a lógica para salvar as alterações no perfil do usuário
-    // Por exemplo, fazer uma requisição para uma API
-    // Após salvar, você pode redirecionar o usuário para outra página usando navigate()
-    console.log(data);
-    navigate("/profile");
+  const onSubmit = async (data: any) => {
+    // console.log(data);
+    try {
+      const response = await api.put(`/user/login/${user?.id}`, data);
+      // console.log(response);
+      toast.success("Dados salvo com sucesso!");
+      updateUser(response.data);
+    } catch (error: any) {
+      // console.log(error.response.data);
+      toast.error(error.response.data);
+    }
   };
 
   const handleCepSearch = async (event: React.FocusEvent<HTMLInputElement>) => {
@@ -49,15 +57,15 @@ export function Profile() {
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
-        setValue("city", data.localidade || "");
-        setValue("district", data.bairro || "");
-        setValue("address", data.logradouro || "");
-        setValue("state", data.uf || "");
+        setValue("cidade", data.localidade || "");
+        setValue("bairro", data.bairro || "");
+        setValue("rua", data.logradouro || "");
+        setValue("uf", data.uf || "");
         setAddress({
-          city: data.localidade,
-          district: data.bairro,
-          address: data.logradouro,
-          state: data.uf,
+          cidade: data.localidade,
+          bairro: data.bairro,
+          rua: data.logradouro,
+          uf: data.uf,
         });
       } catch (error) {
         console.log(error);
@@ -75,23 +83,20 @@ export function Profile() {
   const userProfile = {
     name: user?.name || "",
     email: user?.email || "",
-    zipcode: user?.cep || "",
-    address: user?.rua || "",
-    number: user?.numero || "",
-    district: user?.bairro || "",
-    city: user?.cidade || "",
-    state: user?.uf || "",
+    cep: user?.cep || "",
+    rua: user?.rua || "",
+    numero: user?.numero || "",
+    bairro: user?.bairro || "",
+    cidade: user?.cidade || "",
+    uf: user?.uf || "",
   };
 
   return (
     <Container>
       <Header />
       <ProfileContainer>
-        <div>
-          <ProfileImage
-            src={"https://avatars.githubusercontent.com/u/102186472?v=4"}
-            alt=""
-          />
+        <div style={{ width: 200, height: 200 }}>
+          <Lottie animationData={formAnimation} loop={true} />
         </div>
         <div>
           <FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -106,12 +111,7 @@ export function Profile() {
               </InputContainer>
               <InputContainer>
                 E-mail
-                <Input
-                  type="text"
-                  defaultValue={userProfile.email}
-                  {...register("email")}
-                  disabled
-                />
+                <Input type="text" defaultValue={user?.email} disabled />
               </InputContainer>
             </GroupInput>
             <GroupInput>
@@ -119,10 +119,10 @@ export function Profile() {
                 CEP
                 <InputMask
                   mask="99999-999"
-                  maskPlaceholder=""
+                  maskChar=""
                   type="text"
-                  defaultValue={userProfile.zipcode}
-                  {...register("zipcode")}
+                  defaultValue={userProfile.cep}
+                  {...register("cep")}
                   onBlur={handleCepSearch}
                 />
               </InputContainer>
@@ -130,16 +130,16 @@ export function Profile() {
                 Rua
                 <Input
                   type="text"
-                  defaultValue={userProfile.address}
-                  {...register("address")}
+                  defaultValue={userProfile.rua}
+                  {...register("rua")}
                 />
               </InputContainer>
               <InputContainer>
                 Número
                 <Input
                   type="text"
-                  defaultValue={userProfile.number}
-                  {...register("number")}
+                  defaultValue={userProfile.numero}
+                  {...register("numero")}
                 />
               </InputContainer>
             </GroupInput>
@@ -148,24 +148,24 @@ export function Profile() {
                 Bairro
                 <Input
                   type="text"
-                  defaultValue={userProfile.district}
-                  {...register("district")}
+                  defaultValue={userProfile.bairro}
+                  {...register("bairro")}
                 />
               </InputContainer>
               <InputContainer>
                 Cidade
                 <Input
                   type="text"
-                  defaultValue={userProfile.city}
-                  {...register("city")}
+                  defaultValue={userProfile.cidade}
+                  {...register("cidade")}
                 />
               </InputContainer>
               <InputContainer>
                 UF
                 <Input
                   type="text"
-                  defaultValue={userProfile.state}
-                  {...register("state")}
+                  defaultValue={userProfile.uf}
+                  {...register("uf")}
                 />
               </InputContainer>
             </GroupInput>

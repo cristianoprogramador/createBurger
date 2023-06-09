@@ -14,6 +14,18 @@ interface User {
   uf: string;
 }
 
+interface UserAddress {
+  id: number;
+  name: string;
+  email: string;
+  cep: string;
+  rua: string;
+  numero: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
+}
+
 type Item = {
   name: string;
   quantity: number;
@@ -43,6 +55,7 @@ interface ContextProps {
   ) => void;
   user: User | null;
   login: (userData: User) => void;
+  updateUser: (userData: UserAddress) => void;
   logout: () => void;
 }
 
@@ -51,6 +64,7 @@ export const Context = createContext<ContextProps>({
   addOrder: () => {},
   user: null,
   login: () => {},
+  updateUser: () => {},
   logout: () => {},
 });
 
@@ -86,13 +100,19 @@ export function ContextProvider({ children }: ContextProviderProps) {
     Cookies.set("user", JSON.stringify(userData), { expires: 7 }); // Armazena o usuário em um cookie com expiração de 7 dias
   };
 
+  const updateUser = (userData: UserAddress) => {
+    setUser(userData);
+  };
+
   const logout = () => {
     setUser(null);
     Cookies.remove("user");
   };
 
   return (
-    <Context.Provider value={{ orders, addOrder, user, login, logout }}>
+    <Context.Provider
+      value={{ orders, addOrder, user, login, logout, updateUser }}
+    >
       {children}
     </Context.Provider>
   );
