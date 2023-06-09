@@ -52,24 +52,24 @@ export function TypeOfPayment({ onPaymentInfoChange }: any) {
         <InputOption>
           <input
             type="radio"
-            id="card"
+            id="cartao"
             name="paymentMethod"
-            value="card"
-            checked={paymentMethod === "card"}
+            value="cartao"
+            checked={paymentMethod === "cartao"}
             onChange={handleChange}
           />
-          <label htmlFor="card">Cartão de Crédito/Débito</label>
+          <label htmlFor="cartao">Cartão de Crédito/Débito</label>
         </InputOption>
         <InputOption>
           <input
             type="radio"
-            id="money"
+            id="dinheiro"
             name="paymentMethod"
-            value="money"
-            checked={paymentMethod === "money"}
+            value="dinheiro"
+            checked={paymentMethod === "dinheiro"}
             onChange={handleChange}
           />
-          <label htmlFor="money">Dinheiro</label>
+          <label htmlFor="dinheiro">Dinheiro/PIX</label>
         </InputOption>
       </InputRadio>
     </Container>

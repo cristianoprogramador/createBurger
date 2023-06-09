@@ -64,13 +64,13 @@ export function ModalMenu({
   );
 
   const [selectedBread, setSelectedBread] = useState<{
-    name: string;
+    item_name: string;
     quantity: number;
     price: number;
-  }>({ name: "", quantity: 0, price: 0 });
+  }>({ item_name: "", quantity: 0, price: 0 });
 
   const [selectedMeats, setSelectedMeats] = useState<{
-    [key: string]: { name: string; quantity: number; price: number };
+    [key: string]: { item_name: string; quantity: number; price: number };
   }>({});
 
   const [count, setCount] = useState(1);
@@ -104,17 +104,17 @@ export function ModalMenu({
     (selectedBread.price + total2 + Number(data?.value)) * count;
 
   function mergeObjects(
-    selectedBread: { name: string; quantity: number; price: number },
+    selectedBread: { item_name: string; quantity: number; price: number },
     selectedMeats: {
-      [key: string]: { name: string; quantity: number; price: number };
+      [key: string]: { item_name: string; quantity: number; price: number };
     }
   ) {
     const merged: {
-      [key: string]: { name: string; quantity: number; price: number };
+      [key: string]: { item_name: string; quantity: number; price: number };
     } = {};
 
-    if (selectedBread.name) {
-      merged[selectedBread.name] = { ...selectedBread };
+    if (selectedBread.item_name) {
+      merged[selectedBread.item_name] = { ...selectedBread };
     }
 
     Object.entries(selectedMeats).forEach(([key, value]) => {
@@ -128,7 +128,7 @@ export function ModalMenu({
 
   if (data) {
     mergedObj[data.name] = {
-      name: data.name ?? "",
+      item_name: data.name ?? "",
       quantity: 1,
       price: parseFloat(data.value ?? "0"),
     };
@@ -213,17 +213,22 @@ export function ModalMenu({
                   <input
                     type="checkbox"
                     checked={
-                      selectedBread && selectedBread.name === ingredient.name
+                      selectedBread &&
+                      selectedBread.item_name === ingredient.name
                     }
                     onChange={() => {
                       if (
                         selectedBread &&
-                        selectedBread.name === ingredient.name
+                        selectedBread.item_name === ingredient.name
                       ) {
-                        setSelectedBread({ name: "", quantity: 0, price: 0 });
+                        setSelectedBread({
+                          item_name: "",
+                          quantity: 0,
+                          price: 0,
+                        });
                       } else {
                         setSelectedBread({
-                          name: ingredient.name,
+                          item_name: ingredient.name,
                           quantity: 1,
                           price: Number(ingredient.value),
                         });
@@ -266,7 +271,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -337,7 +342,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -358,7 +363,7 @@ export function ModalMenu({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
                             },
                           };
@@ -408,7 +413,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -429,7 +434,7 @@ export function ModalMenu({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
                             },
                           };
@@ -479,7 +484,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -550,7 +555,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -571,7 +576,7 @@ export function ModalMenu({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
                             },
                           };
@@ -621,7 +626,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },
@@ -642,7 +647,7 @@ export function ModalMenu({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
                             },
                           };
@@ -692,7 +697,7 @@ export function ModalMenu({
                         return {
                           ...prevMeats,
                           [ingredient.name]: {
-                            name: ingredient.name,
+                            item_name: ingredient.name,
                             quantity: currentQuantity + 1,
                             price: Number(ingredient.value),
                           },

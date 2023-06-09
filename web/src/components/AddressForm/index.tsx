@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,9 +11,10 @@ import {
   Input,
   InputContainer,
   InputMask,
+  Title,
 } from "./styles";
 
-export function AddressForm() {
+export function AddressForm({ onAddressChange }: any) {
   const navigate = useNavigate();
   const { logout, user, updateUser } = useContext(Context);
   const {
@@ -22,6 +23,16 @@ export function AddressForm() {
     setValue,
     formState: { errors },
   } = useForm();
+
+  const [address, setAddress] = useState({
+    email: user?.email || "",
+    cep: user?.cep || "",
+    rua: user?.rua || "",
+    numero: user?.numero || "",
+    bairro: user?.bairro || "",
+    cidade: user?.cidade || "",
+    uf: user?.uf || "",
+  });
 
   const onSubmit = async (data: any) => {
     try {
@@ -41,6 +52,13 @@ export function AddressForm() {
       try {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
+        setAddress((prevState) => ({
+          ...prevState,
+          cidade: data.localidade || "",
+          bairro: data.bairro || "",
+          rua: data.logradouro || "",
+          uf: data.uf || "",
+        }));
         setValue("cidade", data.localidade || "");
         setValue("bairro", data.bairro || "");
         setValue("rua", data.logradouro || "");
@@ -62,8 +80,13 @@ export function AddressForm() {
     uf: user?.uf || "",
   };
 
+  useEffect(() => {
+    onAddressChange(address);
+  }, [address, onAddressChange]);
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <Title>Endereço de Entrega:</Title>
       <GroupInput>
         <InputContainer>
           CEP

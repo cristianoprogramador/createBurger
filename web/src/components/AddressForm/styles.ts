@@ -16,6 +16,12 @@ export const FormContainer = styled.form`
   border-radius: 10px;
 `;
 
+export const Title = styled.div`
+  font-size: 22px;
+  text-align: center;
+  font-family: ${(props) => props.theme.fonts["title"]};
+`;
+
 export const InputContainer = styled.div`
   display: flex;
   flex: 1;

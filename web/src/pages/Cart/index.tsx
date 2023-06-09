@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 
 export function Cart() {
   const navigate = useNavigate();
-  const { orders } = useContext(Context);
+  const { orders, updateQuantity, removeOrder } = useContext(Context);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items);
@@ -39,7 +39,7 @@ export function Cart() {
     0
   );
 
-  console.log(orders);
+  // console.log(orders);
 
   const handleCheckout = () => {
     if (orders.length > 0) {
@@ -49,20 +49,28 @@ export function Cart() {
     }
   };
 
+  const handleQuantityChange = (orderNameId, itemName, newQuantity) => {
+    updateQuantity(orderNameId, itemName, newQuantity);
+  };
+
+  const handleRemoveOrder = (orderNameId) => {
+    removeOrder(orderNameId);
+  };
+
   return (
     <Container>
       <Header />
       <ProfileContainer>
         {orders.map((order) => (
-          <OrderContainer key={order.id}>
+          <OrderContainer key={order.name_id}>
             <OrderContainerInfo>
               <OrderImage src={order.image} alt={order.name} />
               <OrderInfo>
                 <OrderName>{order.name}</OrderName>
                 {Object.values(order.items).map((item) => (
-                  <OrderItem key={item.name}>
+                  <OrderItem key={item.item_name}>
                     <OrderInfoNameQuantity>
-                      <div>{item.name}</div>
+                      <div>{item.item_name}</div>
                       <div style={{ minWidth: 112 }}>
                         Quantidade: {item.quantity}
                       </div>
@@ -72,6 +80,33 @@ export function Cart() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
+                    <div>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            order.name_id,
+                            item.item_name,
+                            item.quantity + 1
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            order.name_id,
+                            item.item_name,
+                            item.quantity - 1
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <button onClick={() => handleRemoveOrder(order.name_id)}>
+                        Remover
+                      </button>
+                    </div>
                   </OrderItem>
                 ))}
               </OrderInfo>
@@ -85,6 +120,7 @@ export function Cart() {
             </OrderSubTotal>
           </OrderContainer>
         ))}
+
         <OrderTotal>
           Total do Pedido: R$:
           {Number(totalPrice).toLocaleString("pt-BR", {

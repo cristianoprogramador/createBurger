@@ -15,6 +15,7 @@ import {
 } from "./controllers/ingredientsController";
 import UserController from "./controllers/userController";
 import { authMiddleware } from "./middleware/auth";
+import { createOrderController } from "./controllers/orderController";
 
 export const router = express.Router();
 
@@ -58,3 +59,7 @@ router.post("/user", UserController.createUser);
 router.post("/user/login", UserController.loginUser);
 
 router.put("/user/login/:id", UserController.updateUser);
+
+// Rotas para Pedidos
+
+router.post("/orders", createOrderController);

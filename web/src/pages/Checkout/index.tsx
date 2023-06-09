@@ -20,6 +20,8 @@ import { Context } from "../../contexts/Context";
 import { useContext, useState } from "react";
 import { AddressForm } from "../../components/AddressForm";
 import { TypeOfPayment } from "../../components/TypeOfPayment";
+import { toast } from "react-toastify";
+import { api } from "../../utils/api";
 
 export function Checkout() {
   const navigate = useNavigate();
@@ -28,12 +30,17 @@ export function Checkout() {
   const [paymentInfo, setPaymentInfo] = useState({
     paymentMethod: "",
     paymentTime: "",
+    status: "Pedido Realizado",
   });
-
-  console.log(paymentInfo);
 
   const handlePaymentInfoChange = (newPaymentInfo: any) => {
     setPaymentInfo(newPaymentInfo);
+  };
+
+  const [addressInfo, setAddressInfo] = useState({});
+
+  const handleAddressChange = (newAddressInfo: any) => {
+    setAddressInfo(newAddressInfo);
   };
 
   const sumOrderPrice = (order: any) => {
@@ -52,10 +59,51 @@ export function Checkout() {
     0
   );
 
-  console.log(orders);
+  const orderInfo = {
+    ...addressInfo,
+    ...paymentInfo,
+  };
 
-  const handleCheckout = () => {
-    console.log("FINALIZADO");
+  console.log(orderInfo);
+
+  const backendData: {
+    name_id: string;
+    name: string;
+    item_name: string;
+    quantity: number;
+    price: number;
+  }[] = [];
+
+  orders.forEach((order) => {
+    const { name_id, name, items } = order;
+
+    for (const itemName in items) {
+      const { item_name, quantity, price } = items[itemName];
+
+      backendData.push({
+        name_id,
+        name,
+        item_name,
+        quantity,
+        price,
+      });
+    }
+  });
+
+  console.log(backendData);
+
+  const handleCheckout = async () => {
+    try {
+      const response = await api.post("/orders", {
+        order: orderInfo,
+        orderDetails: backendData,
+      });
+      console.log(response);
+      toast.success("Pedido Enviado");
+    } catch (error: any) {
+      // console.log(error.response.data);
+      toast.error(error.response.data);
+    }
   };
 
   return (
@@ -63,7 +111,7 @@ export function Checkout() {
       <Header />
       <ProfileContainer>
         <div>
-          <AddressForm />
+          <AddressForm onAddressChange={handleAddressChange} />
           <TypeOfPayment onPaymentInfoChange={handlePaymentInfoChange} />
         </div>
         <div>
@@ -71,7 +119,7 @@ export function Checkout() {
             Resumo dos Pedidos
           </ResumeTitle>
           {orders.map((order) => (
-            <OrderContainer key={order.id}>
+            <OrderContainer key={order.name_id}>
               <OrderContainerInfo>
                 <OrderImage src={order.image} alt={order.name} />
                 <OrderInfo>

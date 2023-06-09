@@ -27,17 +27,17 @@ interface UserAddress {
 }
 
 type Item = {
-  name: string;
+  item_name: string;
   quantity: number;
   price: number;
 };
 
 interface Order {
-  id: string;
+  name_id: string;
   name: string;
   items: {
     [itemName: string]: {
-      name: string;
+      item_name: string;
       quantity: number;
       price: number;
     };
@@ -53,6 +53,12 @@ interface ContextProps {
     count: number,
     image: string
   ) => void;
+  updateQuantity: (
+    orderNameId: string,
+    itemName: string,
+    quantity: number
+  ) => void;
+  removeOrder: (orderNameId: string) => void;
   user: User | null;
   login: (userData: User) => void;
   updateUser: (userData: UserAddress) => void;
@@ -62,6 +68,8 @@ interface ContextProps {
 export const Context = createContext<ContextProps>({
   orders: [],
   addOrder: () => {},
+  updateQuantity: () => {},
+  removeOrder: () => {},
   user: null,
   login: () => {},
   updateUser: () => {},
@@ -86,13 +94,43 @@ export function ContextProvider({ children }: ContextProviderProps) {
   ) => {
     for (let i = 0; i < count; i++) {
       const order: Order = {
-        id: `order_${orders.length + 1}`,
+        name_id: `order_${orders.length + 1}`,
         name,
         items,
         image,
       };
       setOrders((prevOrders) => [...prevOrders, order]);
     }
+  };
+
+  const updateQuantity = (
+    orderNameId: string,
+    itemName: string,
+    quantity: number
+  ) => {
+    setOrders((prevOrders) => {
+      return prevOrders.map((order) => {
+        if (order.name_id === orderNameId && order.items[itemName]) {
+          return {
+            ...order,
+            items: {
+              ...order.items,
+              [itemName]: {
+                ...order.items[itemName],
+                quantity,
+              },
+            },
+          };
+        }
+        return order;
+      });
+    });
+  };
+
+  const removeOrder = (orderNameId: string) => {
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.name_id !== orderNameId)
+    );
   };
 
   const login = (userData: User) => {
@@ -111,7 +149,16 @@ export function ContextProvider({ children }: ContextProviderProps) {
 
   return (
     <Context.Provider
-      value={{ orders, addOrder, user, login, logout, updateUser }}
+      value={{
+        orders,
+        addOrder,
+        updateQuantity,
+        removeOrder,
+        user,
+        login,
+        logout,
+        updateUser,
+      }}
     >
       {children}
     </Context.Provider>
