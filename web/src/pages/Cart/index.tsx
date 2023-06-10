@@ -16,12 +16,15 @@ import {
   ProfileContainer,
 } from "./styles";
 import { Context } from "../../contexts/Context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import remove from "../../assets/images/remove.svg";
+import edit from "../../assets/images/edit.svg";
+import { ModalMenuEdit } from "../../components/ModalMenuEdit";
 
 export function Cart() {
   const navigate = useNavigate();
-  const { orders, updateQuantity, removeOrder } = useContext(Context);
+  const { orders, removeOrder } = useContext(Context);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items);
@@ -39,8 +42,6 @@ export function Cart() {
     0
   );
 
-  // console.log(orders);
-
   const handleCheckout = () => {
     if (orders.length > 0) {
       navigate("/checkout");
@@ -49,28 +50,39 @@ export function Cart() {
     }
   };
 
-  const handleQuantityChange = (orderNameId, itemName, newQuantity) => {
-    updateQuantity(orderNameId, itemName, newQuantity);
-  };
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [dataToEdit, setDataToEdit] = useState<any>();
 
-  const handleRemoveOrder = (orderNameId) => {
+  const handleRemoveOrder = (orderNameId: any) => {
     removeOrder(orderNameId);
   };
+
+  const handleEdit = (order: any) => {
+    console.log(order);
+    setOpenModalEdit(true);
+    setDataToEdit(order);
+  };
+
+  function handleCloseModal() {
+    setOpenModalEdit(false);
+  }
 
   return (
     <Container>
       <Header />
       <ProfileContainer>
-        {orders.map((order) => (
-          <OrderContainer key={order.name_id}>
+        {orders.map((order, index) => (
+          <OrderContainer key={index}>
             <OrderContainerInfo>
               <OrderImage src={order.image} alt={order.name} />
               <OrderInfo>
                 <OrderName>{order.name}</OrderName>
-                {Object.values(order.items).map((item) => (
-                  <OrderItem key={item.item_name}>
+
+                {Object.values(order.items).map((item, index) => (
+                  <OrderItem key={index}>
                     <OrderInfoNameQuantity>
                       <div>{item.item_name}</div>
+
                       <div style={{ minWidth: 112 }}>
                         Quantidade: {item.quantity}
                       </div>
@@ -80,33 +92,6 @@ export function Cart() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}
-                    <div>
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(
-                            order.name_id,
-                            item.item_name,
-                            item.quantity + 1
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleQuantityChange(
-                            order.name_id,
-                            item.item_name,
-                            item.quantity - 1
-                          )
-                        }
-                      >
-                        -
-                      </button>
-                      <button onClick={() => handleRemoveOrder(order.name_id)}>
-                        Remover
-                      </button>
-                    </div>
                   </OrderItem>
                 ))}
               </OrderInfo>
@@ -117,6 +102,18 @@ export function Cart() {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
+              <img
+                src={remove}
+                alt=""
+                style={{ height: 30, width: 30, cursor: "pointer" }}
+                onClick={() => handleRemoveOrder(order.name_id)}
+              />
+              <img
+                src={edit}
+                alt=""
+                style={{ height: 30, width: 30, cursor: "pointer" }}
+                onClick={() => handleEdit(order)}
+              />
             </OrderSubTotal>
           </OrderContainer>
         ))}
@@ -132,6 +129,14 @@ export function Cart() {
           Finalizar Pedido
         </CheckoutButton>
       </ProfileContainer>
+
+      {openModalEdit && (
+        <ModalMenuEdit
+          data={dataToEdit}
+          closeModal={handleCloseModal}
+          type={dataToEdit?.type}
+        />
+      )}
       <Footer no_repeat />
     </Container>
   );

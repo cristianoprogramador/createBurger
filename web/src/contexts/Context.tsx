@@ -43,6 +43,9 @@ interface Order {
     };
   };
   image: string;
+  type: string;
+  value: string;
+  description: string;
 }
 
 interface ContextProps {
@@ -51,12 +54,20 @@ interface ContextProps {
     name: string,
     items: { [itemName: string]: Item },
     count: number,
-    image: string
+    image: string,
+    type: string,
+    value: string,
+    description: string
   ) => void;
-  updateQuantity: (
-    orderNameId: string,
-    itemName: string,
-    quantity: number
+  editOrder: (
+    name_id: string,
+    name: string,
+    items: { [itemName: string]: Item },
+    count: number,
+    image: string,
+    type: string,
+    value: string,
+    description: string
   ) => void;
   removeOrder: (orderNameId: string) => void;
   user: User | null;
@@ -68,7 +79,7 @@ interface ContextProps {
 export const Context = createContext<ContextProps>({
   orders: [],
   addOrder: () => {},
-  updateQuantity: () => {},
+  editOrder: () => {},
   removeOrder: () => {},
   user: null,
   login: () => {},
@@ -90,7 +101,10 @@ export function ContextProvider({ children }: ContextProviderProps) {
     name: string,
     items: { [itemName: string]: Item },
     count: number,
-    image: string
+    image: string,
+    type: string,
+    value: string,
+    description: string
   ) => {
     for (let i = 0; i < count; i++) {
       const order: Order = {
@@ -98,39 +112,46 @@ export function ContextProvider({ children }: ContextProviderProps) {
         name,
         items,
         image,
+        type,
+        value,
+        description,
       };
       setOrders((prevOrders) => [...prevOrders, order]);
     }
-  };
-
-  const updateQuantity = (
-    orderNameId: string,
-    itemName: string,
-    quantity: number
-  ) => {
-    setOrders((prevOrders) => {
-      return prevOrders.map((order) => {
-        if (order.name_id === orderNameId && order.items[itemName]) {
-          return {
-            ...order,
-            items: {
-              ...order.items,
-              [itemName]: {
-                ...order.items[itemName],
-                quantity,
-              },
-            },
-          };
-        }
-        return order;
-      });
-    });
   };
 
   const removeOrder = (orderNameId: string) => {
     setOrders((prevOrders) =>
       prevOrders.filter((order) => order.name_id !== orderNameId)
     );
+  };
+
+  const editOrder = (
+    name_id: string,
+    name: string,
+    items: { [itemName: string]: Item },
+    count: number,
+    image: string,
+    type: string,
+    value: string,
+    description: string
+  ) => {
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.name_id !== name_id)
+    );
+
+    for (let i = 0; i < count; i++) {
+      const order: Order = {
+        name_id,
+        name,
+        items,
+        image,
+        type,
+        value,
+        description,
+      };
+      setOrders((prevOrders) => [...prevOrders, order]);
+    }
   };
 
   const login = (userData: User) => {
@@ -152,7 +173,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
       value={{
         orders,
         addOrder,
-        updateQuantity,
+        editOrder,
         removeOrder,
         user,
         login,

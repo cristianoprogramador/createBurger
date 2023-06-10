@@ -45,23 +45,28 @@ const customStyles = {
 
 interface ModalFoodProps {
   data?: {
-    id: string;
+    name_id: string;
     name: string;
     value: string;
     type: string;
     description: string;
     image: string;
+    items: Array<any>;
   };
   closeModal: () => void;
+  isBurger?: boolean;
   type?: string;
 }
 
-export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
+export function ModalMenuEdit({
+  data,
+  closeModal,
+  isBurger,
+  type,
+}: ModalFoodProps) {
   const [ingredientsData, setIngredientsData] = useState<IngredientsProps[]>(
     []
   );
-
-  console.log(type);
 
   const [selectedBread, setSelectedBread] = useState<{
     item_name: string;
@@ -134,13 +139,14 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
     };
   }
 
-  // console.log(mergedObj);
+  const { addOrder, editOrder } = useContext(Context);
 
-  const { addOrder, orders } = useContext(Context);
+  console.log(data?.name_id);
 
   function AddToContext() {
     if (data) {
-      addOrder(
+      editOrder(
+        data?.name_id,
         data?.name,
         mergedObj,
         count,
@@ -153,11 +159,27 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
     }
   }
 
-  // console.log(orders);
-
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    if (data?.items) {
+      const filteredItems = Object.entries(data.items).reduce(
+        (filteredObj: any, [itemName, itemData]) => {
+          if (itemName !== data.name && !itemName.startsWith("Pão")) {
+            filteredObj[itemName] = itemData;
+          }
+          return filteredObj;
+        },
+        {}
+      );
+
+      setSelectedMeats(filteredItems);
+    }
+  }, [data]);
+
+  console.log(data);
 
   return (
     <Modal
@@ -173,9 +195,15 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
             <CgCloseR size={30} />
           </IconContainer>
 
-          <Title>
-            <h2>{data?.name}</h2>
-          </Title>
+          {isBurger ? (
+            <Title>
+              <h2>Seja seu próprio Chef!</h2>
+            </Title>
+          ) : (
+            <Title>
+              <h2>{data?.name}</h2>
+            </Title>
+          )}
         </HeaderContainer>
 
         <>
@@ -740,19 +768,6 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         </div>
 
         <FooterContainer>
-          <IconContainerTotal>
-            <AiOutlineArrowDown
-              size={25}
-              style={{ cursor: "pointer" }}
-              onClick={minusCount}
-            />
-            {count}
-            <AiOutlineArrowUp
-              size={25}
-              style={{ cursor: "pointer" }}
-              onClick={addCount}
-            />
-          </IconContainerTotal>
           <ContainerTotal>
             <AddButton>
               <div>Total:</div>

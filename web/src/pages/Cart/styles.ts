@@ -94,8 +94,14 @@ export const CheckoutButton = styled.button`
 `;
 
 export const OrderSubTotal = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  align-self: center;
+  gap: 10px;
   font-size: 18px;
   margin: 10px 0;
-  text-align: center;
   font-family: ${(props) => props.theme.fonts["title"]};
 `;
