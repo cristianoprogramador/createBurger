@@ -70,6 +70,7 @@ interface ContextProps {
     description: string
   ) => void;
   removeOrder: (orderNameId: string) => void;
+  clearCart: () => void;
   user: User | null;
   login: (userData: User) => void;
   updateUser: (userData: UserAddress) => void;
@@ -81,6 +82,7 @@ export const Context = createContext<ContextProps>({
   addOrder: () => {},
   editOrder: () => {},
   removeOrder: () => {},
+  clearCart: () => {},
   user: null,
   login: () => {},
   updateUser: () => {},
@@ -124,6 +126,10 @@ export function ContextProvider({ children }: ContextProviderProps) {
     setOrders((prevOrders) =>
       prevOrders.filter((order) => order.name_id !== orderNameId)
     );
+  };
+
+  const clearCart = () => {
+    setOrders([]); // Limpa o carrinho definindo o estado orders como um array vazio
   };
 
   const editOrder = (
@@ -175,6 +181,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
         addOrder,
         editOrder,
         removeOrder,
+        clearCart,
         user,
         login,
         logout,

@@ -15,7 +15,10 @@ import {
 } from "./controllers/ingredientsController";
 import UserController from "./controllers/userController";
 import { authMiddleware } from "./middleware/auth";
-import { createOrderController } from "./controllers/orderController";
+import {
+  createOrderController,
+  getOrderByEmailController,
+} from "./controllers/orderController";
 
 export const router = express.Router();
 
@@ -63,3 +66,5 @@ router.put("/user/login/:id", UserController.updateUser);
 // Rotas para Pedidos
 
 router.post("/orders", createOrderController);
+
+router.get("/orders/:email", getOrderByEmailController);

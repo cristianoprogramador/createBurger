@@ -25,7 +25,7 @@ import { api } from "../../utils/api";
 
 export function Checkout() {
   const navigate = useNavigate();
-  const { orders } = useContext(Context);
+  const { orders, clearCart } = useContext(Context);
 
   const [paymentInfo, setPaymentInfo] = useState({
     paymentMethod: "",
@@ -90,9 +90,23 @@ export function Checkout() {
     }
   });
 
-  console.log(backendData);
+  // console.log(backendData);
 
   const handleCheckout = async () => {
+    const isOrderInfoComplete = Object.values(orderInfo).every(
+      (value) => value && value.trim() !== ""
+    );
+
+    if (!isOrderInfoComplete) {
+      toast.error("Por favor, preencha todos os campos!");
+      return;
+    }
+
+    if (backendData.length === 0) {
+      toast.error("Seu carrinho está vazio!");
+      return;
+    }
+
     try {
       const response = await api.post("/orders", {
         order: orderInfo,
@@ -100,6 +114,8 @@ export function Checkout() {
       });
       console.log(response);
       toast.success("Pedido Enviado");
+      clearCart();
+      navigate("/");
     } catch (error: any) {
       // console.log(error.response.data);
       toast.error(error.response.data);

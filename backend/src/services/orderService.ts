@@ -29,3 +29,23 @@ export const createOrder = async (
     connection.release();
   }
 };
+
+export async function getAllOrdersByTypeService(email: string) {
+  let connection: PoolConnection | undefined;
+
+  try {
+    connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "SELECT * FROM orders o JOIN orders_details od ON o.id = od.pedido_id WHERE o.email = ?",
+      [email]
+    );
+    return rows;
+  } catch (error) {
+    throw new Error("Erro ao recuperar os pedidos");
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}

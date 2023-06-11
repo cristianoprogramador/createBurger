@@ -69,7 +69,7 @@ export function Footer({ no_repeat }: RepeatProps) {
           <BiFoodMenu size={25} />
           <span>Cardápio</span>
         </IconContainer>
-        <IconContainer>
+        <IconContainer onClick={() => navigate("/orders")}>
           <MdOutlineHistory size={25} />
           <span>Pedidos</span>
         </IconContainer>
