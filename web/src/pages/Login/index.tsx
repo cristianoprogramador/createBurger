@@ -23,6 +23,10 @@ import { toast } from "react-toastify";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { Context } from "../../contexts/Context";
 import { useContext, useEffect } from "react";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 export function Login() {
   const navigate = useNavigate();
@@ -55,7 +59,23 @@ export function Login() {
     }
   };
 
-  console.log("SERA Q VEIO", user);
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const GoogleData = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+        console.log(GoogleData.data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
 
   return (
     <Container>
@@ -108,10 +128,21 @@ export function Login() {
             textAlign: "center",
             gap: 10,
             marginTop: 10,
+            cursor: "pointer",
           }}
+          onClick={() => loginWithGoogle()}
         >
           Entrar com: <FcGoogle size={35} />
         </div>
+        {/* <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            const decoded = jwt_decode(credentialResponse.credential || "");
+            console.log(decoded);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        /> */}
       </ProfileContainer>
       <Footer />
     </Container>

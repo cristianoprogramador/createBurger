@@ -22,6 +22,7 @@ import { api } from "../../utils/api";
 import { ProductProp, ProductsProps } from "../../types/Products";
 import { Footer } from "../../components/Footer";
 import { ModalMenu } from "../../components/ModalMenu";
+import dotenv from "dotenv";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
