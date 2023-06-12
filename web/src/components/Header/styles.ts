@@ -105,6 +105,19 @@ export const AddressDiv = styled.div`
   text-decoration: underline;
 `;
 
+export const ProfileIconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  gap: 5px;
+  height: 45px;
+  border-top-left-radius: 15%;
+  border-top-right-radius: 15%;
+`;
+
 export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;

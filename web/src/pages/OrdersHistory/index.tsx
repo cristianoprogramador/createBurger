@@ -5,6 +5,7 @@ import { Container, DeliverContainer } from "./styles";
 import { useState, useContext, useEffect } from "react";
 import { api } from "../../utils/api";
 import { Context } from "../../contexts/Context";
+import { OrderSummary } from "../../components/OrderSummary";
 
 export function OrdersHistory() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export function OrdersHistory() {
     }
   }
 
+  console.log(allOrders);
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -29,7 +32,9 @@ export function OrdersHistory() {
   return (
     <Container>
       <Header />
-      <DeliverContainer></DeliverContainer>
+      <DeliverContainer>
+        <OrderSummary orders={allOrders} />
+      </DeliverContainer>
       <Footer no_repeat />
     </Container>
   );

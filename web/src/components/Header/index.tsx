@@ -12,6 +12,7 @@ import {
   LeftSide,
   LogoView,
   ProfileContainer,
+  ProfileIconContainer,
   ProfilePicture,
   RightSide,
 } from "./styles";
@@ -20,8 +21,9 @@ import userProfile from "../../assets/images/userProfile.png";
 import { SearchBar } from "../SearchBar";
 import { Context } from "../../contexts/Context";
 import { BsCart4 } from "react-icons/bs";
+import { MdOutlineHistory } from "react-icons/md";
 
-export function Header() {
+export function Header({ onSearch }: any) {
   const navigate = useNavigate();
   const { orders, user } = useContext(Context);
 
@@ -42,6 +44,11 @@ export function Header() {
     0
   );
 
+  const handleSearch = (term: string) => {
+    console.log(term);
+    onSearch(term);
+  };
+
   return (
     <Container>
       <LeftSide>
@@ -51,22 +58,30 @@ export function Header() {
         </LogoView>
       </LeftSide>
 
-      <SearchBar />
+      <SearchBar onSearch={handleSearch} />
 
       <RightSide>
         {user ? (
-          <ProfileContainer
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-            onClick={() => navigate("/profile")}
-          >
-            <ProfilePicture src={userProfile} alt="" />
-            <h5>{user.name}</h5>
-          </ProfileContainer>
+          <>
+            <ProfileContainer
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/profile")}
+            >
+              <ProfilePicture src={userProfile} alt="" />
+              <h5>{user.name}</h5>
+            </ProfileContainer>
+            <ProfileIconContainer onClick={() => navigate("/orders")}>
+              <CartIcon>
+                <MdOutlineHistory size={25} />
+              </CartIcon>
+              <h5>Histórico</h5>
+            </ProfileIconContainer>
+          </>
         ) : (
           <ProfileContainer
             style={{

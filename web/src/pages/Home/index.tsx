@@ -29,6 +29,7 @@ export function Home() {
   const [selectedProduct, setSelectedProduct] = useState<ProductsProps | null>(
     null
   );
+  const [searchResults, setSearchResults] = useState("");
 
   async function fetchProducts() {
     try {
@@ -57,13 +58,28 @@ export function Home() {
     (product) => product.type === "chefFries"
   );
 
+  const handleSearch = (term: string) => {
+    setSearchResults(term);
+  };
+
+  console.log(searchResults);
+
+  const filteredProducts = productsData.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchResults.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchResults.toLowerCase()) ||
+      product.type.toLowerCase().includes(searchResults.toLowerCase())
+  );
+
+  console.log(filteredProducts);
+
   useEffect(() => {
     fetchProducts();
   }, []);
 
   return (
     <Container>
-      <Header />
+      <Header onSearch={handleSearch} />
       <TitleContainer>Personalize seu Burger</TitleContainer>
 
       <CustomizeContainer>
@@ -85,7 +101,7 @@ export function Home() {
 
       <MenuContainer>Cardápio</MenuContainer>
       <ProductList>
-        {productsData
+        {filteredProducts
           .filter((product) => product.type === "food")
           .map((product, index) => (
             <ProductItem
@@ -106,7 +122,7 @@ export function Home() {
               <ProductDescription>{product.description}</ProductDescription>
             </ProductItem>
           ))}
-        {productsData
+        {filteredProducts
           .filter((product) => product.type === "fries")
           .map((product, index) => (
             <ProductItem
@@ -127,7 +143,7 @@ export function Home() {
               <ProductDescription>{product.description}</ProductDescription>
             </ProductItem>
           ))}
-        {productsData
+        {filteredProducts
           .filter((product) => product.type === "desert")
           .map((product, index) => (
             <ProductItem
