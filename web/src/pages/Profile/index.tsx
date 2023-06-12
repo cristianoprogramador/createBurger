@@ -78,8 +78,6 @@ export function Profile() {
     navigate("/");
   }
 
-  console.log(user);
-
   const userProfile = {
     name: user?.name || "",
     email: user?.email || "",

@@ -42,6 +42,7 @@ export const InputOption = styled.div`
   label {
     padding: 1rem;
     border-radius: 20px;
+    text-align: center;
   }
 
   input[type="radio"]:checked + label {

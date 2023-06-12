@@ -9,7 +9,7 @@ import { OrderSummary } from "../../components/OrderSummary";
 
 export function OrdersHistory() {
   const navigate = useNavigate();
-  const [allOrders, setAllOrders] = useState([]);
+  const [allOrders, setAllOrders] = useState<any>([]);
   const { user } = useContext(Context);
 
   async function fetchProducts() {
@@ -23,8 +23,6 @@ export function OrdersHistory() {
     }
   }
 
-  console.log(allOrders);
-
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -34,6 +32,7 @@ export function OrdersHistory() {
       <Header />
       <DeliverContainer>
         <OrderSummary orders={allOrders} />
+        {!user && <div>Faça o cadastro e faça seus pedidos!</div>}
       </DeliverContainer>
       <Footer no_repeat />
     </Container>

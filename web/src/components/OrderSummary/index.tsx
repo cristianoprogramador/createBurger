@@ -7,7 +7,9 @@ import {
   OrderTitleCard,
   OrderTotalCard,
 } from "./styles";
-import { MdOpenInFull } from "react-icons/md";
+import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
+import { useState } from "react";
+import { OrderDescription } from "../OrderDescription";
 
 interface OrderItem {
   id: number;
@@ -16,6 +18,8 @@ interface OrderItem {
   price: string;
   pedido_id: string;
   data_hora: string;
+  paymentMethod: string;
+  paymentTime: string;
 }
 
 interface GroupedOrders {
@@ -29,6 +33,8 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ orders }: OrderSummaryProps) {
+  console.log(orders);
+
   function groupOrdersByOrderId(orders: OrderItem[]) {
     if (!orders) {
       return {};
@@ -58,14 +64,6 @@ export function OrderSummary({ orders }: OrderSummaryProps) {
     return `${time} - ${day}/${month}/${year}`;
   }
 
-  function calculateTotal(orderItems: OrderItem[]) {
-    return orderItems.reduce((total, item) => {
-      const itemPrice = parseFloat(item.price.replace(",", "."));
-      const itemQuantity = item.quantity;
-      return total + itemPrice * itemQuantity;
-    }, 0);
-  }
-
   return (
     <Container>
       {Object.entries(groupedOrders).map(([orderId, orderItems]) => (
@@ -73,17 +71,10 @@ export function OrderSummary({ orders }: OrderSummaryProps) {
           <OrderTitleCard>
             Pedido feito em: {formatDateTime(orderItems[0].data_hora)}
           </OrderTitleCard>
-          {orderItems.map((item, index) => (
-            <OrderCard key={item.id}>
-              <OrderText>{item.item_name}</OrderText>
-              <OrderText>Quantidade: {item.quantity}</OrderText>
-              <OrderText>Preço: R${item.price}</OrderText>
-            </OrderCard>
-          ))}
-          <OrderTotalCard>
-            Valor Total: R${calculateTotal(orderItems)}
-            <MdOpenInFull size={30} />
-          </OrderTotalCard>
+          <OrderTitleCard>
+            Pagamento: {orderItems[0].paymentMethod.toUpperCase()}
+          </OrderTitleCard>
+          <OrderDescription orderItems={orderItems} />
         </OrderContainer>
       ))}
     </Container>

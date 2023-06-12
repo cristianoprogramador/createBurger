@@ -24,7 +24,7 @@ import { ModalMenuEdit } from "../../components/ModalMenuEdit";
 
 export function Cart() {
   const navigate = useNavigate();
-  const { orders, removeOrder } = useContext(Context);
+  const { orders, removeOrder, user } = useContext(Context);
 
   const sumOrderPrice = (order: any) => {
     const items = Object.values(order.items);
@@ -44,7 +44,11 @@ export function Cart() {
 
   const handleCheckout = () => {
     if (orders.length > 0) {
-      navigate("/checkout");
+      if (!user) {
+        navigate("/login");
+      } else {
+        navigate("/checkout");
+      }
     } else {
       toast.error("Carrinho Vazio");
     }

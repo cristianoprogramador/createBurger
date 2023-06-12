@@ -62,16 +62,12 @@ export function Home() {
     setSearchResults(term);
   };
 
-  console.log(searchResults);
-
   const filteredProducts = productsData.filter(
     (product) =>
       product.name.toLowerCase().includes(searchResults.toLowerCase()) ||
       product.description.toLowerCase().includes(searchResults.toLowerCase()) ||
       product.type.toLowerCase().includes(searchResults.toLowerCase())
   );
-
-  console.log(filteredProducts);
 
   useEffect(() => {
     fetchProducts();

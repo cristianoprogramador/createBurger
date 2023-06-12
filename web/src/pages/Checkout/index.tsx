@@ -25,7 +25,7 @@ import { api } from "../../utils/api";
 
 export function Checkout() {
   const navigate = useNavigate();
-  const { orders, clearCart } = useContext(Context);
+  const { orders, clearCart, user } = useContext(Context);
 
   const [paymentInfo, setPaymentInfo] = useState({
     paymentMethod: "",
@@ -63,8 +63,6 @@ export function Checkout() {
     ...addressInfo,
     ...paymentInfo,
   };
-
-  console.log(orderInfo);
 
   const backendData: {
     name_id: string;
@@ -121,6 +119,10 @@ export function Checkout() {
       toast.error(error.response.data);
     }
   };
+
+  if (!user) {
+    navigate("/login");
+  }
 
   return (
     <Container>
