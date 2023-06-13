@@ -6,12 +6,6 @@ interface User {
   id: number;
   name: string;
   email: string;
-  cep: string;
-  rua: string;
-  numero: string;
-  bairro: string;
-  cidade: string;
-  uf: string;
 }
 
 interface UserAddress {

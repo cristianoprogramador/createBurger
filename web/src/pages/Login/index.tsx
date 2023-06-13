@@ -71,6 +71,16 @@ export function Login() {
           }
         );
         console.log(GoogleData.data);
+
+        const userData = {
+          name: GoogleData.data.given_name,
+          email: GoogleData.data.email,
+          id: 0,
+          // Adicione outras propriedades personalizadas aqui, se necessário
+        };
+
+        login(userData);
+        navigate("/");
       } catch (error) {
         console.log(error);
       }

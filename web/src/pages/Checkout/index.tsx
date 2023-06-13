@@ -106,6 +106,8 @@ export function Checkout() {
     }
 
     try {
+      console.log("OrderInfo", orderInfo);
+      console.log("BackendData", backendData);
       const response = await api.post("/orders", {
         order: orderInfo,
         orderDetails: backendData,

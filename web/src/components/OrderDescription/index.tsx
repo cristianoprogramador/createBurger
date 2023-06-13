@@ -33,11 +33,21 @@ export function OrderDescription({ orderItems }: any) {
           <OrderCard key={item.id}>
             <OrderText>{item.item_name}</OrderText>
             <OrderText>Quantidade: {item.quantity}</OrderText>
-            <OrderText>Preço: R${item.price}</OrderText>
+            <OrderText>
+              Preço: R${" "}
+              {Number(item.price).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </OrderText>
           </OrderCard>
         ))}
       <OrderTotalCard>
-        Valor Total: R${calculateTotal(orderItems)}
+        Valor Total: R${" "}
+        {Number(calculateTotal(orderItems)).toLocaleString("pt-BR", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
         {open ? (
           <MdCloseFullscreen size={30} onClick={handleOpen} />
         ) : (

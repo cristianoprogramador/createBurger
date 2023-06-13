@@ -71,7 +71,7 @@ export function Cart() {
     setOpenModalEdit(false);
   }
 
-  console.log(orders);
+  // console.log(orders);
 
   return (
     <Container>

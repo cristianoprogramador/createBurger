@@ -74,27 +74,34 @@ export function Home() {
     fetchProducts();
   }, []);
 
+  // console.log(searchResults === "");
+
   return (
     <Container>
       <Header onSearch={handleSearch} />
-      <TitleContainer>Personalize seu Burger</TitleContainer>
 
-      <CustomizeContainer>
-        <CustomizeHamburger onClick={() => handleOpenModal(BurgerChef[0])}>
-          <Lottie animationData={hamburgerAnimation} loop={true} />
-          <CustomizeText>
-            Monte o melhor Burger para você, aqui você é o chef! <br />
-            Use a imaginação e crie um burger fantástico e delicioso.
-          </CustomizeText>
-        </CustomizeHamburger>
-        <CustomizeHamburger onClick={() => handleOpenModal(FriesChef[0])}>
-          <Lottie animationData={friesAnimation} loop={true} />
-          <CustomizeText>
-            Monte a melhor Batata Frita para você, aqui você é o chef! <br />
-            Use a imaginação e crie um burger fantástico e delicioso.
-          </CustomizeText>
-        </CustomizeHamburger>
-      </CustomizeContainer>
+      {searchResults === "" && (
+        <>
+          <TitleContainer>Personalize seu Burger</TitleContainer>
+          <CustomizeContainer>
+            <CustomizeHamburger onClick={() => handleOpenModal(BurgerChef[0])}>
+              <Lottie animationData={hamburgerAnimation} loop={true} />
+              <CustomizeText>
+                Monte o melhor Burger para você, aqui você é o chef! <br />
+                Use a imaginação e crie um burger fantástico e delicioso.
+              </CustomizeText>
+            </CustomizeHamburger>
+            <CustomizeHamburger onClick={() => handleOpenModal(FriesChef[0])}>
+              <Lottie animationData={friesAnimation} loop={true} />
+              <CustomizeText>
+                Monte a melhor Batata Frita para você, aqui você é o chef!{" "}
+                <br />
+                Use a imaginação e crie um burger fantástico e delicioso.
+              </CustomizeText>
+            </CustomizeHamburger>
+          </CustomizeContainer>
+        </>
+      )}
 
       <MenuContainer>Cardápio</MenuContainer>
       <ProductList>

@@ -33,7 +33,7 @@ interface OrderSummaryProps {
 }
 
 export function OrderSummary({ orders }: OrderSummaryProps) {
-  console.log(orders);
+  // console.log(orders);
 
   function groupOrdersByOrderId(orders: OrderItem[]) {
     if (!orders) {

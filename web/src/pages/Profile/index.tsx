@@ -37,7 +37,6 @@ export function Profile() {
       const response = await api.post(`/address/${user?.email}`, data);
       // console.log(response);
       toast.success("Dados salvo com sucesso!");
-      updateUser(response.data);
     } catch (error: any) {
       // console.log(error.response.data);
       toast.error(error.response.data);
@@ -65,16 +64,18 @@ export function Profile() {
     navigate("/");
   }
 
-  const [addressData, setaddressData] = useState<any>([]);
+  const [addressData, setaddressData] = useState<any>({});
   const [loading, setLoading] = useState(true);
 
   async function fetchAddress() {
     try {
       const { data } = await api.get(`/address/${user?.email}`);
-      setaddressData(data.address.data);
+      setaddressData(data.address?.data || {});
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      // toast.error("Cadastre um endereço para facilitar suas compras!");
+      setLoading(false);
     }
   }
 
