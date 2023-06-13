@@ -1,15 +1,5 @@
-import {
-  Container,
-  OrderCard,
-  OrderContainer,
-  OrderText,
-  OrderTitle,
-  OrderTitleCard,
-  OrderTotalCard,
-} from "./styles";
-import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
-import { useState } from "react";
 import { OrderDescription } from "../OrderDescription";
+import { Container, OrderContainer, OrderTitleCard } from "./styles";
 
 interface OrderItem {
   id: number;

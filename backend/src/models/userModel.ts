@@ -2,11 +2,11 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import db from "../db"; // Importe o arquivo de configuração do banco de dados
 import bcrypt from "bcrypt";
 
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   cep?: string;
   rua?: string;
   numero?: string;

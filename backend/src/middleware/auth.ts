@@ -1,30 +1,29 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-interface CustomRequest extends Request {
-  userId?: { email: string };
+// Interface estendida para adicionar a propriedade user
+interface AuthenticatedRequest extends Request {
+  user?: any; // Defina o tipo apropriado para o objeto user
 }
 
 export function authMiddleware(
-  req: CustomRequest,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ error: "Não autorizado" });
+    return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
-    if (typeof decoded === "object" && decoded.email) {
-      req.userId = { email: decoded.email };
-      next();
-    } else {
-      throw new Error("Token inválido");
+  jwt.verify(token, "secret-key", (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: "Token inválido" });
     }
-  } catch (error) {
-    return res.status(401).json({ error: "Não autorizado" });
-  }
+
+    // Armazena as informações do usuário decodificadas no objeto req.user
+    req.user = decoded;
+    next();
+  });
 }

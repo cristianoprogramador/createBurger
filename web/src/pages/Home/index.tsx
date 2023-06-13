@@ -42,7 +42,7 @@ export function Home() {
   }
 
   function handleOpenModal(product: ProductProp) {
-    console.log(product);
+    // console.log(product);
     setSelectedProduct(product);
     setPersonalize(product.type);
   }

@@ -1,5 +1,6 @@
 import express from "express";
 import multer from "multer";
+import { authMiddleware } from "./middleware/auth";
 import {
   createProductController,
   deleteProductByIdController,
@@ -14,7 +15,6 @@ import {
   updateIngredientByIdController,
 } from "./controllers/ingredientsController";
 import UserController from "./controllers/userController";
-import { authMiddleware } from "./middleware/auth";
 import {
   createOrderController,
   getOrderByEmailController,
@@ -64,6 +64,8 @@ router.put("/ingredients/:id", updateIngredientByIdController);
 router.post("/user", UserController.createUser);
 
 router.post("/user/login", UserController.loginUser);
+
+router.post("/user/loginGoogle", UserController.loginWithGoogle);
 
 router.put("/user/login/:id", UserController.updateUser);
 

@@ -61,7 +61,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
     []
   );
 
-  console.log(type);
+  // console.log(type);
 
   const [selectedBread, setSelectedBread] = useState<{
     item_name: string;

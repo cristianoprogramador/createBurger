@@ -1,7 +1,17 @@
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import Lottie from "lottie-react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import loginAnimation from "../../assets/lottieAnimations/login-orange.json";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
 import {
   Button,
   ButtonSignUp,
@@ -12,21 +22,7 @@ import {
   Input,
   InputContainer,
   ProfileContainer,
-  ProfileImage,
 } from "./styles";
-import Lottie from "lottie-react";
-import loginAnimation from "../../assets/lottieAnimations/login-orange.json";
-import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
-import { api } from "../../utils/api";
-import { toast } from "react-toastify";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
-import { Context } from "../../contexts/Context";
-import { useContext, useEffect } from "react";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
-import axios from "axios";
-import { FaLongArrowAltRight } from "react-icons/fa";
 
 export function Login() {
   const navigate = useNavigate();
@@ -49,8 +45,12 @@ export function Login() {
         password: data.password,
       });
       console.log(response);
+      const token = response.data.token;
+      // Armazene o token no localStorage
+      localStorage.setItem("tokenBurger", token);
+
       toast.success("Você está logado!");
-      login(response.data.user);
+      login(response.data.user, token);
       navigate("/");
     } catch (error: any) {
       // console.log(error.response.data);
@@ -70,7 +70,14 @@ export function Login() {
             },
           }
         );
-        console.log(GoogleData.data);
+        // console.log(response.access_token);
+        // console.log(GoogleData.data);
+        // console.log(GoogleData);
+
+        const data = await api.post("/user/loginGoogle", {
+          token: response.access_token,
+        });
+        // console.log(data);
 
         const userData = {
           name: GoogleData.data.given_name,
@@ -79,7 +86,8 @@ export function Login() {
           // Adicione outras propriedades personalizadas aqui, se necessário
         };
 
-        login(userData);
+        localStorage.setItem("tokenBurger", data.data.token);
+        login(userData, data.data.token);
         navigate("/");
       } catch (error) {
         console.log(error);

@@ -1,5 +1,11 @@
 import { Request, Response } from "express";
 import UserService from "../services/userService";
+import jwt from "jsonwebtoken";
+import UserModel, { User } from "../models/userModel";
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
 
 class UserController {
   static async createUser(req: Request, res: Response) {
@@ -20,8 +26,10 @@ class UserController {
       const user = await UserService.loginUser(email, password);
 
       if (user) {
-        // Aqui você pode gerar e retornar o token JWT para autenticação
-        res.status(200).json({ user });
+        // Gera o token JWT com a informação do usuário
+        const token = jwt.sign({ email: user.email }, "secret-key");
+
+        res.status(200).json({ user, token });
       } else {
         res.status(401).json({ error: "Email ou senha inválida" });
       }
@@ -39,6 +47,54 @@ class UserController {
       res.json(updatedUser);
     } catch (error) {
       res.status(500).json({ error: "Error updating user" });
+    }
+  }
+
+  static async loginWithGoogle(req: Request, res: Response) {
+    const { token } = req.body;
+
+    try {
+      const response = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const googleData = response.data;
+
+      // console.log(googleData);
+
+      // Verifique se o token de acesso do Google é válido e pertence ao seu aplicativo
+      if (googleData.email_verified !== true) {
+        return res.status(401).json({ error: "Token de acesso inválido" });
+      }
+
+      // Verifique se o usuário já está cadastrado no seu banco de dados com base no email
+      let user: User | null = await UserModel.findByEmail(googleData.email);
+
+      if (!user) {
+        // Caso o usuário não esteja cadastrado, você pode criar um novo usuário com as informações do Google
+        const createdUserId = await UserModel.create(
+          googleData.name,
+          googleData.email,
+          ""
+        );
+        user = {
+          id: createdUserId,
+          name: googleData.name,
+          email: googleData.email,
+        };
+      }
+
+      // Gera o token JWT com a informação do usuário
+      const jwtToken = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
+
+      res.status(200).json({ user, token: jwtToken });
+    } catch (error) {
+      res.status(500).json({ error: "Erro ao autenticar com o Google" });
     }
   }
 }

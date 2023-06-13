@@ -23,7 +23,7 @@ import formAnimation from "../../assets/lottieAnimations/form.json";
 
 export function Profile() {
   const navigate = useNavigate();
-  const { logout, user, updateUser } = useContext(Context);
+  const { logout, user, token } = useContext(Context);
   const {
     register,
     handleSubmit,

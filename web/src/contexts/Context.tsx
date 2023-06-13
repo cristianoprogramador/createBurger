@@ -66,7 +66,8 @@ interface ContextProps {
   removeOrder: (orderNameId: string) => void;
   clearCart: () => void;
   user: User | null;
-  login: (userData: User) => void;
+  token: string | null;
+  login: (userData: User, token: string) => void;
   updateUser: (userData: UserAddress) => void;
   logout: () => void;
 }
@@ -78,6 +79,7 @@ export const Context = createContext<ContextProps>({
   removeOrder: () => {},
   clearCart: () => {},
   user: null,
+  token: null,
   login: () => {},
   updateUser: () => {},
   logout: () => {},
@@ -92,6 +94,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
   const storedUser = Cookies.get("user");
   const initialUser = storedUser ? JSON.parse(storedUser) : null;
   const [user, setUser] = useState<User | null>(initialUser);
+  const [token, setToken] = useState<string | null>(null);
 
   const addOrder = (
     name: string,
@@ -154,9 +157,10 @@ export function ContextProvider({ children }: ContextProviderProps) {
     }
   };
 
-  const login = (userData: User) => {
+  const login = (userData: User, token: string) => {
     setUser(userData);
     Cookies.set("user", JSON.stringify(userData), { expires: 7 }); // Armazena o usuário em um cookie com expiração de 7 dias
+    setToken(token);
   };
 
   const updateUser = (userData: UserAddress) => {
@@ -166,6 +170,8 @@ export function ContextProvider({ children }: ContextProviderProps) {
   const logout = () => {
     setUser(null);
     Cookies.remove("user");
+    setToken(null);
+    localStorage.removeItem("token");
   };
 
   return (
@@ -177,6 +183,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
         removeOrder,
         clearCart,
         user,
+        token,
         login,
         logout,
         updateUser,
