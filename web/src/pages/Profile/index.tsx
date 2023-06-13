@@ -14,7 +14,7 @@ import {
   ProfileImage,
 } from "./styles";
 import { useForm } from "react-hook-form";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Context } from "../../contexts/Context";
 import { api } from "../../utils/api";
 import { toast } from "react-toastify";
@@ -31,17 +31,10 @@ export function Profile() {
     formState: { errors },
   } = useForm();
 
-  const [address, setAddress] = useState({
-    cidade: "",
-    bairro: "",
-    rua: "",
-    uf: "",
-  });
-
   const onSubmit = async (data: any) => {
-    // console.log(data);
+    console.log(data);
     try {
-      const response = await api.put(`/user/login/${user?.id}`, data);
+      const response = await api.post(`/address/${user?.email}`, data);
       // console.log(response);
       toast.success("Dados salvo com sucesso!");
       updateUser(response.data);
@@ -61,12 +54,6 @@ export function Profile() {
         setValue("bairro", data.bairro || "");
         setValue("rua", data.logradouro || "");
         setValue("uf", data.uf || "");
-        setAddress({
-          cidade: data.localidade,
-          bairro: data.bairro,
-          rua: data.logradouro,
-          uf: data.uf,
-        });
       } catch (error) {
         console.log(error);
       }
@@ -78,16 +65,31 @@ export function Profile() {
     navigate("/");
   }
 
+  const [addressData, setaddressData] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function fetchAddress() {
+    try {
+      const { data } = await api.get(`/address/${user?.email}`);
+      setaddressData(data.address.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchAddress();
+  }, []);
+
   const userProfile = {
     name: user?.name || "",
     email: user?.email || "",
-    cep: user?.cep || "",
-    rua: user?.rua || "",
-    numero: user?.numero || "",
-    bairro: user?.bairro || "",
-    cidade: user?.cidade || "",
-    uf: user?.uf || "",
   };
+
+  if (loading) {
+    return <div>Carregando</div>;
+  }
 
   return (
     <Container>
@@ -101,15 +103,11 @@ export function Profile() {
             <GroupInput>
               <InputContainer>
                 Nome:
-                <Input
-                  type="text"
-                  defaultValue={userProfile.name}
-                  {...register("name")}
-                />
+                <Input type="text" defaultValue={userProfile.name} disabled />
               </InputContainer>
               <InputContainer>
                 E-mail
-                <Input type="text" defaultValue={user?.email} disabled />
+                <Input type="text" defaultValue={userProfile.email} disabled />
               </InputContainer>
             </GroupInput>
             <GroupInput>
@@ -119,7 +117,7 @@ export function Profile() {
                   mask="99999-999"
                   maskChar=""
                   type="text"
-                  defaultValue={userProfile.cep}
+                  defaultValue={addressData.cep}
                   {...register("cep")}
                   onBlur={handleCepSearch}
                 />
@@ -128,7 +126,7 @@ export function Profile() {
                 Rua
                 <Input
                   type="text"
-                  defaultValue={userProfile.rua}
+                  defaultValue={addressData.rua}
                   {...register("rua")}
                 />
               </InputContainer>
@@ -136,7 +134,7 @@ export function Profile() {
                 Número
                 <Input
                   type="text"
-                  defaultValue={userProfile.numero}
+                  defaultValue={addressData.numero}
                   {...register("numero")}
                 />
               </InputContainer>
@@ -146,7 +144,7 @@ export function Profile() {
                 Bairro
                 <Input
                   type="text"
-                  defaultValue={userProfile.bairro}
+                  defaultValue={addressData.bairro}
                   {...register("bairro")}
                 />
               </InputContainer>
@@ -154,7 +152,7 @@ export function Profile() {
                 Cidade
                 <Input
                   type="text"
-                  defaultValue={userProfile.cidade}
+                  defaultValue={addressData.cidade}
                   {...register("cidade")}
                 />
               </InputContainer>
@@ -162,7 +160,7 @@ export function Profile() {
                 UF
                 <Input
                   type="text"
-                  defaultValue={userProfile.uf}
+                  defaultValue={addressData.uf}
                   {...register("uf")}
                 />
               </InputContainer>

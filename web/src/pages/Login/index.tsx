@@ -134,15 +134,6 @@ export function Login() {
         >
           Entrar com: <FcGoogle size={35} />
         </div>
-        {/* <GoogleLogin
-          onSuccess={(credentialResponse) => {
-            const decoded = jwt_decode(credentialResponse.credential || "");
-            console.log(decoded);
-          }}
-          onError={() => {
-            console.log("Login Failed");
-          }}
-        /> */}
       </ProfileContainer>
       <Footer />
     </Container>

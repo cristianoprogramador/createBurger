@@ -69,16 +69,22 @@ export function AddressForm({ onAddressChange }: any) {
     }
   };
 
-  const userProfile = {
-    name: user?.name || "",
-    email: user?.email || "",
-    cep: user?.cep || "",
-    rua: user?.rua || "",
-    numero: user?.numero || "",
-    bairro: user?.bairro || "",
-    cidade: user?.cidade || "",
-    uf: user?.uf || "",
-  };
+  const [addressData, setaddressData] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function fetchAddress() {
+    try {
+      const { data } = await api.get(`/address/${user?.email}`);
+      setaddressData(data.address.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchAddress();
+  }, []);
 
   useEffect(() => {
     onAddressChange(address);
@@ -94,7 +100,7 @@ export function AddressForm({ onAddressChange }: any) {
             mask="99999-999"
             maskChar=""
             type="text"
-            defaultValue={userProfile.cep}
+            defaultValue={addressData.cep}
             {...register("cep")}
             onBlur={handleCepSearch}
           />
@@ -103,7 +109,7 @@ export function AddressForm({ onAddressChange }: any) {
           Rua
           <Input
             type="text"
-            defaultValue={userProfile.rua}
+            defaultValue={addressData.rua}
             {...register("rua")}
           />
         </InputContainer>
@@ -111,7 +117,7 @@ export function AddressForm({ onAddressChange }: any) {
           Número
           <Input
             type="text"
-            defaultValue={userProfile.numero}
+            defaultValue={addressData.numero}
             {...register("numero")}
           />
         </InputContainer>
@@ -119,7 +125,7 @@ export function AddressForm({ onAddressChange }: any) {
           Bairro
           <Input
             type="text"
-            defaultValue={userProfile.bairro}
+            defaultValue={addressData.bairro}
             {...register("bairro")}
           />
         </InputContainer>
@@ -127,7 +133,7 @@ export function AddressForm({ onAddressChange }: any) {
           Cidade
           <Input
             type="text"
-            defaultValue={userProfile.cidade}
+            defaultValue={addressData.cidade}
             {...register("cidade")}
           />
         </InputContainer>
@@ -135,7 +141,7 @@ export function AddressForm({ onAddressChange }: any) {
           UF
           <Input
             type="text"
-            defaultValue={userProfile.uf}
+            defaultValue={addressData.uf}
             {...register("uf")}
           />
         </InputContainer>

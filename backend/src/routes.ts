@@ -19,6 +19,10 @@ import {
   createOrderController,
   getOrderByEmailController,
 } from "./controllers/orderController";
+import {
+  createAddressController,
+  getAddressController,
+} from "./controllers/addressController";
 
 export const router = express.Router();
 
@@ -68,3 +72,9 @@ router.put("/user/login/:id", UserController.updateUser);
 router.post("/orders", createOrderController);
 
 router.get("/orders/:email", getOrderByEmailController);
+
+// Rota para Tabela de Endereços
+
+router.post("/address/:email", createAddressController);
+
+router.get("/address/:email", getAddressController);
