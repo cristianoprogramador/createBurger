@@ -6,12 +6,6 @@ interface User {
   name: string;
   email: string;
   password?: string;
-  cep?: string;
-  rua?: string;
-  numero?: string;
-  bairro?: string;
-  cidade?: string;
-  uf?: string;
 }
 
 class UserService {

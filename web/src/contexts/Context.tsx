@@ -171,7 +171,8 @@ export function ContextProvider({ children }: ContextProviderProps) {
     setUser(null);
     Cookies.remove("user");
     setToken(null);
-    localStorage.removeItem("token");
+    localStorage.removeItem("tokenBurger");
+    setOrders([]);
   };
 
   return (

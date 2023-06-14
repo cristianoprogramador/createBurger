@@ -7,12 +7,6 @@ export interface User {
   name: string;
   email: string;
   password?: string;
-  cep?: string;
-  rua?: string;
-  numero?: string;
-  bairro?: string;
-  cidade?: string;
-  uf?: string;
 }
 
 class UserModel {
@@ -48,13 +42,6 @@ class UserModel {
           name: rows[0].name,
           email: rows[0].email,
           password: rows[0].password,
-          image: rows[0].image,
-          cep: rows[0].cep,
-          rua: rows[0].rua,
-          numero: rows[0].numero,
-          bairro: rows[0].bairro,
-          cidade: rows[0].cidade,
-          uf: rows[0].uf,
         };
 
         return user; // Retorna o usuário encontrado
@@ -79,12 +66,6 @@ class UserModel {
           name: rows[0].name,
           email: rows[0].email,
           password: rows[0].password,
-          cep: rows[0].cep,
-          rua: rows[0].rua,
-          numero: rows[0].numero,
-          bairro: rows[0].bairro,
-          cidade: rows[0].cidade,
-          uf: rows[0].uf,
         };
 
         return user;
@@ -101,17 +82,7 @@ class UserModel {
     userData: Partial<User>
   ): Promise<User | null> {
     try {
-      const allowedFields = [
-        "name",
-        "email",
-        "password",
-        "cep",
-        "rua",
-        "numero",
-        "bairro",
-        "cidade",
-        "uf",
-      ];
+      const allowedFields = ["name", "email", "password"];
       const validFields: Partial<User> = {};
 
       for (const field in userData) {

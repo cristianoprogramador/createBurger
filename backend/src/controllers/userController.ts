@@ -27,7 +27,7 @@ class UserController {
 
       if (user) {
         // Gera o token JWT com a informação do usuário
-        const token = jwt.sign({ email: user.email }, "secret-key");
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
 
         res.status(200).json({ user, token });
       } else {

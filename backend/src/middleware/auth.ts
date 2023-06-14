@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
 
 // Interface estendida para adicionar a propriedade user
 interface AuthenticatedRequest extends Request {
@@ -17,7 +20,7 @@ export function authMiddleware(
     return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  jwt.verify(token, "secret-key", (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ error: "Token inválido" });
     }

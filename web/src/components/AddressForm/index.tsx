@@ -66,13 +66,10 @@ export function AddressForm({ onAddressChange }: any) {
     bairro: "",
     cidade: "",
     uf: "",
-    email: user?.email,
     paymentMethod: "",
     paymentTime: "",
   });
   const [loading, setLoading] = useState(true);
-
-  console.log(addressData);
 
   async function fetchAddress() {
     try {
@@ -98,7 +95,7 @@ export function AddressForm({ onAddressChange }: any) {
   }
 
   return (
-    <FormContainer>
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
       <Title>Endereço de Entrega:</Title>
       <GroupInput>
         <InputContainer>

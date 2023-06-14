@@ -88,8 +88,6 @@ export function Checkout() {
     }
   });
 
-  // console.log(backendData);
-
   const handleCheckout = async () => {
     const isOrderInfoComplete = Object.values(orderInfo).every(
       (value) => value && value.trim() !== ""
@@ -106,10 +104,12 @@ export function Checkout() {
     }
 
     try {
-      console.log("OrderInfo", orderInfo);
-      console.log("BackendData", backendData);
+      const orderData = {
+        ...orderInfo,
+        email: user?.email,
+      };
       const response = await api.post("/orders", {
-        order: orderInfo,
+        order: orderData,
         orderDetails: backendData,
       });
       console.log(response);

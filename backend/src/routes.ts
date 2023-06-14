@@ -26,17 +26,6 @@ import {
 
 export const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "../backend/public/images");
-  },
-  filename: (req, file, cb) => {
-    console.log(file);
-    cb(null, Date.now().toString() + "_" + file.originalname);
-  },
-});
-const uploadPhoto = multer({ storage: storage });
-
 // Rotas para Produtos
 
 router.post("/products", createProductController);
@@ -71,12 +60,12 @@ router.put("/user/login/:id", UserController.updateUser);
 
 // Rotas para Pedidos
 
-router.post("/orders", createOrderController);
+router.post("/orders", authMiddleware, createOrderController);
 
-router.get("/orders/:email", getOrderByEmailController);
+router.get("/orders/:email", authMiddleware, getOrderByEmailController);
 
 // Rota para Tabela de Endereços
 
-router.post("/address/:email", createAddressController);
+router.post("/address/:email", authMiddleware, createAddressController);
 
-router.get("/address/:email", getAddressController);
+router.get("/address/:email", authMiddleware, getAddressController);
