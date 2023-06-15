@@ -83,6 +83,7 @@ export const ProductItem = styled.div`
   border-radius: 5%;
   display: flex;
   flex-direction: column;
+  align-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 1rem;
@@ -108,7 +109,7 @@ export const ProductInfo = styled.div`
   flex-grow: 1; /* Adicione esta linha para que o elemento ocupe todo o espaço disponível */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Alinhe o conteúdo na parte inferior */
+  justify-content: flex-end; /* Alinhe o conteúdo na parte inferior */
   text-align: center;
 `;
 

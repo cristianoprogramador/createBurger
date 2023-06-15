@@ -112,8 +112,8 @@ export function Home() {
               key={product.id}
               onClick={() => handleOpenModal(product)}
             >
-              <ProductImage src={product.image} alt="" />
               <ProductInfo>
+                <ProductImage src={product.image} alt="" />
                 <ProductName>{product.name}</ProductName>
                 <ProductPrice>
                   R$

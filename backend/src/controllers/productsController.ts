@@ -8,8 +8,8 @@ import {
 
 export async function createProductController(req: Request, res: Response) {
   try {
-    const { name, description, image, value } = req.body;
-    const product = await createProduct(name, description, image, value);
+    const { name, description, image, value, type } = req.body;
+    const product = await createProduct(name, description, image, value, type);
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ error: "Erro ao cadastrar o produto" });
@@ -40,7 +40,7 @@ export async function deleteProductByIdController(req: Request, res: Response) {
 
 export async function updateProductByIdController(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, description, image, value } = req.body;
+  const { name, description, image, value, type } = req.body;
 
   try {
     await updateProductByIdService(Number(id), {
@@ -48,6 +48,7 @@ export async function updateProductByIdController(req: Request, res: Response) {
       description,
       image,
       value,
+      type,
     });
     res.status(200).json({ message: "Produto atualizado com sucesso" });
   } catch (error) {

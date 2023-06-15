@@ -31,6 +31,7 @@ export class ProdutosComponent {
 
         // Recarregar a lista de produtos
         this.carregarProdutos();
+        alert('Produto Inserido');
       })
       .catch((error: any) => {
         console.error('Erro ao inserir produto:', error);
@@ -43,6 +44,7 @@ export class ProdutosComponent {
       .then(() => {
         // Recarregar a lista de produtos
         this.carregarProdutos();
+        alert('Produto Salvo');
       })
       .catch((error: any) => {
         console.error('Erro ao atualizar produto:', error);
@@ -55,6 +57,7 @@ export class ProdutosComponent {
       .then(() => {
         // Recarregar a lista de produtos
         this.carregarProdutos();
+        alert('Produto Deletado');
       })
       .catch((error: any) => {
         console.error('Erro ao deletar produto:', error);

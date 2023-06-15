@@ -32,10 +32,28 @@
   font-weight: bold;
 }
 
-.produto-info input,
 .produto-info span {
   display: block;
   margin-top: 5px;
+}
+
+.produto-info input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 60%;
+  margin-bottom: 10px;
+}
+
+.produto-info textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 80%;
+  text-align: justify;
+  margin-bottom: 10px;
 }
 
 .produto-info button {
@@ -50,4 +68,50 @@
 
 .produto-info button:hover {
   background-color: #e88826;
+}
+
+.produto-add {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.produto-add label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.produto-add input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 60%;
+  margin-bottom: 10px;
+}
+
+.produto-add button {
+  padding: 8px 16px;
+  margin: 10px;
+  background-color: #fba94c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.produto-add button:hover {
+  background-color: #e88826;
+}
+
+.produto-add textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  width: 60%;
+  text-align: justify;
+  margin-bottom: 10px;
 }

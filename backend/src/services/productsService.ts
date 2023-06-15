@@ -5,18 +5,19 @@ export async function createProduct(
   name: string,
   description: string,
   image: string,
-  value: number
+  value: number,
+  type: string
 ) {
   let connection: PoolConnection | undefined;
   try {
     connection = await pool.getConnection();
 
     const [result] = await connection.execute<RowDataPacket[]>(
-      "INSERT INTO products (name, description, image, value) VALUES (?, ?, ?, ?)",
-      [name, description, image, value]
+      "INSERT INTO products (name, description, image, value, type) VALUES (?, ?, ?, ?, ?)",
+      [name, description, image, value, type]
     );
     const productId = (result as RowDataPacket).insertId;
-    return { id: productId, name, description, image, value };
+    return { id: productId, name, description, image, value, type };
   } catch (error) {
     console.error(error);
     throw error;
@@ -66,6 +67,7 @@ export async function updateProductByIdService(
     description: string;
     image: string;
     value: number;
+    type: string;
   }
 ) {
   let connection: PoolConnection | undefined;
@@ -73,12 +75,13 @@ export async function updateProductByIdService(
   try {
     connection = await pool.getConnection();
     await connection.execute(
-      "UPDATE products SET name = ?, description = ?, image = ?, value = ? WHERE id = ?",
+      "UPDATE products SET name = ?, description = ?, image = ?, value = ?, type = ? WHERE id = ?",
       [
         updatedProduct.name,
         updatedProduct.description,
         updatedProduct.image,
         updatedProduct.value,
+        updatedProduct.type,
         productId,
       ]
     );
