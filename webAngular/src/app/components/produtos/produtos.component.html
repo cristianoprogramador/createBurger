@@ -1,0 +1,69 @@
+<!-- Campos para inserir novos produtos -->
+<h2>Inserir Novo Produto</h2>
+<div class="novo-produto">
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" [(ngModel)]="novoProduto.nome" />
+
+  <label for="descricao">Descrição:</label>
+  <input type="text" id="descricao" [(ngModel)]="novoProduto.descricao" />
+
+  <label for="imagem">Imagem URL:</label>
+  <input type="text" id="imagem" [(ngModel)]="novoProduto.imagem" />
+
+  <label for="valor">Valor:</label>
+  <input type="number" id="valor" [(ngModel)]="novoProduto.valor" />
+
+  <button (click)="inserirProduto()">Adicionar Produto</button>
+</div>
+
+<!-- Lista de produtos existentes -->
+<h2>Produtos</h2>
+<ul>
+  <li *ngFor="let produto of produtos" class="produto-card">
+    <div class="produto-image">
+      <img src="{{ produto.image }}" alt="{{ produto.name }}" />
+    </div>
+    <div class="produto-info">
+      <h3 (click)="produto.editing = !produto.editing">
+        <ng-container *ngIf="produto.editing; else displayNome">{{
+          produto.name
+        }}</ng-container>
+        <ng-template #displayNome>
+          <span>{{ produto.name }}</span>
+        </ng-template>
+      </h3>
+
+      <label for="descricao-{{ produto.id }}">Descrição:</label>
+      <input
+        *ngIf="produto.editing"
+        type="text"
+        id="descricao-{{ produto.id }}"
+        [(ngModel)]="produto.description"
+      />
+      <span *ngIf="!produto.editing">{{ produto.description }}</span>
+
+      <label for="valor-{{ produto.id }}">Valor:</label>
+      <input
+        *ngIf="produto.editing"
+        type="number"
+        id="valor-{{ produto.id }}"
+        [(ngModel)]="produto.value"
+      />
+      <span *ngIf="!produto.editing">{{ produto.value }}</span>
+
+      <label for="imagem-{{ produto.id }}">Imagem URL:</label>
+      <input
+        *ngIf="produto.editing"
+        type="text"
+        id="imagem-{{ produto.id }}"
+        [(ngModel)]="produto.image"
+      />
+      <span *ngIf="!produto.editing">{{ produto.image }}</span>
+
+      <button (click)="salvarProduto(produto)">
+        {{ produto.editing ? "Salvar" : "Editar" }}
+      </button>
+      <button (click)="deletarProduto(produto.id)">Deletar</button>
+    </div>
+  </li>
+</ul>

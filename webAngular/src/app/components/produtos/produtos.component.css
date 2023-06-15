@@ -1,0 +1,53 @@
+.produto-card {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.produto-image {
+  width: 200px;
+  margin-right: 20px;
+}
+
+.produto-image img {
+  width: 100%;
+  height: auto;
+}
+
+.produto-info {
+  flex-grow: 1;
+}
+
+.produto-info h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.produto-info label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.produto-info input,
+.produto-info span {
+  display: block;
+  margin-top: 5px;
+}
+
+.produto-info button {
+  padding: 8px 16px;
+  margin: 10px;
+  background-color: #fba94c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.produto-info button:hover {
+  background-color: #e88826;
+}
