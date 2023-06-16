@@ -1,18 +1,18 @@
 .header-container {
+  background-color: #ff8d1c;
   display: flex;
-  flex: 1;
   align-items: center;
   justify-content: space-between;
-  background-color: orange;
-  padding: 10px 60px;
+  padding: 15px 100px;
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .message {
   color: white;
-  font-weight: bold;
+  font-size: 22px;
+  font-family: "Baloo 2", sans-serif;
 }

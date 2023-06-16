@@ -1,6 +1,5 @@
 .produto-card {
   display: flex;
-  margin-bottom: 20px;
   padding: 10px;
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -16,8 +15,19 @@
   height: auto;
 }
 
+.produto-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
 .produto-info {
   flex-grow: 1;
+  width: 70%;
 }
 
 .produto-info h3 {
@@ -124,4 +134,9 @@ button:hover {
   color: red;
   font-size: 14px;
   margin-top: 5px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
 }

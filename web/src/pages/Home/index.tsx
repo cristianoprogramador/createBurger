@@ -127,7 +127,49 @@ export function Home() {
             </ProductItem>
           ))}
         {filteredProducts
+          .filter((product) => product.type === "Lanche Individual")
+          .map((product, index) => (
+            <ProductItem
+              key={product.id}
+              onClick={() => handleOpenModal(product)}
+            >
+              <ProductImage src={product.image} alt="" />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>
+                  R$
+                  {Number(product.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </ProductPrice>
+              </ProductInfo>
+              <ProductDescription>{product.description}</ProductDescription>
+            </ProductItem>
+          ))}
+        {filteredProducts
           .filter((product) => product.type === "Porção")
+          .map((product, index) => (
+            <ProductItem
+              key={product.id}
+              onClick={() => handleOpenModal(product)}
+            >
+              <ProductImage src={product.image} alt="" />
+              <ProductInfo>
+                <ProductName>{product.name}</ProductName>
+                <ProductPrice>
+                  R$
+                  {Number(product.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </ProductPrice>
+              </ProductInfo>
+              <ProductDescription>{product.description}</ProductDescription>
+            </ProductItem>
+          ))}
+        {filteredProducts
+          .filter((product) => product.type === "Bebida")
           .map((product, index) => (
             <ProductItem
               key={product.id}

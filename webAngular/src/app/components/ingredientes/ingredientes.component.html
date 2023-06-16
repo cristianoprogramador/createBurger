@@ -1,177 +1,214 @@
 <!-- Campos para inserir novos produtos -->
-<div class="ingrediente-add">
-  <h2>Inserir Novo Ingrediente</h2>
-  <form #form="ngForm">
-    <div class="form-field">
-      <label for="name">Nome:</label>
-      <input
-        type="text"
-        id="name"
-        [(ngModel)]="novoIngrediente.name"
-        name="name"
-        required
-      />
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['name'].invalid"
-      >
-        O campo nome é obrigatório.
+<main class="main">
+  <div class="ingrediente-add">
+    <h2>Inserir Novo Ingrediente</h2>
+    <form #form="ngForm" class="form-grid">
+      <div class="form-field">
+        <label for="name">Nome:</label>
+        <input
+          type="text"
+          id="name"
+          [ngModel]="novoIngrediente.name"
+          name="name"
+          required
+        />
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['name'].invalid"
+        >
+          O campo nome é obrigatório.
+        </div>
       </div>
+
+      <div class="form-field">
+        <label for="description">Descrição:</label>
+        <textarea
+          id="description"
+          [ngModel]="novoIngrediente.description"
+          name="description"
+          required
+        ></textarea>
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['description'].invalid"
+        >
+          O campo descrição é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="image">Imagem URL:</label>
+        <input
+          type="text"
+          id="image"
+          [ngModel]="novoIngrediente.image"
+          name="image"
+          required
+        />
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['image'].invalid"
+        >
+          O campo imagem URL é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="value">Valor:</label>
+        <input
+          type="number"
+          id="value"
+          [ngModel]="novoIngrediente.value"
+          name="value"
+          required
+        />
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['value'].invalid"
+        >
+          O campo valor é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="type">Tipo de Ingrediente:</label>
+        <input
+          type="text"
+          id="type"
+          [ngModel]="novoIngrediente.type"
+          name="type"
+          required
+        />
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['type'].invalid"
+        >
+          O campo tipo é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="type">Grupo de Produto:</label>
+        <input
+          type="text"
+          id="is_chef"
+          [ngModel]="novoIngrediente.is_chef"
+          name="is_chef"
+          required
+        />
+        <div
+          class="error-message"
+          *ngIf="formSubmitted && form.controls['is_chef'].invalid"
+        >
+          O campo tipo é obrigatório.
+        </div>
+      </div>
+
+      <button (click)="inserirIngrediente(form)">Adicionar Ingrediente</button>
+    </form>
+  </div>
+
+  <div class="types_groupes">
+    <div>
+      <h2>Tipos de Ingredientes</h2>
+      <ul>
+        <li *ngFor="let tipo of tipos">{{ tipo }}</li>
+      </ul>
     </div>
 
-    <div class="form-field">
-      <label for="description">Descrição:</label>
-      <textarea
-        id="description"
-        [(ngModel)]="novoIngrediente.description"
-        name="description"
-        required
-      ></textarea>
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['description'].invalid"
-      >
-        O campo descrição é obrigatório.
-      </div>
+    <div>
+      <h2>Grupo de Produtos</h2>
+      <ul>
+        <li *ngFor="let isChef of isChefs">{{ isChef }}</li>
+      </ul>
     </div>
+  </div>
 
-    <div class="form-field">
-      <label for="image">Imagem URL:</label>
-      <input
-        type="text"
-        id="image"
-        [(ngModel)]="novoIngrediente.image"
-        name="image"
-        required
-      />
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['image'].invalid"
-      >
-        O campo imagem URL é obrigatório.
-      </div>
-    </div>
+  <div class="tipo-seletor">
+    <label for="tipo">Selecione o tipo:</label>
+    <select
+      id="tipo"
+      [(ngModel)]="tipoSelecionado"
+      (change)="filtrarIngredientes()"
+    >
+      <option value="">Todos</option>
+      <option *ngFor="let tipo of tipos" [value]="tipo">{{ tipo }}</option>
+    </select>
+  </div>
 
-    <div class="form-field">
-      <label for="value">Valor:</label>
-      <input
-        type="number"
-        id="value"
-        [(ngModel)]="novoIngrediente.value"
-        name="value"
-        required
-      />
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['value'].invalid"
-      >
-        O campo valor é obrigatório.
-      </div>
-    </div>
-
-    <div class="form-field">
-      <label for="type">Tipo:</label>
-      <input
-        type="text"
-        id="type"
-        [(ngModel)]="novoIngrediente.type"
-        name="type"
-        required
-      />
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['type'].invalid"
-      >
-        O campo tipo é obrigatório.
-      </div>
-    </div>
-
-    <div class="form-field">
-      <label for="type">Grupo:</label>
-      <input
-        type="text"
-        id="is_chef"
-        [(ngModel)]="novoIngrediente.is_chef"
-        name="is_chef"
-        required
-      />
-      <div
-        class="error-message"
-        *ngIf="formSubmitted && form.controls['is_chef'].invalid"
-      >
-        O campo tipo é obrigatório.
-      </div>
-    </div>
-
-    <button (click)="inserirIngrediente(form)">Adicionar Ingrediente</button>
-  </form>
-</div>
-
-<!-- Lista de produtos existentes -->
-<ul>
+  <!-- Lista de ingredientes existentes -->
   <h2>Ingredientes</h2>
-  <li *ngFor="let ingrediente of ingredientes" class="ingrediente-card">
-    <div class="ingrediente-image">
-      <img src="{{ ingrediente.image }}" alt="{{ ingrediente.name }}" />
+  <div class="ingrediente-container">
+    <div
+      *ngFor="let ingrediente of ingredientesFiltrados"
+      class="ingrediente-card"
+    >
+      <div class="ingrediente-image">
+        <img src="{{ ingrediente.image }}" alt="{{ ingrediente.name }}" />
+      </div>
+      <div class="ingrediente-info">
+        <h3 (click)="ingrediente.editing = !ingrediente.editing">
+          <ng-container *ngIf="ingrediente.editing; else displayNome">{{
+            ingrediente.name
+          }}</ng-container>
+          <ng-template #displayNome>
+            <span>{{ ingrediente.name }}</span>
+          </ng-template>
+        </h3>
+
+        <label for="descricao-{{ ingrediente.id }}">Descrição:</label>
+        <textarea
+          *ngIf="ingrediente.editing"
+          id="descricao-{{ ingrediente.id }}"
+          [(ngModel)]="ingrediente.description"
+        ></textarea>
+        <span *ngIf="!ingrediente.editing">{{ ingrediente.description }}</span>
+
+        <label for="valor-{{ ingrediente.id }}">Valor:</label>
+        <input
+          *ngIf="ingrediente.editing"
+          type="number"
+          id="valor-{{ ingrediente.id }}"
+          [(ngModel)]="ingrediente.value"
+        />
+        <span *ngIf="!ingrediente.editing">{{ ingrediente.value }}</span>
+
+        <label for="imagem-{{ ingrediente.id }}">Imagem URL:</label>
+        <input
+          *ngIf="ingrediente.editing"
+          type="text"
+          id="imagem-{{ ingrediente.id }}"
+          [(ngModel)]="ingrediente.image"
+        />
+        <span *ngIf="!ingrediente.editing">{{ ingrediente.image }}</span>
+
+        <label for="type{{ ingrediente.id }}">Tipo:</label>
+        <input
+          *ngIf="ingrediente.editing"
+          type="text"
+          id="type-{{ ingrediente.id }}"
+          [(ngModel)]="ingrediente.type"
+        />
+        <span *ngIf="!ingrediente.editing">{{ ingrediente.type }}</span>
+
+        <label for="is_chef{{ ingrediente.id }}">Grupo:</label>
+        <input
+          *ngIf="ingrediente.editing"
+          type="text"
+          id="is_chef-{{ ingrediente.id }}"
+          [(ngModel)]="ingrediente.is_chef"
+        />
+        <span *ngIf="!ingrediente.editing">{{ ingrediente.is_chef }}</span>
+        <button (click)="clonarIngrediente(ingrediente)">Clonar</button>
+
+        <ng-container *ngIf="ingrediente.editing">
+          <button (click)="salvarIngrediente(ingrediente)">Salvar</button>
+        </ng-container>
+        <ng-container *ngIf="!ingrediente.editing">
+          <button (click)="ingrediente.editing = true">Editar</button>
+        </ng-container>
+        <button (click)="deletarIngrediente(ingrediente.id)">Deletar</button>
+      </div>
     </div>
-    <div class="ingrediente-info">
-      <h3 (click)="ingrediente.editing = !ingrediente.editing">
-        <ng-container *ngIf="ingrediente.editing; else displayNome">{{
-          ingrediente.name
-        }}</ng-container>
-        <ng-template #displayNome>
-          <span>{{ ingrediente.name }}</span>
-        </ng-template>
-      </h3>
-
-      <label for="descricao-{{ ingrediente.id }}">Descrição:</label>
-      <textarea
-        *ngIf="ingrediente.editing"
-        id="descricao-{{ ingrediente.id }}"
-        [(ngModel)]="ingrediente.description"
-      ></textarea>
-      <span *ngIf="!ingrediente.editing">{{ ingrediente.description }}</span>
-
-      <label for="valor-{{ ingrediente.id }}">Valor:</label>
-      <input
-        *ngIf="ingrediente.editing"
-        type="number"
-        id="valor-{{ ingrediente.id }}"
-        [(ngModel)]="ingrediente.value"
-      />
-      <span *ngIf="!ingrediente.editing">{{ ingrediente.value }}</span>
-
-      <label for="imagem-{{ ingrediente.id }}">Imagem URL:</label>
-      <input
-        *ngIf="ingrediente.editing"
-        type="text"
-        id="imagem-{{ ingrediente.id }}"
-        [(ngModel)]="ingrediente.image"
-      />
-      <span *ngIf="!ingrediente.editing">{{ ingrediente.image }}</span>
-
-      <label for="type{{ ingrediente.id }}">Tipo:</label>
-      <input
-        *ngIf="ingrediente.editing"
-        type="text"
-        id="type-{{ ingrediente.id }}"
-        [(ngModel)]="ingrediente.type"
-      />
-      <span *ngIf="!ingrediente.editing">{{ ingrediente.type }}</span>
-
-      <label for="is_chef{{ ingrediente.id }}">Grupo:</label>
-      <input
-        *ngIf="ingrediente.editing"
-        type="text"
-        id="is_chef-{{ ingrediente.id }}"
-        [(ngModel)]="ingrediente.is_chef"
-      />
-      <span *ngIf="!ingrediente.editing">{{ ingrediente.is_chef }}</span>
-
-      <button (click)="salvarIngrediente(ingrediente)">
-        {{ ingrediente.editing ? "Salvar" : "Editar" }}
-      </button>
-      <button (click)="deletarIngrediente(ingrediente.id)">Deletar</button>
-    </div>
-  </li>
-</ul>
+  </div>
+</main>

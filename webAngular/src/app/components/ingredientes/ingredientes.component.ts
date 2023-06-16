@@ -17,6 +17,10 @@ export class IngredientesComponent {
     type: '',
     is_chef: '',
   };
+  tipoSelecionado: string | undefined;
+  tipos: string[] = [];
+  ingredientesFiltrados!: any[];
+  isChefs: string[] = [];
 
   formSubmitted = false;
 
@@ -24,11 +28,62 @@ export class IngredientesComponent {
 
   ngOnInit() {
     this.carregarIngredientes();
+    this.ingredientesFiltrados = this.ingredientes;
+    this.getUniqueTypesAndIsChefs();
   }
 
   carregarIngredientes() {
     this.ingredienteService.getIngredientes().then((ingredientes: any) => {
       this.ingredientes = ingredientes;
+      this.tipos = this.getUniqueTypes(ingredientes);
+      this.getUniqueTypesAndIsChefs();
+      this.filtrarIngredientes();
+    });
+  }
+
+  getUniqueTypes(ingredientes: any[]): string[] {
+    const tipos = ingredientes.map((ingrediente) => ingrediente.type);
+    return [...new Set(tipos)];
+  }
+
+  getUniqueIsChefs(ingredientes: any[]): string[] {
+    const isChefs = ingredientes.map((ingrediente) => ingrediente.is_chef);
+    return [...new Set(isChefs)];
+  }
+
+  getUniqueTypesAndIsChefs() {
+    this.tipos = this.getUniqueTypes(this.ingredientes);
+    this.isChefs = this.getUniqueIsChefs(this.ingredientes);
+  }
+
+  clonarIngrediente(ingrediente: any) {
+    this.novoIngrediente = { ...ingrediente };
+
+    const formulario = document.querySelector('.ingrediente-add');
+    if (formulario) {
+      formulario.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  filtrarIngredientes() {
+    if (this.tipoSelecionado) {
+      this.ingredientesFiltrados = this.ingredientes.filter(
+        (ingrediente) => ingrediente.type === this.tipoSelecionado
+      );
+    } else {
+      this.ingredientesFiltrados = this.ingredientes;
+    }
+
+    this.ingredientesFiltrados.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
     });
   }
 

@@ -1,6 +1,21 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ingrediente-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
 .ingrediente-card {
   display: flex;
-  margin-bottom: 20px;
   padding: 10px;
   background-color: #f9f9f9;
   border-radius: 5px;
@@ -18,6 +33,8 @@
 
 .ingrediente-info {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .ingrediente-info h3 {
@@ -74,6 +91,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  behavior: "smooth";
 }
 
 .ingrediente-add h2 {
@@ -124,4 +142,25 @@ button:hover {
   color: red;
   font-size: 14px;
   margin-top: 5px;
+}
+
+.types_groupes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 2.5rem 0;
+}
+
+.tipo-seletor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  gap: 1rem;
+}
+
+.tipo-seletor label {
+  font-weight: bold;
+  font-size: large;
 }

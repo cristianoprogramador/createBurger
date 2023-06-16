@@ -70,7 +70,7 @@
     </div>
 
     <div class="form-field">
-      <label for="type">Tipo:</label>
+      <label for="type">Grupo de Produto:</label>
       <input
         type="text"
         id="type"
@@ -90,10 +90,10 @@
   </form>
 </div>
 
-<!-- Lista de produtos existentes -->
-<ul>
-  <h2>Produtos</h2>
-  <li *ngFor="let produto of produtos" class="produto-card">
+<!-- Lista de Produtos existentes -->
+<h2>Produtos</h2>
+<div class="produto-container">
+  <div *ngFor="let produto of produtos" class="produto-card">
     <div class="produto-image">
       <img src="{{ produto.image }}" alt="{{ produto.name }}" />
     </div>
@@ -142,10 +142,15 @@
       />
       <span *ngIf="!produto.editing">{{ produto.type }}</span>
 
-      <button (click)="salvarProduto(produto)">
-        {{ produto.editing ? "Salvar" : "Editar" }}
-      </button>
-      <button (click)="deletarProduto(produto.id)">Deletar</button>
+      <div class="buttons">
+        <ng-container *ngIf="produto.editing">
+          <button (click)="salvarProduto(produto)">Salvar</button>
+        </ng-container>
+        <ng-container *ngIf="!produto.editing">
+          <button (click)="produto.editing = true">Editar</button>
+        </ng-container>
+        <button (click)="deletarProduto(produto.id)">Deletar</button>
+      </div>
     </div>
-  </li>
-</ul>
+  </div>
+</div>

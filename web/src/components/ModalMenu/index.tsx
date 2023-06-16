@@ -597,11 +597,11 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
             ))}
         </div>
 
-        {ingredientsData.filter((product) => product.type === "Batata Frita")
-          .length > 0 && <IngredientTopic>Porções Individuais</IngredientTopic>}
+        {ingredientsData.filter((product) => product.type === "Porção").length >
+          0 && <IngredientTopic>Porções Individuais</IngredientTopic>}
         <div style={{ width: "100%" }}>
           {ingredientsData
-            .filter((product) => product.type === "Batata Frita")
+            .filter((product) => product.type === "Porção")
             .map((ingredient, index) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
