@@ -53,10 +53,10 @@ export function Home() {
   }
 
   const BurgerChef = productsData.filter(
-    (product) => product.type === "chefBurger"
+    (product) => product.type === "Burger Personalizado"
   );
   const FriesChef = productsData.filter(
-    (product) => product.type === "chefFries"
+    (product) => product.type === "Batata Personalizado"
   );
 
   const handleSearch = (term: string) => {
@@ -106,7 +106,7 @@ export function Home() {
       <MenuContainer>Cardápio</MenuContainer>
       <ProductList>
         {filteredProducts
-          .filter((product) => product.type === "food")
+          .filter((product) => product.type === "Combo")
           .map((product, index) => (
             <ProductItem
               key={product.id}
@@ -127,7 +127,7 @@ export function Home() {
             </ProductItem>
           ))}
         {filteredProducts
-          .filter((product) => product.type === "fries")
+          .filter((product) => product.type === "Porção")
           .map((product, index) => (
             <ProductItem
               key={product.id}
@@ -148,7 +148,7 @@ export function Home() {
             </ProductItem>
           ))}
         {filteredProducts
-          .filter((product) => product.type === "desert")
+          .filter((product) => product.type === "Sobremesa")
           .map((product, index) => (
             <ProductItem
               key={product.id}

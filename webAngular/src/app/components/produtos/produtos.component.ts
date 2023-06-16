@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProdutoService } from 'src/app/produto.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-produtos',
@@ -8,7 +9,15 @@ import { ProdutoService } from 'src/app/produto.service';
 })
 export class ProdutosComponent {
   produtos: any[] = [];
-  novoProduto: any = {};
+  novoProduto = {
+    name: '',
+    description: '',
+    image: '',
+    value: 0,
+    type: '',
+  };
+
+  formSubmitted = false;
 
   constructor(private produtoService: ProdutoService) {}
 
@@ -22,12 +31,24 @@ export class ProdutosComponent {
     });
   }
 
-  inserirProduto() {
+  inserirProduto(form: NgForm) {
+    this.formSubmitted = true;
+
+    if (form.invalid) {
+      return; // Impede o envio do formulário se houver campos inválidos
+    }
+
     this.produtoService
       .inserirProduto(this.novoProduto)
       .then(() => {
         // Limpar os campos de input
-        this.novoProduto = {};
+        this.novoProduto = {
+          name: '',
+          description: '',
+          image: '',
+          value: 0,
+          type: '',
+        };
 
         // Recarregar a lista de produtos
         this.carregarProdutos();

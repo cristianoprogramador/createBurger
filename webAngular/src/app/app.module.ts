@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
+import { IngredientesComponent } from './components/ingredientes/ingredientes.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
     HeaderComponent,
     SidebarComponent,
     ProdutosComponent,
+    IngredientesComponent,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
   providers: [],

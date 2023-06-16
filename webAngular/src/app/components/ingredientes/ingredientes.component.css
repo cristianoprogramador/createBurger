@@ -1,4 +1,4 @@
-.produto-card {
+.ingrediente-card {
   display: flex;
   margin-bottom: 20px;
   padding: 10px;
@@ -6,38 +6,38 @@
   border-radius: 5px;
 }
 
-.produto-image {
+.ingrediente-image {
   width: 200px;
   margin-right: 20px;
 }
 
-.produto-image img {
+.ingrediente-image img {
   width: 100%;
   height: auto;
 }
 
-.produto-info {
+.ingrediente-info {
   flex-grow: 1;
 }
 
-.produto-info h3 {
+.ingrediente-info h3 {
   font-size: 20px;
   margin-bottom: 10px;
   cursor: pointer;
 }
 
-.produto-info label {
+.ingrediente-info label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
 }
 
-.produto-info span {
+.ingrediente-info span {
   display: block;
   margin-top: 5px;
 }
 
-.produto-info input {
+.ingrediente-info input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -46,7 +46,7 @@
   margin-bottom: 10px;
 }
 
-.produto-info textarea {
+.ingrediente-info textarea {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -56,7 +56,7 @@
   margin-bottom: 10px;
 }
 
-.produto-info button {
+.ingrediente-info button {
   padding: 8px 16px;
   margin: 10px;
   background-color: #fba94c;
@@ -66,17 +66,17 @@
   cursor: pointer;
 }
 
-.produto-info button:hover {
+.ingrediente-info button:hover {
   background-color: #e88826;
 }
 
-.produto-add {
+.ingrediente-add {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.produto-add h2 {
+.ingrediente-add h2 {
   font-size: 24px;
   margin-bottom: 20px;
 }

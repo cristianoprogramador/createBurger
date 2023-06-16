@@ -1,23 +1,93 @@
 <!-- Campos para inserir novos produtos -->
 <div class="produto-add">
   <h2>Inserir Novo Produto</h2>
-  <label for="name">Nome:</label>
-  <input type="text" id="name" [(ngModel)]="novoProduto.name" />
+  <form #form="ngForm">
+    <div class="form-field">
+      <label for="name">Nome:</label>
+      <input
+        type="text"
+        id="name"
+        [(ngModel)]="novoProduto.name"
+        name="name"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="formSubmitted && form.controls['name'].invalid"
+      >
+        O campo nome é obrigatório.
+      </div>
+    </div>
 
-  <label for="description">Descrição:</label>
-  <textarea
-    type="text"
-    id="description"
-    [(ngModel)]="novoProduto.description"
-  ></textarea>
+    <div class="form-field">
+      <label for="description">Descrição:</label>
+      <textarea
+        id="description"
+        [(ngModel)]="novoProduto.description"
+        name="description"
+        required
+      ></textarea>
+      <div
+        class="error-message"
+        *ngIf="formSubmitted && form.controls['description'].invalid"
+      >
+        O campo descrição é obrigatório.
+      </div>
+    </div>
 
-  <label for="image">Imagem URL:</label>
-  <input type="text" id="image" [(ngModel)]="novoProduto.image" />
+    <div class="form-field">
+      <label for="image">Imagem URL:</label>
+      <input
+        type="text"
+        id="image"
+        [(ngModel)]="novoProduto.image"
+        name="image"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="formSubmitted && form.controls['image'].invalid"
+      >
+        O campo imagem URL é obrigatório.
+      </div>
+    </div>
 
-  <label for="value">Valor:</label>
-  <input type="number" id="value" [(ngModel)]="novoProduto.value" />
+    <div class="form-field">
+      <label for="value">Valor:</label>
+      <input
+        type="number"
+        id="value"
+        [(ngModel)]="novoProduto.value"
+        name="value"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="formSubmitted && form.controls['value'].invalid"
+      >
+        O campo valor é obrigatório.
+      </div>
+    </div>
 
-  <button (click)="inserirProduto()">Adicionar Produto</button>
+    <div class="form-field">
+      <label for="type">Tipo:</label>
+      <input
+        type="text"
+        id="type"
+        [(ngModel)]="novoProduto.type"
+        name="type"
+        required
+      />
+      <div
+        class="error-message"
+        *ngIf="formSubmitted && form.controls['type'].invalid"
+      >
+        O campo tipo é obrigatório.
+      </div>
+    </div>
+
+    <button (click)="inserirProduto(form)">Adicionar Produto</button>
+  </form>
 </div>
 
 <!-- Lista de produtos existentes -->
