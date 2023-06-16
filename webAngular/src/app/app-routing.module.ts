@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { IngredientesComponent } from './components/ingredientes/ingredientes.component';
+import { LoginComponent } from './components/login/login.component';
 // import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent },
   { path: 'produtos', component: ProdutosComponent },
   { path: 'ingredientes', component: IngredientesComponent },
   // { path: 'perfil', component: PerfilComponent },
