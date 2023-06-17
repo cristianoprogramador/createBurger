@@ -1,4 +1,10 @@
 <header class="header-container">
   <img src="assets/images/hamburger.svg" alt="Logo" class="logo" />
-  <span class="message">Faça o login como admin</span>
+  <span class="message" *ngIf="!isLoggedIn()"
+    >Faça o login como {{ getLoggedInUser() }}</span
+  >
+  <span class="message" *ngIf="isLoggedIn()"
+    >Logado como {{ getLoggedInUser() }}</span
+  >
+  <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
 </header>

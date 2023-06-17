@@ -1,8 +1,8 @@
 .produto-card {
   display: flex;
   padding: 10px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
+  background-color: #ebc498;
+  border-radius: 15px;
 }
 
 .produto-image {
@@ -74,6 +74,7 @@ h2 {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .produto-info button:hover {

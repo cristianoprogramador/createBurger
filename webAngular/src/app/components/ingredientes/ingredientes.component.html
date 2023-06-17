@@ -199,15 +199,17 @@
           [(ngModel)]="ingrediente.is_chef"
         />
         <span *ngIf="!ingrediente.editing">{{ ingrediente.is_chef }}</span>
-        <button (click)="clonarIngrediente(ingrediente)">Clonar</button>
 
-        <ng-container *ngIf="ingrediente.editing">
-          <button (click)="salvarIngrediente(ingrediente)">Salvar</button>
-        </ng-container>
-        <ng-container *ngIf="!ingrediente.editing">
-          <button (click)="ingrediente.editing = true">Editar</button>
-        </ng-container>
-        <button (click)="deletarIngrediente(ingrediente.id)">Deletar</button>
+        <div>
+          <button (click)="clonarIngrediente(ingrediente)">Clonar</button>
+          <ng-container *ngIf="ingrediente.editing">
+            <button (click)="salvarIngrediente(ingrediente)">Salvar</button>
+          </ng-container>
+          <ng-container *ngIf="!ingrediente.editing">
+            <button (click)="ingrediente.editing = true">Editar</button>
+          </ng-container>
+          <button (click)="deletarIngrediente(ingrediente.id)">Deletar</button>
+        </div>
       </div>
     </div>
   </div>

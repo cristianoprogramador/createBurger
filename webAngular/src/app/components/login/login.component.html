@@ -1,26 +1,38 @@
 <div class="login-container">
-  <h2>Login</h2>
-  <form>
+  <img src="assets/images/login.svg" alt="Login" class="login-image" />
+  <h2>Faça o Login</h2>
+  <form (ngSubmit)="login()">
     <div class="form-field">
-      <label for="username">Nome de Usuário:</label>
+      <label for="username">Usuário</label>
       <input
         type="text"
         id="username"
-        [(ngModel)]="username"
         name="username"
+        [(ngModel)]="username"
         required
       />
     </div>
     <div class="form-field">
-      <label for="password">Senha:</label>
-      <input
-        type="password"
-        id="password"
-        [(ngModel)]="password"
-        name="password"
-        required
-      />
+      <label for="password">Senha</label>
+      <div class="password-input">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+        />
+        <span class="password-toggle" (click)="togglePasswordVisibility()">
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-eye': showPassword,
+              'fa-eye-slash': !showPassword
+            }"
+          ></i>
+        </span>
+      </div>
     </div>
-    <button (click)="login()">Entrar</button>
+    <button type="submit">Entrar</button>
   </form>
 </div>

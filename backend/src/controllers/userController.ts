@@ -97,6 +97,24 @@ class UserController {
       res.status(500).json({ error: "Erro ao autenticar com o Google" });
     }
   }
+
+  static async loginAdmin(req: Request, res: Response) {
+    const { username, password } = req.body;
+    try {
+      // console.log(username, process.env.ADMIN_USER);
+      // console.log(password, process.env.ADMIN_PASSWORD);
+      if (
+        username === process.env.ADMIN_USER &&
+        password === process.env.ADMIN_PASSWORD
+      ) {
+        res.status(200).json({ message: "OK" });
+      } else {
+        res.status(401).json({ message: "INVALIDO" });
+      }
+    } catch (error) {
+      res.status(500).json({ error: "ERROR" });
+    }
+  }
 }
 
 export default UserController;

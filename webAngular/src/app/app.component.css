@@ -10,7 +10,7 @@
 }
 
 .content {
-  background-color: white;
+  background-color: #f0e2ce;
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;

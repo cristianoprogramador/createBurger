@@ -16,3 +16,17 @@
   font-size: 22px;
   font-family: "Baloo 2", sans-serif;
 }
+
+button {
+  padding: 10px 20px;
+  background-color: #f7353a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+button:hover {
+  background-color: #e50000a8;
+}
