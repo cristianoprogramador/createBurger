@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
 export class IngredienteService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getIngredientes(): Promise<any[] | undefined> {
     return this.http
@@ -14,23 +14,58 @@ export class IngredienteService {
   }
 
   inserirIngrediente(ingrediente: any): Promise<any> {
-    return this.http
-      .post<any>('http://localhost:3031/ingredients', ingrediente)
-      .toPromise();
+    const authToken = this.authService.getAuthToken();
+    if (authToken) {
+      const headers = new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${authToken}`
+      );
+      return this.http
+        .post<any>('http://localhost:3031/ingredients', ingrediente, {
+          headers,
+        })
+        .toPromise();
+    } else {
+      // Trate o caso em que o token não está disponível
+      return Promise.reject('Token não disponível');
+    }
   }
 
   atualizarIngrediente(ingrediente: any): Promise<any> {
-    return this.http
-      .put<any>(
-        `http://localhost:3031/ingredients/${ingrediente.id}`,
-        ingrediente
-      )
-      .toPromise();
+    const authToken = this.authService.getAuthToken();
+    if (authToken) {
+      const headers = new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${authToken}`
+      );
+      return this.http
+        .put<any>(
+          `http://localhost:3031/ingredients/${ingrediente.id}`,
+          ingrediente,
+          { headers }
+        )
+        .toPromise();
+    } else {
+      // Trate o caso em que o token não está disponível
+      return Promise.reject('Token não disponível');
+    }
   }
 
   deletarIngrediente(ingredienteId: number): Promise<any> {
-    return this.http
-      .delete<any>(`http://localhost:3031/ingredients/${ingredienteId}`)
-      .toPromise();
+    const authToken = this.authService.getAuthToken();
+    if (authToken) {
+      const headers = new HttpHeaders().set(
+        'Authorization',
+        `Bearer ${authToken}`
+      );
+      return this.http
+        .delete<any>(`http://localhost:3031/ingredients/${ingredienteId}`, {
+          headers,
+        })
+        .toPromise();
+    } else {
+      // Trate o caso em que o token não está disponível
+      return Promise.reject('Token não disponível');
+    }
   }
 }

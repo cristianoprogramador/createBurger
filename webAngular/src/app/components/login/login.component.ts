@@ -41,9 +41,10 @@ export class LoginComponent {
         password: this.password,
       })
       .subscribe(
-        () => {
+        (response: any) => {
+          const token = response.token; // Assume-se que a resposta contém um campo 'token' com o token retornado pelo servidor
           console.log('Acesso concedido');
-          this.authService.login();
+          this.authService.login(token); // Armazene o token chamando a função login() no AuthService e passando o token como argumento
           this.router.navigate(['/produtos']);
         },
         (error) => {

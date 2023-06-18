@@ -15,7 +15,6 @@ const routes: Routes = [
     component: IngredientesComponent,
     canActivate: [AuthGuard],
   },
-  // { path: 'perfil', component: PerfilComponent },
 ];
 
 @NgModule({

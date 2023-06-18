@@ -159,7 +159,7 @@ export function ContextProvider({ children }: ContextProviderProps) {
 
   const login = (userData: User, token: string) => {
     setUser(userData);
-    Cookies.set("user", JSON.stringify(userData), { expires: 7 }); // Armazena o usuário em um cookie com expiração de 7 dias
+    Cookies.set("user", JSON.stringify(userData), { expires: 1 }); // Armazena o usuário em um cookie com expiração de 1 dias
     setToken(token);
   };
 

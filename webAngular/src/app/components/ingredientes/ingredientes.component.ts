@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IngredienteService } from 'src/app/ingrediente.service';
+import { ProdutoService } from 'src/app/produto.service';
 
 @Component({
   selector: 'app-ingredientes',
@@ -8,6 +9,7 @@ import { IngredienteService } from 'src/app/ingrediente.service';
   styleUrls: ['./ingredientes.component.css'],
 })
 export class IngredientesComponent {
+  produtos: any[] = [];
   ingredientes: any[] = [];
   novoIngrediente = {
     name: '',
@@ -21,13 +23,17 @@ export class IngredientesComponent {
   tipos: string[] = [];
   ingredientesFiltrados!: any[];
   isChefs: string[] = [];
+  isTypes: string[] = [];
 
   formSubmitted = false;
 
-  constructor(private ingredienteService: IngredienteService) {}
+  constructor(
+    private ingredienteService: IngredienteService,
+    private produtoService: ProdutoService
+  ) {}
 
-  ngOnInit() {
-    this.carregarIngredientes();
+  async ngOnInit() {
+    await Promise.all([this.carregarIngredientes(), this.carregarProdutos()]);
     this.ingredientesFiltrados = this.ingredientes;
     this.getUniqueTypesAndIsChefs();
   }
@@ -41,6 +47,14 @@ export class IngredientesComponent {
     });
   }
 
+  carregarProdutos() {
+    this.produtoService.getProdutos().then((produtos: any) => {
+      this.produtos = produtos;
+      // console.log('Aqui ta aparecendo', this.produtos);
+      this.getUniqueTypesAndIsChefs();
+    });
+  }
+
   getUniqueTypes(ingredientes: any[]): string[] {
     const tipos = ingredientes.map((ingrediente) => ingrediente.type);
     return [...new Set(tipos)];
@@ -51,9 +65,16 @@ export class IngredientesComponent {
     return [...new Set(isChefs)];
   }
 
+  getUniqueTypesFromProducts(produtos: any[]): string[] {
+    // console.log('nada aqui', this.produtos);
+    const isTypes = this.produtos.map((produto) => produto.type);
+    return [...new Set(isTypes)];
+  }
+
   getUniqueTypesAndIsChefs() {
     this.tipos = this.getUniqueTypes(this.ingredientes);
     this.isChefs = this.getUniqueIsChefs(this.ingredientes);
+    this.isTypes = this.getUniqueTypesFromProducts(this.produtos);
   }
 
   clonarIngrediente(ingrediente: any) {
@@ -94,25 +115,20 @@ export class IngredientesComponent {
       return; // Impede o envio do formulário se houver campos inválidos
     }
 
+    const novoIngrediente = form.value; // Obter os valores do formulário
+
     this.ingredienteService
-      .inserirIngrediente(this.novoIngrediente)
+      .inserirIngrediente(novoIngrediente)
       .then(() => {
         // Limpar os campos de input
-        this.novoIngrediente = {
-          name: '',
-          description: '',
-          image: '',
-          value: 0,
-          type: '',
-          is_chef: '',
-        };
+        form.resetForm();
 
         // Recarregar a lista de ingredientes
         this.carregarIngredientes();
         alert('Ingrediente Inserido');
       })
       .catch((error: any) => {
-        console.error('Erro ao inserir produto:', error);
+        console.error('Erro ao inserir ingrediente:', error);
       });
   }
 

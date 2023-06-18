@@ -107,7 +107,8 @@ class UserController {
         username === process.env.ADMIN_USER &&
         password === process.env.ADMIN_PASSWORD
       ) {
-        res.status(200).json({ message: "OK" });
+        const token = jwt.sign({ password }, process.env.JWTADMIN_SECRET);
+        res.status(200).json({ message: "OK", token });
       } else {
         res.status(401).json({ message: "INVALIDO" });
       }

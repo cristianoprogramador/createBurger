@@ -23,30 +23,35 @@ import {
   createAddressController,
   getAddressController,
 } from "./controllers/addressController";
+import { adminMiddleware } from "./middleware/admin";
 
 export const router = express.Router();
 
 // Rotas para Produtos
 
-router.post("/products", createProductController);
+router.post("/products", adminMiddleware, createProductController);
 
 router.get("/products", getAllProductsController);
 
-router.delete("/products/:id", deleteProductByIdController);
+router.delete("/products/:id", adminMiddleware, deleteProductByIdController);
 
-router.put("/products/:id", updateProductByIdController);
+router.put("/products/:id", adminMiddleware, updateProductByIdController);
 
 // Rotas para Ingredientes e Adicionais fora do Menu
 
-router.post("/ingredients", createIngredientsController);
+router.post("/ingredients", adminMiddleware, createIngredientsController);
 
 router.get("/ingredients", getAllIngredientsController);
 
 router.get("/ingredients/:type", getAllIngredientsByTypeController);
 
-router.delete("/ingredients/:id", deleteIngredientByIdController);
+router.delete(
+  "/ingredients/:id",
+  adminMiddleware,
+  deleteIngredientByIdController
+);
 
-router.put("/ingredients/:id", updateIngredientByIdController);
+router.put("/ingredients/:id", adminMiddleware, updateIngredientByIdController);
 
 // Rotas para Criação e Login de Usuario
 
