@@ -30,3 +30,9 @@
 .sidebar a:hover {
   background-color: #dd7515c4;
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}

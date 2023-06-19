@@ -1,0 +1,29 @@
+<!-- Lista de Usuarios existentes -->
+<h2>Lista de Todos os Usuários</h2>
+<div class="produto-container">
+  <div *ngFor="let usuario of usuarios" class="produto-card">
+    <div class="produto-info">
+      <h3 (click)="usuario.editing = !usuario.editing">
+        <ng-container *ngIf="usuario.editing; else displayNome">{{
+          usuario.name
+        }}</ng-container>
+        <ng-template #displayNome>
+          <span>{{ usuario.name }}</span>
+        </ng-template>
+      </h3>
+
+      <label for="type{{ usuario.id }}">Email:</label>
+      <input
+        *ngIf="usuario.editing"
+        type="text"
+        id="type-{{ usuario.id }}"
+        [(ngModel)]="usuario.email"
+      />
+      <span *ngIf="!usuario.editing">{{ usuario.email }}</span>
+
+      <div class="buttons">
+        <button (click)="deletarUsuario(usuario.id)">Deletar</button>
+      </div>
+    </div>
+  </div>
+</div>

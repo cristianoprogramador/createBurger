@@ -57,9 +57,15 @@ router.put("/ingredients/:id", adminMiddleware, updateIngredientByIdController);
 
 router.post("/user", UserController.createUser);
 
+router.get("/users/getall", adminMiddleware, UserController.getAllUsers);
+
+router.delete("/users/delete/:id", adminMiddleware, UserController.deleteUser);
+
 router.post("/user/login", UserController.loginUser);
 
 router.post("/user/loginGoogle", UserController.loginWithGoogle);
+
+router.post("/user/admin", UserController.loginAdmin);
 
 router.post("/user/admin", UserController.loginAdmin);
 

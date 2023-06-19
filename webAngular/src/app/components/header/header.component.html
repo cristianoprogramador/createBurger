@@ -1,10 +1,23 @@
 <header class="header-container">
-  <img src="assets/images/hamburger.svg" alt="Logo" class="logo" />
-  <span class="message" *ngIf="!isLoggedIn()"
+  <img
+    src="assets/images/hamburger.svg"
+    alt="Logo"
+    class="logo"
+    routerLink="/login"
+  />
+  <span class="messageLogin" *ngIf="!isLoggedIn()" routerLink="/login"
     >Faça o login como {{ getLoggedInUser() }}</span
   >
   <span class="message" *ngIf="isLoggedIn()"
     >Logado como {{ getLoggedInUser() }}</span
   >
   <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+
+  <nav class="mobile-options" *ngIf="isLoggedIn()">
+    <ul>
+      <li><a routerLink="/produtos">Produtos</a></li>
+      <li><a routerLink="/ingredientes">Ingredientes</a></li>
+      <li><a routerLink="/usuarios">Usuarios</a></li>
+    </ul>
+  </nav>
 </header>

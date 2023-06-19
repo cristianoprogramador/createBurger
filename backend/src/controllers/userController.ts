@@ -8,6 +8,26 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
 
 class UserController {
+  static async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await UserService.getAllUsers();
+      res.status(200).json(users);
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
+  }
+
+  static async deleteUser(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const userId = await UserService.deleteUser(id);
+      res.status(201).json({ userId });
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
+  }
+
   static async createUser(req: Request, res: Response) {
     const { name, email, password } = req.body;
 

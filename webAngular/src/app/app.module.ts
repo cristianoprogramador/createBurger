@@ -10,6 +10,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ProdutosComponent } from './components/produtos/produtos.component';
 import { IngredientesComponent } from './components/ingredientes/ingredientes.component';
 import { LoginComponent } from './components/login/login.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LoginComponent } from './components/login/login.component';
     ProdutosComponent,
     IngredientesComponent,
     LoginComponent,
+    UsuariosComponent,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
   providers: [],

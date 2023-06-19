@@ -53,6 +53,28 @@ class UserModel {
     }
   }
 
+  static async getAllUsers(): Promise<User | null> {
+    try {
+      const [user] = await db.query<any>("SELECT * FROM users");
+
+      return user; // Retorna o usuário encontrado
+    } catch (error) {
+      throw new Error("Erro tentando encontrar usuario pelo email");
+    }
+  }
+
+  static async deleteUser(id: any): Promise<User | null> {
+    try {
+      const [user] = await db.query<any>("DELETE FROM users WHERE id = ?", [
+        id,
+      ]);
+
+      return user; // Retorna o usuário encontrado
+    } catch (error) {
+      throw new Error("Erro tentando encontrar usuario pelo email");
+    }
+  }
+
   static async findByID(id: string): Promise<User | null> {
     try {
       const [rows] = await db.query<RowDataPacket[]>(

@@ -9,12 +9,22 @@
 .logo {
   width: 80px;
   height: 80px;
+  cursor: pointer;
 }
 
 .message {
   color: white;
   font-size: 22px;
   font-family: "Baloo 2", sans-serif;
+  text-align: center;
+}
+
+.messageLogin {
+  color: white;
+  font-size: 22px;
+  font-family: "Baloo 2", sans-serif;
+  cursor: pointer;
+  text-align: center;
 }
 
 button {
@@ -29,4 +39,43 @@ button {
 
 button:hover {
   background-color: #e50000a8;
+}
+
+@media (max-width: 768px) {
+  .message {
+    display: none;
+  }
+
+  .header-container {
+    padding: 15px;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .mobile-options {
+    display: flex;
+    background-color: #ff8d1c;
+    padding: 12px;
+    margin-top: 10px;
+  }
+
+  .mobile-options ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .mobile-options li {
+    margin-bottom: 5px;
+  }
+
+  .mobile-options a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .mobile-options-open {
+    display: block;
+  }
 }

@@ -9,6 +9,24 @@ interface User {
 }
 
 class UserService {
+  static async getAllUsers(): Promise<any> {
+    try {
+      const users = await UserModel.getAllUsers();
+      return users;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async deleteUser(id: any): Promise<any> {
+    try {
+      const users = await UserModel.deleteUser(id);
+      return users;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   static async createUser(
     name: string,
     email: string,

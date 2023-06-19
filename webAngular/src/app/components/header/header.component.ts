@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
+  mobileMenuOpen: boolean = false; // Propriedade para controlar o estado do menu mobile
+
   constructor(private authService: AuthService, private router: Router) {}
 
   isLoggedIn(): boolean {
@@ -22,5 +24,9 @@ export class HeaderComponent {
     this.authService.logout();
     // Redirecione para a página de login ou qualquer outra página desejada
     this.router.navigate(['/login']);
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen; // Inverte o estado do menu mobile
   }
 }
