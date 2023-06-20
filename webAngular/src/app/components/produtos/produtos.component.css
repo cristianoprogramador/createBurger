@@ -24,6 +24,7 @@
 
 h2 {
   text-align: center;
+  margin: 2rem 0;
 }
 
 .produto-info {
@@ -86,6 +87,10 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.produto-add button {
+  width: 100%;
 }
 
 .produto-add h2 {

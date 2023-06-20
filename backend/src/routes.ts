@@ -67,8 +67,6 @@ router.post("/user/loginGoogle", UserController.loginWithGoogle);
 
 router.post("/user/admin", UserController.loginAdmin);
 
-router.post("/user/admin", UserController.loginAdmin);
-
 router.put("/user/login/:id", UserController.updateUser);
 
 // Rotas para Pedidos

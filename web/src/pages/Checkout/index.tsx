@@ -103,6 +103,14 @@ export function Checkout() {
       return;
     }
 
+    if (orderInfo.paymentTime === "agora") {
+      const state = {
+        orderData: orderInfo,
+        backendData: backendData,
+      };
+      navigate("/payment", { state });
+    }
+
     try {
       const orderData = {
         ...orderInfo,

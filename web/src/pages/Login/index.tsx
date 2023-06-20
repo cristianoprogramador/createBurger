@@ -27,7 +27,7 @@ import {
 export function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { login, user } = useContext(Context);
+  const { login, user, orders } = useContext(Context);
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -51,7 +51,11 @@ export function Login() {
 
       toast.success("Você está logado!");
       login(response.data.user, token);
-      navigate("/");
+      if (orders.length > 0) {
+        navigate("/checkout");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       // console.log(error.response.data);
       toast.error(error.response.data);
@@ -88,7 +92,11 @@ export function Login() {
 
         localStorage.setItem("tokenBurger", data.data.token);
         login(userData, data.data.token);
-        navigate("/");
+        if (orders.length > 0) {
+          navigate("/checkout");
+        } else {
+          navigate("/");
+        }
       } catch (error) {
         console.log(error);
       }

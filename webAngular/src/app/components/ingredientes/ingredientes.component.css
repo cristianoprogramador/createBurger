@@ -1,9 +1,3 @@
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
 .ingrediente-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -99,6 +93,25 @@ h2 {
 .ingrediente-add h2 {
   font-size: 24px;
   margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .form-field {

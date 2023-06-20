@@ -41,6 +41,10 @@ button:hover {
   background-color: #e50000a8;
 }
 
+.mobile-options {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .message {
     display: none;

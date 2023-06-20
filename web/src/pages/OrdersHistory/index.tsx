@@ -23,6 +23,8 @@ export function OrdersHistory() {
         console.error(error);
         setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
   }
 
