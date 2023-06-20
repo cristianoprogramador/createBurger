@@ -25,7 +25,6 @@ export const getOrderByEmailController = async (
   try {
     const { email } = req.params;
     const orderId = await getAllOrdersByTypeService(email);
-    console.log("UE DEU CERTO?");
     res.status(201).json({ orderId });
   } catch (error) {
     console.error(error);

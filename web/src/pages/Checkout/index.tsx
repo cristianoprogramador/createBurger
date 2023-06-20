@@ -109,24 +109,24 @@ export function Checkout() {
         backendData: backendData,
       };
       navigate("/payment", { state });
-    }
-
-    try {
-      const orderData = {
-        ...orderInfo,
-        email: user?.email,
-      };
-      const response = await api.post("/orders", {
-        order: orderData,
-        orderDetails: backendData,
-      });
-      console.log(response);
-      toast.success("Pedido Enviado");
-      clearCart();
-      navigate("/");
-    } catch (error: any) {
-      // console.log(error.response.data);
-      toast.error(error.response.data);
+    } else {
+      try {
+        const orderData = {
+          ...orderInfo,
+          email: user?.email,
+        };
+        const response = await api.post("/orders", {
+          order: orderData,
+          orderDetails: backendData,
+        });
+        console.log(response);
+        toast.success("Pedido Enviado");
+        clearCart();
+        navigate("/");
+      } catch (error: any) {
+        // console.log(error.response.data);
+        toast.error(error.response.data);
+      }
     }
   };
 
