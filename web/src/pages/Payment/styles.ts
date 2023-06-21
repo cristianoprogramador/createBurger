@@ -83,31 +83,66 @@ export const InputOption = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   max-width: 400px;
-  margin: 0 auto;
+  margin-top: 1rem;
 
   label {
     font-weight: bold;
   }
 
   input {
-    padding: 0.5rem;
-    border-radius: 4px;
+    padding: 10px;
     border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    background-color: ${(props) => props.theme.colors["yellow-300"]};
+    font-family: ${(props) => props.theme.fonts.regular};
+    text-align: center;
   }
 
   .error {
     color: red;
     font-size: 0.8rem;
+    text-align: right;
   }
+`;
 
-  button {
-    padding: 0.5rem 1rem;
-    background-color: ${(props) => props.theme.colors["orange-500"]};
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+export const ButtonSubmit = styled.button`
+  padding: 10px 20px;
+  background-color: ${(props) => props.theme.colors["yellow-500"]};
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: ${(props) => props.theme.fonts.title};
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors["yellow-700"]};
   }
+`;
+
+export const QrCodeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+export const QrCodeImg = styled.img`
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+  margin-top: 1rem;
+`;
+
+export const FormOption = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 `;
