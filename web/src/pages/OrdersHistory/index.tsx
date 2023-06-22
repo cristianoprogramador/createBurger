@@ -1,14 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Container, DeliverContainer } from "./styles";
-import { useState, useContext, useEffect } from "react";
-import { api } from "../../utils/api";
-import { Context } from "../../contexts/Context";
 import { OrderSummary } from "../../components/OrderSummary";
+import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
+import { Container, DeliverContainer } from "./styles";
 
 export function OrdersHistory() {
-  const navigate = useNavigate();
   const [allOrders, setAllOrders] = useState<any>([]);
   const { user } = useContext(Context);
   const [loading, setLoading] = useState(true);

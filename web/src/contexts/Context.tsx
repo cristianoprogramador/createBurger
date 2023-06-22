@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { ReactNode, createContext, useState } from "react";
 import Cookies from "js-cookie";
+import { ReactNode, createContext, useState } from "react";
 
 interface User {
   id: number;

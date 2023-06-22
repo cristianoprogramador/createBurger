@@ -136,7 +136,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
 
   // console.log(mergedObj);
 
-  const { addOrder, orders } = useContext(Context);
+  const { addOrder } = useContext(Context);
 
   function AddToContext() {
     if (data) {
@@ -195,7 +195,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Pão")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -247,7 +247,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Carne")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -318,7 +318,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Molho")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -389,7 +389,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Salada")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -460,7 +460,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Recheio")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -531,7 +531,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Adicionais")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -602,7 +602,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Porção")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />
@@ -673,7 +673,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
         <div style={{ width: "100%" }}>
           {ingredientsData
             .filter((product) => product.type === "Bebida")
-            .map((ingredient, index) => (
+            .map((ingredient) => (
               <IngredientsContainer key={ingredient.id}>
                 <FirstPart>
                   <ImageIngredient src={ingredient.image} alt="" />

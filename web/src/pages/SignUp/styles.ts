@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { blinkAnimation, scaleAnimation } from "../../styles/animations";
+import { scaleAnimation } from "../../styles/animations";
 
 export const Container = styled.div`
   height: 100vh;

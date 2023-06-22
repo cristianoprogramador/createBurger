@@ -1,12 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
+import { BsCart4 } from "react-icons/bs";
+import { MdOutlineHistory } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/hamburger.svg";
+import userProfile from "../../assets/images/userProfile.png";
+import { Context } from "../../contexts/Context";
+import { SearchBar } from "../SearchBar";
 import {
   AddressContainer,
-  AddressDiv,
   CartContainer,
   CartIcon,
-  CartPrice,
-  CartQuantity,
   Container,
   ImageLogo,
   LeftSide,
@@ -16,12 +19,6 @@ import {
   ProfilePicture,
   RightSide,
 } from "./styles";
-import logo from "../../assets/images/hamburger.svg";
-import userProfile from "../../assets/images/userProfile.png";
-import { SearchBar } from "../SearchBar";
-import { Context } from "../../contexts/Context";
-import { BsCart4 } from "react-icons/bs";
-import { MdOutlineHistory } from "react-icons/md";
 
 export function Header({ onSearch }: any) {
   const navigate = useNavigate();

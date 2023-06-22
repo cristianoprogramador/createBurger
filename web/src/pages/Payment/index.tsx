@@ -1,4 +1,15 @@
+import { useContext, useEffect, useRef, useState } from "react";
+import DatePicker, { ReactDatePickerProps } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import QRCODE from "../../assets/images/QRCODE.jpg";
+import { Footer } from "../../components/Footer";
+import { Header } from "../../components/Header";
+import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
 import {
   ButtonSubmit,
   Container,
@@ -13,24 +24,13 @@ import {
   QrCodeImg,
   ResumeTitle,
 } from "./styles";
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
-import { useForm } from "react-hook-form";
-import { useState, useEffect, useRef, useContext } from "react";
-import InputMask from "react-input-mask";
-import DatePicker, { ReactDatePickerProps } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import QRCODE from "../../assets/images/QRCODE.jpg";
-import { api } from "../../utils/api";
-import { toast } from "react-toastify";
-import { Context } from "../../contexts/Context";
 
 export function Payment() {
   const navigate = useNavigate();
   const location = useLocation();
   const { orderData, backendData } = location.state;
   const [expirationDate, setExpirationDate] = useState<Date | null>(null);
-  const { orders, clearCart, user } = useContext(Context);
+  const { clearCart, user } = useContext(Context);
 
   const [paymentMethod, setPaymentMethod] = useState("");
 
@@ -47,7 +47,7 @@ export function Payment() {
     setValue,
   } = useForm();
 
-  const onSubmitCard = async (data: any) => {
+  const onSubmitCard = async () => {
     // console.log(data);
     try {
       const orderDataCorrect = {
@@ -109,7 +109,7 @@ export function Payment() {
     if (date) {
       if (Array.isArray(date)) {
         // Tratamento para caso o componente permita selecionar um intervalo de datas
-        const [startDate, endDate] = date;
+        const [startDate] = date;
         setExpirationDate(startDate);
         setValue("expirationDate", startDate.toISOString(), {
           shouldValidate: true,

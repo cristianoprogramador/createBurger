@@ -1,11 +1,7 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Context } from "../../contexts/Context";
+import { useState } from "react";
 import { Container, InputOption, InputRadio, Title } from "./styles";
 
 export function TypeOfPayment({ onPaymentInfoChange }: any) {
-  const navigate = useNavigate();
-
   const [paymentMethod, setPaymentMethod] = useState("");
 
   const [paymentTime, setPaymentTime] = useState("");

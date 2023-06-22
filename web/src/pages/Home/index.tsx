@@ -1,4 +1,12 @@
+import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
+import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
+import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
+import { Footer } from "../../components/Footer";
+import { Header } from "../../components/Header";
+import { ModalMenu } from "../../components/ModalMenu";
+import { ProductProp, ProductsProps } from "../../types/Products";
+import { api } from "../../utils/api";
 import {
   Container,
   CustomizeContainer,
@@ -14,19 +22,9 @@ import {
   ProductPrice,
   TitleContainer,
 } from "./styles";
-import { Header } from "../../components/Header";
-import Lottie from "lottie-react";
-import hamburgerAnimation from "../../assets/lottieAnimations/burger.json";
-import friesAnimation from "../../assets/lottieAnimations/frenchfries.json";
-import { api } from "../../utils/api";
-import { ProductProp, ProductsProps } from "../../types/Products";
-import { Footer } from "../../components/Footer";
-import { ModalMenu } from "../../components/ModalMenu";
-import dotenv from "dotenv";
 
 export function Home() {
   const [productsData, setProductsData] = useState<ProductsProps[]>([]);
-  const [personalize, setPersonalize] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<ProductsProps | null>(
     null
   );
@@ -44,12 +42,10 @@ export function Home() {
   function handleOpenModal(product: ProductProp) {
     // console.log(product);
     setSelectedProduct(product);
-    setPersonalize(product.type);
   }
 
   function handleCloseModal() {
     setSelectedProduct(null);
-    setPersonalize("");
   }
 
   const BurgerChef = productsData.filter(
@@ -107,7 +103,7 @@ export function Home() {
       <ProductList>
         {filteredProducts
           .filter((product) => product.type === "Combo")
-          .map((product, index) => (
+          .map((product) => (
             <ProductItem
               key={product.id}
               onClick={() => handleOpenModal(product)}
@@ -128,7 +124,7 @@ export function Home() {
           ))}
         {filteredProducts
           .filter((product) => product.type === "Lanche Individual")
-          .map((product, index) => (
+          .map((product) => (
             <ProductItem
               key={product.id}
               onClick={() => handleOpenModal(product)}
@@ -149,7 +145,7 @@ export function Home() {
           ))}
         {filteredProducts
           .filter((product) => product.type === "Porção")
-          .map((product, index) => (
+          .map((product) => (
             <ProductItem
               key={product.id}
               onClick={() => handleOpenModal(product)}
@@ -170,7 +166,7 @@ export function Home() {
           ))}
         {filteredProducts
           .filter((product) => product.type === "Bebida")
-          .map((product, index) => (
+          .map((product) => (
             <ProductItem
               key={product.id}
               onClick={() => handleOpenModal(product)}
@@ -191,7 +187,7 @@ export function Home() {
           ))}
         {filteredProducts
           .filter((product) => product.type === "Sobremesa")
-          .map((product, index) => (
+          .map((product) => (
             <ProductItem
               key={product.id}
               onClick={() => handleOpenModal(product)}

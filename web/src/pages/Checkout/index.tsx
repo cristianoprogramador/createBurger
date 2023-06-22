@@ -1,6 +1,12 @@
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AddressForm } from "../../components/AddressForm";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import { TypeOfPayment } from "../../components/TypeOfPayment";
+import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
 import {
   CheckoutButton,
   Container,
@@ -8,20 +14,12 @@ import {
   OrderContainerInfo,
   OrderImage,
   OrderInfo,
-  OrderInfoNameQuantity,
-  OrderItem,
   OrderName,
   OrderSubTotal,
   OrderTotal,
   ProfileContainer,
   ResumeTitle,
 } from "./styles";
-import { Context } from "../../contexts/Context";
-import { useContext, useState } from "react";
-import { AddressForm } from "../../components/AddressForm";
-import { TypeOfPayment } from "../../components/TypeOfPayment";
-import { toast } from "react-toastify";
-import { api } from "../../utils/api";
 
 export function Checkout() {
   const navigate = useNavigate();

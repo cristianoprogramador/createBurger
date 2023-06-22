@@ -1,6 +1,13 @@
+import Lottie from "lottie-react";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import formAnimation from "../../assets/lottieAnimations/form.json";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import { Context } from "../../contexts/Context";
+import { api } from "../../utils/api";
 import {
   Button,
   ButtonLogout,
@@ -11,31 +18,18 @@ import {
   InputContainer,
   InputMask,
   ProfileContainer,
-  ProfileImage,
 } from "./styles";
-import { useForm } from "react-hook-form";
-import { useState, useContext, useEffect } from "react";
-import { Context } from "../../contexts/Context";
-import { api } from "../../utils/api";
-import { toast } from "react-toastify";
-import Lottie from "lottie-react";
-import formAnimation from "../../assets/lottieAnimations/form.json";
 
 export function Profile() {
   const navigate = useNavigate();
-  const { logout, user, token } = useContext(Context);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { logout, user } = useContext(Context);
+  const { register, handleSubmit, setValue } = useForm();
 
   const onSubmit = async (data: any) => {
     console.log(data);
     try {
       const response = await api.post(`/address/${user?.email}`, data);
-      // console.log(response);
+      console.log(response.status);
       toast.success("Dados salvo com sucesso!");
     } catch (error: any) {
       // console.log(error.response.data);

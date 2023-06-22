@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Context } from "../../contexts/Context";
 import { api } from "../../utils/api";
@@ -15,20 +14,14 @@ import {
 } from "./styles";
 
 export function AddressForm({ onAddressChange }: any) {
-  const navigate = useNavigate();
-  const { user, updateUser } = useContext(Context);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { user } = useContext(Context);
+  const { register, handleSubmit, setValue } = useForm();
 
   const onSubmit = async (data: any) => {
     console.log(data);
     try {
       const response = await api.post(`/address/${user?.email}`, data);
-      // console.log(response);
+      console.log(response);
       toast.success("Dados salvo com sucesso!");
     } catch (error: any) {
       // console.log(error.response.data);

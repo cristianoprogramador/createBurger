@@ -27,18 +27,17 @@ import {
 export function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { login, user, orders } = useContext(Context);
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, orders } = useContext(Context);
+  // const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data: any) => {
     // console.log(data);
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       const response = await api.post("/user/login", {
         email: data.email,
@@ -59,7 +58,7 @@ export function Login() {
     } catch (error: any) {
       // console.log(error.response.data);
       toast.error(error.response.data);
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 

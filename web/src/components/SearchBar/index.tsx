@@ -1,8 +1,7 @@
-import { Container, IconView, InputBar } from "./styles";
-import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { ProductsProps } from "../../types/Products";
+import { Container, IconView, InputBar } from "./styles";
 
 export function SearchBar({ onSearch }: any) {
   const [searchTerm, setSearchTerm] = useState("");

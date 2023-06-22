@@ -1,9 +1,12 @@
+import Lottie from "lottie-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import signup from "../../assets/lottieAnimations/signup.json";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
+import { api } from "../../utils/api";
 import {
-  Button,
   ButtonSignUp,
   Container,
   FormContainer,
@@ -11,21 +14,11 @@ import {
   Input,
   InputContainer,
   ProfileContainer,
-  ProfileImage,
 } from "./styles";
-import Lottie from "lottie-react";
-import signup from "../../assets/lottieAnimations/signup.json";
-import { api } from "../../utils/api";
-import { toast } from "react-toastify";
 
 export function SignUp() {
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data: any) => {
     // console.log(data);

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { scaleAnimation } from "../../styles/animations";
 import ReactInputMask from "react-input-mask";
 
 export const FormContainer = styled.form`
