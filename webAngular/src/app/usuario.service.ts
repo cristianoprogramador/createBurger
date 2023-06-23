@@ -16,7 +16,7 @@ export class UsuarioService {
         `Bearer ${authToken}`
       );
       return this.http
-        .get<any>('http://localhost:3031/users/getall', { headers })
+        .get<any>('https://api.createburger.com.br/users/getall', { headers })
         .toPromise();
     } else {
       // Trate o caso em que o token não está disponível
@@ -32,7 +32,7 @@ export class UsuarioService {
         `Bearer ${authToken}`
       );
       return this.http
-        .delete<any>(`http://localhost:3031/users/delete/${userId}`, {
+        .delete<any>(`https://api.createburger.com.br/users/delete/${userId}`, {
           headers,
         })
         .toPromise();

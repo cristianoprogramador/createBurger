@@ -9,7 +9,9 @@ export class ProdutoService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getProdutos(): Promise<any[] | undefined> {
-    return this.http.get<any[]>('http://localhost:3031/products').toPromise();
+    return this.http
+      .get<any[]>('https://api.createburger.com.br/products')
+      .toPromise();
   }
 
   inserirProduto(produto: any): Promise<any> {
@@ -20,7 +22,9 @@ export class ProdutoService {
         `Bearer ${authToken}`
       );
       return this.http
-        .post<any>('http://localhost:3031/products', produto, { headers })
+        .post<any>('https://api.createburger.com.br/products', produto, {
+          headers,
+        })
         .toPromise();
     } else {
       // Trate o caso em que o token não está disponível
@@ -36,9 +40,13 @@ export class ProdutoService {
         `Bearer ${authToken}`
       );
       return this.http
-        .put<any>(`http://localhost:3031/products/${produto.id}`, produto, {
-          headers,
-        })
+        .put<any>(
+          `https://api.createburger.com.br/products/${produto.id}`,
+          produto,
+          {
+            headers,
+          }
+        )
         .toPromise();
     } else {
       // Trate o caso em que o token não está disponível
@@ -54,7 +62,9 @@ export class ProdutoService {
         `Bearer ${authToken}`
       );
       return this.http
-        .delete<any>(`http://localhost:3031/products/${produtoId}`, { headers })
+        .delete<any>(`https://api.createburger.com.br/products/${produtoId}`, {
+          headers,
+        })
         .toPromise();
     } else {
       // Trate o caso em que o token não está disponível

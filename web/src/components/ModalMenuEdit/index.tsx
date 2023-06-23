@@ -122,7 +122,7 @@ export function ModalMenuEdit({
 
   const { editOrder } = useContext(Context);
 
-  console.log(data?.name_id);
+  // console.log(data?.name_id);
 
   function AddToContext() {
     if (data) {
@@ -159,8 +159,6 @@ export function ModalMenuEdit({
       setSelectedMeats(filteredItems);
     }
   }, [data]);
-
-  console.log(data);
 
   return (
     <Modal
@@ -303,8 +301,9 @@ export function ModalMenuEdit({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -376,6 +375,7 @@ export function ModalMenuEdit({
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -447,6 +447,7 @@ export function ModalMenuEdit({
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -516,8 +517,9 @@ export function ModalMenuEdit({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -589,6 +591,7 @@ export function ModalMenuEdit({
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -660,6 +663,7 @@ export function ModalMenuEdit({
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -729,8 +733,9 @@ export function ModalMenuEdit({
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {

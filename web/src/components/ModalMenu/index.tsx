@@ -294,8 +294,9 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -367,6 +368,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -438,6 +440,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -507,8 +510,9 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -580,6 +584,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -651,6 +656,7 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                             [ingredient.name]: {
                               item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {
@@ -720,8 +726,9 @@ export function ModalMenu({ data, closeModal, type }: ModalFoodProps) {
                           return {
                             ...prevMeats,
                             [ingredient.name]: {
-                              name: ingredient.name,
+                              item_name: ingredient.name,
                               quantity: currentQuantity - 1,
+                              price: Number(ingredient.value),
                             },
                           };
                         } else {

@@ -105,9 +105,10 @@ export function ContextProvider({ children }: ContextProviderProps) {
     value: string,
     description: string
   ) => {
+    // console.log(name, items, count, image, type, value);
     for (let i = 0; i < count; i++) {
       const order: Order = {
-        name_id: `order_${orders.length + 1}`,
+        name_id: `order_${orders.length + i + 1}`,
         name,
         items,
         image,

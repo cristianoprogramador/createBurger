@@ -36,7 +36,7 @@ export class LoginComponent {
   login(): void {
     // Faça uma chamada HTTP POST para a rota /user/admin com as credenciais do usuário
     this.http
-      .post('http://localhost:3031/user/admin', {
+      .post('https://api.createburger.com.br/user/admin', {
         username: this.username,
         password: this.password,
       })

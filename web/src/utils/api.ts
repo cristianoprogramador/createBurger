@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-const baseURL = "http://localhost:3031";
+const baseURL = "https://api.createburger.com.br";
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: baseURL,

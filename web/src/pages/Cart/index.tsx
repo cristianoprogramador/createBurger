@@ -62,7 +62,7 @@ export function Cart() {
   };
 
   const handleEdit = (order: any) => {
-    console.log(order);
+    // console.log(order);
     setOpenModalEdit(true);
     setDataToEdit(order);
   };
@@ -70,8 +70,6 @@ export function Cart() {
   function handleCloseModal() {
     setOpenModalEdit(false);
   }
-
-  // console.log(orders);
 
   return (
     <Container>

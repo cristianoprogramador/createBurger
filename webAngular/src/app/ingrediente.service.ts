@@ -9,7 +9,7 @@ export class IngredienteService {
 
   getIngredientes(): Promise<any[] | undefined> {
     return this.http
-      .get<any[]>('http://localhost:3031/ingredients')
+      .get<any[]>('https://api.createburger.com.br/ingredients')
       .toPromise();
   }
 
@@ -21,7 +21,7 @@ export class IngredienteService {
         `Bearer ${authToken}`
       );
       return this.http
-        .post<any>('http://localhost:3031/ingredients', ingrediente, {
+        .post<any>('https://api.createburger.com.br/ingredients', ingrediente, {
           headers,
         })
         .toPromise();
@@ -40,7 +40,7 @@ export class IngredienteService {
       );
       return this.http
         .put<any>(
-          `http://localhost:3031/ingredients/${ingrediente.id}`,
+          `https://api.createburger.com.br/ingredients/${ingrediente.id}`,
           ingrediente,
           { headers }
         )
@@ -59,9 +59,12 @@ export class IngredienteService {
         `Bearer ${authToken}`
       );
       return this.http
-        .delete<any>(`http://localhost:3031/ingredients/${ingredienteId}`, {
-          headers,
-        })
+        .delete<any>(
+          `https://api.createburger.com.br/ingredients/${ingredienteId}`,
+          {
+            headers,
+          }
+        )
         .toPromise();
     } else {
       // Trate o caso em que o token não está disponível
