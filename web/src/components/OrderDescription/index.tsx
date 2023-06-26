@@ -32,7 +32,7 @@ export function OrderDescription({ orderItems }: any) {
         orderItems.map((item: any) => (
           <OrderCard key={item.id}>
             <OrderText>{item.item_name}</OrderText>
-            <OrderText>Quantidade: {item.quantity}</OrderText>
+            <OrderText>Qtde: {item.quantity}</OrderText>
             <OrderText>
               Preço: R${" "}
               {Number(item.price).toLocaleString("pt-BR", {

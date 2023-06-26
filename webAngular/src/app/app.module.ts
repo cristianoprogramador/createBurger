@@ -12,6 +12,7 @@ import { IngredientesComponent } from './components/ingredientes/ingredientes.co
 import { LoginComponent } from './components/login/login.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
+import { GroupByPipe } from './utils/pipes/group-by.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PedidosComponent } from './components/pedidos/pedidos.component';
     LoginComponent,
     UsuariosComponent,
     PedidosComponent,
+    GroupByPipe,
   ],
   imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
   providers: [],

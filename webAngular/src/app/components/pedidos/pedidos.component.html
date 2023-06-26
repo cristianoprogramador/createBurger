@@ -1,3 +1,4 @@
+<h2 class="title">Pedidos em Atendimento</h2>
 <div class="pedidos-container">
   <ng-container *ngFor="let pedidoGroup of pedidos">
     <!-- Pedidos não finalizados -->
@@ -13,23 +14,55 @@
           Data e Hora:
           {{ pedidoGroup[0]?.data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
         </p>
-        <p>Status: {{ pedidoGroup[0]?.status }}</p>
+        <p>
+          Status:
+          <select
+            [(ngModel)]="pedidoGroup[0].status"
+            (change)="
+              atualizarStatus(pedidoGroup[0]?.pedido_id, pedidoGroup[0].status)
+            "
+          >
+            <option value="Aguardando Restaurante">
+              Aguardando Restaurante
+            </option>
+            <option value="Montando o Pedido">Montando o Pedido</option>
+            <option value="Enviado para Entrega">Enviado para Entrega</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+        </p>
       </div>
 
       <!-- Produtos do pedido (exibidos apenas quando o pedido estiver expandido) -->
-      <div class="pedido-produtos" *ngIf="pedidoGroup[0]?.expanded">
+      <div
+        class="pedido-produtos"
+        [class.active]="pedidoGroup[0].expanded"
+        *ngIf="pedidoGroup[0].expanded"
+      >
         <h3>Produtos:</h3>
         <ul>
-          <li *ngFor="let pedido of pedidoGroup">
-            <p>Nome: {{ pedido.name }}</p>
-            <p>Item: {{ pedido.item_name }}</p>
-            <!-- Adicione aqui outros detalhes relevantes do produto -->
-          </li>
+          <ng-container
+            *ngFor="let produtoGroup of pedidoGroup | groupBy : 'name_id'"
+          >
+            <li>
+              <p>
+                <strong>Nome: {{ produtoGroup[0]?.name }}</strong>
+              </p>
+              <ul>
+                <li *ngFor="let produto of produtoGroup">
+                  <p>Item: {{ produto.item_name }}</p>
+                  <!-- Adicione aqui outros detalhes relevantes do produto -->
+                </li>
+              </ul>
+            </li>
+          </ng-container>
         </ul>
       </div>
     </div>
   </ng-container>
+</div>
 
+<h2 class="title">Pedidos Finalizados</h2>
+<div class="pedidos-container-finalized">
   <ng-container *ngFor="let pedidoGroup of pedidos">
     <!-- Pedidos finalizados -->
     <div class="pedido" *ngIf="pedidoGroup[0]?.status === 'Finalizado'">
@@ -48,14 +81,28 @@
       </div>
 
       <!-- Produtos do pedido (exibidos apenas quando o pedido estiver expandido) -->
-      <div class="pedido-produtos" *ngIf="pedidoGroup[0]?.expanded">
+      <div
+        class="pedido-produtos"
+        [class.active]="pedidoGroup[0].expanded"
+        *ngIf="pedidoGroup[0].expanded"
+      >
         <h3>Produtos:</h3>
         <ul>
-          <li *ngFor="let pedido of pedidoGroup">
-            <p>Nome: {{ pedido.name }}</p>
-            <p>Item: {{ pedido.item_name }}</p>
-            <!-- Adicione aqui outros detalhes relevantes do produto -->
-          </li>
+          <ng-container
+            *ngFor="let produtoGroup of pedidoGroup | groupBy : 'name_id'"
+          >
+            <li>
+              <p>
+                <strong>Nome: {{ produtoGroup[0]?.name }}</strong>
+              </p>
+              <ul>
+                <li *ngFor="let produto of produtoGroup">
+                  <p>Item: {{ produto.item_name }}</p>
+                  <!-- Adicione aqui outros detalhes relevantes do produto -->
+                </li>
+              </ul>
+            </li>
+          </ng-container>
         </ul>
       </div>
     </div>

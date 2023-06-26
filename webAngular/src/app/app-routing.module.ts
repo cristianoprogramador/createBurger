@@ -13,22 +13,22 @@ const routes: Routes = [
   {
     path: 'produtos',
     component: ProdutosComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'ingredientes',
     component: IngredientesComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'usuarios',
     component: UsuariosComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'pedidos',
     component: PedidosComponent,
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
 ];
 

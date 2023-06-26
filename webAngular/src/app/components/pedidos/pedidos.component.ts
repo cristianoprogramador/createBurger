@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { PedidoService } from 'src/app/pedido.service';
 import { Pedido } from 'src/interface/pedidos';
+import { GroupByPipe } from '../../utils/pipes/group-by.pipe';
 
 @Component({
   selector: 'app-pedidos',
@@ -19,32 +20,24 @@ export class PedidosComponent {
   carregarProdutos() {
     this.pedidoService.getPedidos().then((pedidos: Pedido[] | undefined) => {
       if (pedidos) {
-        const pedidosAgrupados: { [key: string]: Pedido[] } = {};
-
-        // Agrupar os produtos por pedido.name
-        pedidos.forEach((pedido: Pedido) => {
-          if (!pedidosAgrupados[pedido.name]) {
-            pedidosAgrupados[pedido.name] = [];
-          }
-          pedido.expanded = false; // Inicializa a propriedade expanded como false
-          pedidosAgrupados[pedido.name].push(pedido);
-        });
-        console.log(pedidos);
-
-        // Converter o objeto de pedidos agrupados em um array de arrays
-        this.pedidos = Object.values(pedidosAgrupados);
+        this.pedidos = this.agruparPedidos(pedidos);
+        console.log(this.pedidos);
       }
     });
   }
 
-  agruparPedidos(pedidos: Pedido[]): { [pedidoId: string]: Pedido[] } {
-    const pedidosAgrupados: { [pedidoId: string]: Pedido[] } = {};
+  agruparPedidos(pedidos: Pedido[]): Pedido[][] {
+    const pedidosAgrupados: Pedido[][] = [];
+    const pedidoIds: number[] = [];
 
     for (const pedido of pedidos) {
-      if (pedido.pedido_id in pedidosAgrupados) {
-        pedidosAgrupados[pedido.pedido_id].push(pedido);
+      const pedidoIndex = pedidoIds.indexOf(pedido.pedido_id);
+
+      if (pedidoIndex !== -1) {
+        pedidosAgrupados[pedidoIndex].push(pedido);
       } else {
-        pedidosAgrupados[pedido.pedido_id] = [pedido];
+        pedidoIds.push(pedido.pedido_id);
+        pedidosAgrupados.push([pedido]);
       }
     }
 
@@ -53,5 +46,40 @@ export class PedidosComponent {
 
   expandirPedido(pedido: Pedido) {
     pedido.expanded = !pedido.expanded;
+  }
+
+  agruparProdutosPorNameId(pedidos: Pedido[][]): Pedido[][] {
+    const pedidosAgrupados: Pedido[][] = [];
+
+    pedidos.forEach((grupo: Pedido[]) => {
+      const grupoAgrupado: Pedido[] = [];
+      const nameIds: string[] = [];
+
+      grupo.forEach((pedido: Pedido) => {
+        const nameId = pedido.name_id;
+
+        if (!nameIds.includes(nameId)) {
+          nameIds.push(nameId);
+          grupoAgrupado.push(pedido);
+        }
+      });
+
+      pedidosAgrupados.push(grupoAgrupado);
+    });
+
+    return pedidosAgrupados;
+  }
+
+  atualizarStatus(orderId: any, status: string) {
+    this.pedidoService
+      .atualizarStatus(orderId, status)
+      .then(() => {
+        // Atualização bem-sucedida, faça qualquer ação adicional necessária
+        alert('Status Alterado');
+      })
+      .catch((error) => {
+        console.error('Erro ao atualizar o status:', error);
+        // Trate o erro adequadamente
+      });
   }
 }

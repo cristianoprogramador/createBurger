@@ -54,8 +54,7 @@ export const changeOrderStatusController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id } = req.params;
-    const { status } = req.body;
+    const { id, status } = req.params;
     const orderId = await changeStatusOrder(id, status);
     res.status(201).json({ orderId });
   } catch (error) {

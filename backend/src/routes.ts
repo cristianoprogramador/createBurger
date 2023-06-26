@@ -77,17 +77,9 @@ router.post("/orders", authMiddleware, createOrderController);
 
 router.get("/orders/:email", authMiddleware, getOrderByEmailController);
 
-router.get(
-  "/orders",
-  //  adminMiddleware,
-  getAllOrdersController
-);
+router.get("/orders", adminMiddleware, getAllOrdersController);
 
-router.put(
-  "/order/:id",
-  //  adminMiddleware,
-  changeOrderStatusController
-);
+router.put("/order/:id/:status", adminMiddleware, changeOrderStatusController);
 
 // Rota para Tabela de Endereços
 

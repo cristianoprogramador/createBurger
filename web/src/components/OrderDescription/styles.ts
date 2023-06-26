@@ -10,15 +10,16 @@ export const OrderCard = styled.div`
   border-radius: 15px;
   padding: 10px;
   margin-bottom: 10px;
+  text-align: center;
 
   @media (max-width: 768px) {
-    justify-items: flex-start;
     padding-left: 35px;
   }
 `;
 
 export const OrderText = styled.div`
   margin: 5px 0;
+  max-width: 150px;
 
   @media (max-width: 768px) {
     font-size: small;

@@ -8,6 +8,7 @@ export const Container = styled.div`
 
 export const DeliverContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex: 1;
   justify-content: center;
   align-items: center;

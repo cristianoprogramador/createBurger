@@ -1,10 +1,19 @@
 import { OrderDescription } from "../OrderDescription";
-import { Container, OrderContainer, OrderTitleCard } from "./styles";
+import {
+  Container,
+  ContainerFinalized,
+  ContainerOnProgress,
+  OrderContainer,
+  OrderContainerFinalized,
+  OrderTitle,
+  OrderTitleCard,
+} from "./styles";
 
 interface OrderItem {
   id: number;
   item_name: string;
   quantity: number;
+  status: string;
   price: string;
   pedido_id: string;
   data_hora: string;
@@ -25,12 +34,37 @@ interface OrderSummaryProps {
 export function OrderSummary({ orders }: OrderSummaryProps) {
   // console.log(orders);
 
+  function groupOrdersByOrderIdFinalized(orders: OrderItem[]) {
+    if (!orders) {
+      return {};
+    }
+
+    const filteredOrders = orders.filter(
+      (order) => order.status === "Finalizado"
+    );
+
+    return filteredOrders.reduce<GroupedOrders>((groupedOrders, order) => {
+      const orderId = order.pedido_id.toString();
+      if (!groupedOrders[orderId]) {
+        groupedOrders[orderId] = [];
+      }
+      groupedOrders[orderId].push(order);
+      return groupedOrders;
+    }, {});
+  }
+
+  const groupedOrdersFinalized = groupOrdersByOrderIdFinalized(orders.orderId);
+
   function groupOrdersByOrderId(orders: OrderItem[]) {
     if (!orders) {
       return {};
     }
 
-    return orders.reduce<GroupedOrders>((groupedOrders, order) => {
+    const filteredOrders = orders.filter(
+      (order) => order.status !== "Finalizado"
+    );
+
+    return filteredOrders.reduce<GroupedOrders>((groupedOrders, order) => {
       const orderId = order.pedido_id.toString();
       if (!groupedOrders[orderId]) {
         groupedOrders[orderId] = [];
@@ -55,18 +89,41 @@ export function OrderSummary({ orders }: OrderSummaryProps) {
   }
 
   return (
-    <Container>
-      {Object.entries(groupedOrders).map(([orderId, orderItems]) => (
-        <OrderContainer key={orderId}>
-          <OrderTitleCard>
-            Pedido feito em: {formatDateTime(orderItems[0].data_hora)}
-          </OrderTitleCard>
-          <OrderTitleCard>
-            Pagamento: {orderItems[0].paymentMethod.toUpperCase()}
-          </OrderTitleCard>
-          <OrderDescription orderItems={orderItems} />
-        </OrderContainer>
-      ))}
-    </Container>
+    <>
+      <Container>
+        <OrderTitle>Pedidos em Andamento</OrderTitle>
+        <ContainerOnProgress>
+          {Object.entries(groupedOrders).map(([orderId, orderItems]) => (
+            <OrderContainer key={orderId}>
+              <OrderTitleCard>
+                Pedido feito em: {formatDateTime(orderItems[0].data_hora)}
+              </OrderTitleCard>
+              <OrderTitleCard>Status: {orderItems[0].status}</OrderTitleCard>
+              <OrderTitleCard>
+                Pagamento: {orderItems[0].paymentMethod.toUpperCase()}
+              </OrderTitleCard>
+              <OrderDescription orderItems={orderItems} />
+            </OrderContainer>
+          ))}
+        </ContainerOnProgress>
+        <OrderTitle>Pedidos Finalizados</OrderTitle>
+        <ContainerFinalized>
+          {Object.entries(groupedOrdersFinalized).map(
+            ([orderId, orderItems]) => (
+              <OrderContainerFinalized key={orderId}>
+                <OrderTitleCard>
+                  Pedido feito em: {formatDateTime(orderItems[0].data_hora)}
+                </OrderTitleCard>
+                <OrderTitleCard>Status: {orderItems[0].status}</OrderTitleCard>
+                <OrderTitleCard>
+                  Pagamento: {orderItems[0].paymentMethod.toUpperCase()}
+                </OrderTitleCard>
+                <OrderDescription orderItems={orderItems} />
+              </OrderContainerFinalized>
+            )
+          )}
+        </ContainerFinalized>
+      </Container>
+    </>
   );
 }
