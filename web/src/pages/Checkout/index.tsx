@@ -112,6 +112,7 @@ export function Checkout() {
         const orderData = {
           ...orderInfo,
           email: user?.email,
+          status: "Aguardando Restaurante",
         };
         const response = await api.post("/orders", {
           order: orderData,

@@ -1,0 +1,63 @@
+<div class="pedidos-container">
+  <ng-container *ngFor="let pedidoGroup of pedidos">
+    <!-- Pedidos não finalizados -->
+    <div class="pedido" *ngIf="pedidoGroup[0]?.status !== 'Finalizado'">
+      <div class="pedido-header">
+        <h2>Pedido {{ pedidoGroup[0]?.pedido_id }}</h2>
+        <button (click)="expandirPedido(pedidoGroup[0])">Expandir</button>
+        <!-- Botão para expandir o pedido -->
+      </div>
+      <div class="pedido-resumo">
+        <p>Email: {{ pedidoGroup[0]?.email }}</p>
+        <p>
+          Data e Hora:
+          {{ pedidoGroup[0]?.data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
+        </p>
+        <p>Status: {{ pedidoGroup[0]?.status }}</p>
+      </div>
+
+      <!-- Produtos do pedido (exibidos apenas quando o pedido estiver expandido) -->
+      <div class="pedido-produtos" *ngIf="pedidoGroup[0]?.expanded">
+        <h3>Produtos:</h3>
+        <ul>
+          <li *ngFor="let pedido of pedidoGroup">
+            <p>Nome: {{ pedido.name }}</p>
+            <p>Item: {{ pedido.item_name }}</p>
+            <!-- Adicione aqui outros detalhes relevantes do produto -->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngFor="let pedidoGroup of pedidos">
+    <!-- Pedidos finalizados -->
+    <div class="pedido" *ngIf="pedidoGroup[0]?.status === 'Finalizado'">
+      <div class="pedido-header">
+        <h2>Pedido {{ pedidoGroup[0]?.pedido_id }}</h2>
+        <button (click)="expandirPedido(pedidoGroup[0])">Expandir</button>
+        <!-- Botão para expandir o pedido -->
+      </div>
+      <div class="pedido-resumo">
+        <p>Email: {{ pedidoGroup[0]?.email }}</p>
+        <p>
+          Data e Hora:
+          {{ pedidoGroup[0]?.data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
+        </p>
+        <p>Status: {{ pedidoGroup[0]?.status }}</p>
+      </div>
+
+      <!-- Produtos do pedido (exibidos apenas quando o pedido estiver expandido) -->
+      <div class="pedido-produtos" *ngIf="pedidoGroup[0]?.expanded">
+        <h3>Produtos:</h3>
+        <ul>
+          <li *ngFor="let pedido of pedidoGroup">
+            <p>Nome: {{ pedido.name }}</p>
+            <p>Item: {{ pedido.item_name }}</p>
+            <!-- Adicione aqui outros detalhes relevantes do produto -->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+</div>

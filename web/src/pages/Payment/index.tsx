@@ -54,6 +54,7 @@ export function Payment() {
         ...orderData,
         email: user?.email,
         paymentMethod: "cartao",
+        status: "Aguardando Restaurante",
       };
       const response = await api.post("/orders", {
         order: orderDataCorrect,
@@ -75,6 +76,7 @@ export function Payment() {
         ...orderData,
         email: user?.email,
         paymentMethod: "dinheiro",
+        status: "Aguardando Restaurante",
       };
       const response = await api.post("/orders", {
         order: orderDataCorrect,

@@ -5,6 +5,7 @@ import { ProdutosComponent } from './components/produtos/produtos.component';
 import { IngredientesComponent } from './components/ingredientes/ingredientes.component';
 import { LoginComponent } from './components/login/login.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { PedidosComponent } from './components/pedidos/pedidos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -12,17 +13,22 @@ const routes: Routes = [
   {
     path: 'produtos',
     component: ProdutosComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'ingredientes',
     component: IngredientesComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'usuarios',
     component: UsuariosComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
+  },
+  {
+    path: 'pedidos',
+    component: PedidosComponent,
+    // canActivate: [AuthGuard],
   },
 ];
 

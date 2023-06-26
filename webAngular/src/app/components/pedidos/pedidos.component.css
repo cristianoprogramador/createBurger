@@ -1,0 +1,28 @@
+.pedidos-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pedido {
+  width: 300px;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pedido-header h2 {
+  margin: 0;
+}
+
+.pedido-resumo p {
+  margin: 0;
+  margin-bottom: 5px;
+}

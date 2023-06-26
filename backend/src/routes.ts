@@ -16,7 +16,9 @@ import {
 } from "./controllers/ingredientsController";
 import UserController from "./controllers/userController";
 import {
+  changeOrderStatusController,
   createOrderController,
+  getAllOrdersController,
   getOrderByEmailController,
 } from "./controllers/orderController";
 import {
@@ -74,6 +76,18 @@ router.put("/user/login/:id", UserController.updateUser);
 router.post("/orders", authMiddleware, createOrderController);
 
 router.get("/orders/:email", authMiddleware, getOrderByEmailController);
+
+router.get(
+  "/orders",
+  //  adminMiddleware,
+  getAllOrdersController
+);
+
+router.put(
+  "/order/:id",
+  //  adminMiddleware,
+  changeOrderStatusController
+);
 
 // Rota para Tabela de Endereços
 

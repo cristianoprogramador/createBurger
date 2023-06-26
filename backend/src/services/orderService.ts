@@ -49,3 +49,42 @@ export async function getAllOrdersByTypeService(email: string) {
     }
   }
 }
+
+export async function getAllOrders() {
+  let connection: PoolConnection | undefined;
+
+  try {
+    connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "SELECT * FROM orders o JOIN orders_details od ON o.id = od.pedido_id"
+    );
+    return rows;
+  } catch (error) {
+    throw new Error("Erro ao recuperar os pedidos");
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}
+
+export async function changeStatusOrder(id: any, status: string) {
+  let connection: PoolConnection | undefined;
+
+  try {
+    connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "UPDATE orders SET status = ? WHERE id = ?",
+      [status, id]
+    );
+    return rows;
+  } catch (error) {
+    throw new Error("Erro ao recuperar os pedidos");
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}

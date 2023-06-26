@@ -5,11 +5,26 @@ import { OrderSummary } from "../../components/OrderSummary";
 import { Context } from "../../contexts/Context";
 import { api } from "../../utils/api";
 import { Container, DeliverContainer } from "./styles";
+import { io } from "socket.io-client";
 
 export function OrdersHistory() {
   const [allOrders, setAllOrders] = useState<any>([]);
   const { user } = useContext(Context);
   const [loading, setLoading] = useState(true);
+
+  const socket = io("http://localhost:3031");
+  socket.on("connect", () => {
+    console.log("Conectado ao servidor WebSocket");
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Desconectado do servidor WebSocket");
+  });
+
+  socket.on("pedidoAtualizado", (pedido) => {
+    console.log("Pedido atualizado:", pedido);
+    // Faça o processamento necessário para atualizar a interface do usuário com as informações do pedido atualizado
+  });
 
   async function fetchProducts() {
     if (user) {

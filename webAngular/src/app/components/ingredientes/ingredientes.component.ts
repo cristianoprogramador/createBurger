@@ -40,6 +40,7 @@ export class IngredientesComponent {
 
   carregarIngredientes() {
     this.ingredienteService.getIngredientes().then((ingredientes: any) => {
+      console.log(ingredientes);
       this.ingredientes = ingredientes;
       this.tipos = this.getUniqueTypes(ingredientes);
       this.getUniqueTypesAndIsChefs();
