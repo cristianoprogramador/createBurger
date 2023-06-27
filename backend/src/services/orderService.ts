@@ -71,7 +71,7 @@ export async function getAllOrders() {
 
 export async function changeStatusOrder(id: any, status: string) {
   let connection: PoolConnection | undefined;
-  console.log(id, status);
+  // console.log(id, status);
 
   try {
     connection = await pool.getConnection();

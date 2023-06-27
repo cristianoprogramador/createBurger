@@ -22,13 +22,13 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:4200"],
+    origin: ["https://createburger.com.br", "http://localhost:4200"],
     methods: ["GET", "POST"],
   },
 });
 
 io.on("connection", (socket: Socket) => {
-  console.log("Novo cliente conectado");
+  // console.log("Novo cliente conectado");
 
   socket.on("joinRoom", (userEmail: string) => {
     // Faz o cliente entrar na sala correspondente ao email do usuário
@@ -37,14 +37,14 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("atualizacaoPedido", ({ orderid, status, email }) => {
     // Aqui você pode atualizar o status do pedido no servidor
-    console.log(orderid, status, email);
+    // console.log(orderid, status, email);
 
     // Emite um evento para a sala correspondente informando a atualização do pedido
     io.to(email).emit("pedidoAtualizado", { orderid, status });
   });
 
   socket.on("disconnect", () => {
-    console.log("Cliente desconectado");
+    // console.log("Cliente desconectado");
   });
 });
 
