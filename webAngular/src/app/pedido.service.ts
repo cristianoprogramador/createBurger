@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Pedido } from 'src/interface/pedidos';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PedidoService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private socket: Socket
+  ) {}
 
   getPedidos(): Promise<Pedido[] | undefined> {
     const authToken = this.authService.getAuthToken();
@@ -36,7 +41,7 @@ export class PedidoService {
     }
   }
 
-  atualizarStatus(orderid: any, status: string): Promise<any> {
+  atualizarStatus(orderid: any, status: string, email: string): Promise<any> {
     const authToken = this.authService.getAuthToken();
     if (authToken) {
       const headers = new HttpHeaders().set(
@@ -48,10 +53,14 @@ export class PedidoService {
           `http://localhost:3031/order/${orderid}/${status}`,
           {},
           { headers }
-        ) // Passar os headers corretamente
-        .toPromise();
+        )
+        .toPromise()
+        .then((response) => {
+          // Emite um evento para o servidor Socket.IO informando a atualização do pedido
+          this.socket.emit('atualizacaoPedido', { orderid, status, email });
+          return response;
+        });
     } else {
-      // Trate o caso em que o token não está disponível
       return Promise.reject('Token não disponível');
     }
   }

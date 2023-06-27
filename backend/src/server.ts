@@ -30,6 +30,19 @@ const io = new Server(server, {
 io.on("connection", (socket: Socket) => {
   console.log("Novo cliente conectado");
 
+  socket.on("joinRoom", (userEmail: string) => {
+    // Faz o cliente entrar na sala correspondente ao email do usuário
+    socket.join(userEmail);
+  });
+
+  socket.on("atualizacaoPedido", ({ orderid, status, email }) => {
+    // Aqui você pode atualizar o status do pedido no servidor
+    console.log(orderid, status, email);
+
+    // Emite um evento para a sala correspondente informando a atualização do pedido
+    io.to(email).emit("pedidoAtualizado", { orderid, status });
+  });
+
   socket.on("disconnect", () => {
     console.log("Cliente desconectado");
   });

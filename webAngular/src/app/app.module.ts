@@ -14,6 +14,13 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PedidosComponent } from './components/pedidos/pedidos.component';
 import { GroupByPipe } from './utils/pipes/group-by.pipe';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = {
+  url: 'http://localhost:3031',
+  options: {}, // Opções adicionais, se necessário
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +33,13 @@ import { GroupByPipe } from './utils/pipes/group-by.pipe';
     PedidosComponent,
     GroupByPipe,
   ],
-  imports: [BrowserModule, FormsModule, HttpClientModule, AppRoutingModule],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    SocketIoModule.forRoot(config),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

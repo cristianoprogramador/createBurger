@@ -6,25 +6,39 @@ import { Context } from "../../contexts/Context";
 import { api } from "../../utils/api";
 import { Container, DeliverContainer } from "./styles";
 import { io } from "socket.io-client";
+import { toast } from "react-toastify";
 
 export function OrdersHistory() {
   const [allOrders, setAllOrders] = useState<any>([]);
   const { user } = useContext(Context);
   const [loading, setLoading] = useState(true);
 
-  const socket = io("http://localhost:3031");
-  socket.on("connect", () => {
-    console.log("Conectado ao servidor WebSocket");
-  });
+  const [messageSocket, setMessageSocket] = useState("");
 
-  socket.on("disconnect", () => {
-    console.log("Desconectado do servidor WebSocket");
-  });
+  useEffect(() => {
+    const socket = io("http://localhost:3031");
 
-  socket.on("pedidoAtualizado", (pedido) => {
-    console.log("Pedido atualizado:", pedido);
-    // Faça o processamento necessário para atualizar a interface do usuário com as informações do pedido atualizado
-  });
+    socket.on("connect", () => {
+      console.log("Conectado ao servidor WebSocket");
+      if (user) {
+        // O cliente se junta à sala correspondente ao email do usuário
+        socket.emit("joinRoom", user.email);
+      }
+    });
+
+    socket.on("pedidoAtualizado", ({ orderid, status }) => {
+      // Faça o processamento necessário para atualizar a interface do usuário com as informações do pedido atualizado
+      // setMessageSocket(`Pedido ${orderid} atualizado. Novo status: ${status}`);
+      toast.info(`Pedido ${orderid} atualizado. Novo status: ${status}`);
+      setMessageSocket(`${orderid}`);
+    });
+
+    return () => {
+      socket.disconnect(); // Desconecta o socket quando o componente for desmontado
+    };
+  }, [user]);
+
+  // console.log(messageSocket);
 
   async function fetchProducts() {
     if (user) {
@@ -43,7 +57,7 @@ export function OrdersHistory() {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [messageSocket]);
 
   if (loading) {
     return <div>Carregando</div>;

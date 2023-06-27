@@ -70,9 +70,9 @@ export class PedidosComponent {
     return pedidosAgrupados;
   }
 
-  atualizarStatus(orderId: any, status: string) {
+  atualizarStatus(orderId: any, status: string, email: string) {
     this.pedidoService
-      .atualizarStatus(orderId, status)
+      .atualizarStatus(orderId, status, email)
       .then(() => {
         // Atualização bem-sucedida, faça qualquer ação adicional necessária
         alert('Status Alterado');

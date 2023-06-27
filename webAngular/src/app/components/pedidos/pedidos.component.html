@@ -4,22 +4,26 @@
     <!-- Pedidos não finalizados -->
     <div class="pedido" *ngIf="pedidoGroup[0]?.status !== 'Finalizado'">
       <div class="pedido-header">
-        <h2>Pedido {{ pedidoGroup[0]?.pedido_id }}</h2>
+        <h2>Pedido {{ pedidoGroup[0].pedido_id }}</h2>
         <button (click)="expandirPedido(pedidoGroup[0])">Expandir</button>
         <!-- Botão para expandir o pedido -->
       </div>
       <div class="pedido-resumo">
-        <p>Email: {{ pedidoGroup[0]?.email }}</p>
+        <p>Email: {{ pedidoGroup[0].email }}</p>
         <p>
           Data e Hora:
-          {{ pedidoGroup[0]?.data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
+          {{ pedidoGroup[0].data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
         </p>
         <p>
           Status:
           <select
             [(ngModel)]="pedidoGroup[0].status"
             (change)="
-              atualizarStatus(pedidoGroup[0]?.pedido_id, pedidoGroup[0].status)
+              atualizarStatus(
+                pedidoGroup[0].pedido_id,
+                pedidoGroup[0].status,
+                pedidoGroup[0].email
+              )
             "
           >
             <option value="Aguardando Restaurante">
@@ -67,17 +71,17 @@
     <!-- Pedidos finalizados -->
     <div class="pedido" *ngIf="pedidoGroup[0]?.status === 'Finalizado'">
       <div class="pedido-header">
-        <h2>Pedido {{ pedidoGroup[0]?.pedido_id }}</h2>
+        <h2>Pedido {{ pedidoGroup[0].pedido_id }}</h2>
         <button (click)="expandirPedido(pedidoGroup[0])">Expandir</button>
         <!-- Botão para expandir o pedido -->
       </div>
       <div class="pedido-resumo">
-        <p>Email: {{ pedidoGroup[0]?.email }}</p>
+        <p>Email: {{ pedidoGroup[0].email }}</p>
         <p>
           Data e Hora:
-          {{ pedidoGroup[0]?.data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
+          {{ pedidoGroup[0].data_hora | date : "dd/MM/yyyy HH:mm:ss" }}
         </p>
-        <p>Status: {{ pedidoGroup[0]?.status }}</p>
+        <p>Status: {{ pedidoGroup[0].status }}</p>
       </div>
 
       <!-- Produtos do pedido (exibidos apenas quando o pedido estiver expandido) -->
