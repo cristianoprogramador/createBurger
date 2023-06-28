@@ -16,7 +16,8 @@ export function OrdersHistory() {
   const [messageSocket, setMessageSocket] = useState("");
 
   useEffect(() => {
-    const socket = io("http://localhost:3031");
+    // const socket = io("http://localhost:3031");
+    const socket = io("https://api.createburger.com.br");
 
     socket.on("connect", () => {
       console.log("Conectado ao servidor WebSocket");

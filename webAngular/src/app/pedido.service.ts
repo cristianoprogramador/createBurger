@@ -22,7 +22,7 @@ export class PedidoService {
         `Bearer ${authToken}`
       );
       return this.http
-        .get<any>('http://localhost:3031/orders', { headers }) // Adicione os headers à requisição
+        .get<any>('https://api.createburger.com.br/orders', { headers }) // Adicione os headers à requisição
         .toPromise()
         .then((response: any) => {
           if (response && response.orderId instanceof Array) {
@@ -50,7 +50,7 @@ export class PedidoService {
       );
       return this.http
         .put<any>(
-          `http://localhost:3031/order/${orderid}/${status}`,
+          `https://api.createburger.com.br/order/${orderid}/${status}`,
           {},
           { headers }
         )

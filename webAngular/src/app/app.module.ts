@@ -17,7 +17,7 @@ import { GroupByPipe } from './utils/pipes/group-by.pipe';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 const config: SocketIoConfig = {
-  url: 'http://localhost:3031',
+  url: 'https://api.createburger.com.br',
   options: {}, // Opções adicionais, se necessário
 };
 
